@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class User {
 	private String username;
+	private String password;
 	private String email;
 	private String imageSrc;
 	/**
@@ -42,5 +43,17 @@ public class User {
 	 */
 	public void setImageSrc(String imageSrc) {
 		this.imageSrc = imageSrc;
+	}
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
