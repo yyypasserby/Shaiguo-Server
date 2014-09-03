@@ -29,10 +29,13 @@ public class UserResource {
 	}
 	
 	@POST
-	@Path("/addUser")
+	//@Path("/addUser")
+	@Consumes("application/json")
 	@Produces("application/json")
-	public String postUser() {
-		System.out.println("user: ");
+	public String postUser(User user) {
+		System.out.println("username: " + user.getUsername());
+		System.out.println("password: " + user.getPassword());
+		System.out.println("email   : " + user.getEmail());
 		return "{\"result\" : true}";
 	}
 }
