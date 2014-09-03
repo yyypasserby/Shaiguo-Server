@@ -1,2 +1,2 @@
-Lives-Serser
+Lives-Server
 ============
