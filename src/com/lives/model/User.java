@@ -8,7 +8,22 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
-	private String imageSrc;
+	private double hotRate;
+	private int status;
+	private int extraVideoId;
+	
+	//status
+	//0 : online
+	//1 : offline
+	//2 : casting
+	//3 : watching
+	//extraVideoId : if is watching, then id is available
+	public User(int id, String name, String email, int status) {
+		this.userId = id;
+		this.username = name;
+		this.email = email;
+		this.status = status;
+	}
 	/**
 	 * @return the username
 	 */
@@ -34,21 +49,9 @@ public class User {
 		this.email = email;
 	}
 	/**
-	 * @return the imageSrc
-	 */
-	public String getImageSrc() {
-		return imageSrc;
-	}
-	/**
-	 * @param imageSrc the imageSrc to set
-	 */
-	public void setImageSrc(String imageSrc) {
-		this.imageSrc = imageSrc;
-	}
-	/**
 	 * @return the password
 	 */
-	public String getPassword() {
+	private String getPassword() {
 		return password;
 	}
 	/**
@@ -68,5 +71,44 @@ public class User {
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	/**
+	 * @return the hotRate
+	 */
+	public double getHotRate() {
+		return hotRate;
+	}
+	/**
+	 * @param hotRate the hotRate to set
+	 */
+	public void setHotRate(double hotRate) {
+		this.hotRate = hotRate;
+	}
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
+	/**
+	 * @return the extraVideoId
+	 */
+	public int getExtraVideoId() {
+		if(getStatus() == 3)
+			return extraVideoId;
+		return -1;
+	}
+	/**
+	 * @param extraVideoId the extraVideoId to set
+	 */
+	public void setExtraVideoId(int extraVideoId) {
+		if(this.status != 3) return;
+		this.extraVideoId = extraVideoId;
 	}
 }

@@ -24,7 +24,7 @@ public class MessageResource {
 	public List<Message> getUserMessage(@QueryParam("userId") Integer userId) {
 		if(userId == null) return null;
 		List<Message> messages = new ArrayList<>();
-		messages.add(new Message("icon_tiny","DUODUO DOTA2 CASTING","back1","17:00","Living"));
+		messages.add(new Message("icon_small","DUODUO DOTA2 CASTING","back1","17:00","Living"));
 		messages.add(new Message("icon_tiny","DUODUO DOTA2 CASTING","back2","18:00","Stopped"));
 		messages.add(new Message("icon_tiny","DUODUO DOTA2 CASTING","back3","8:00","To Cast"));
 		return messages;
