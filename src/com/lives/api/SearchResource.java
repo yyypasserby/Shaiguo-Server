@@ -49,12 +49,12 @@ public class SearchResource {
 	@Produces("application/json")
 	public List<CachedVideo> getCachedByName(@QueryParam("cachedname") String cachedname) {
 		List<CachedVideo> lives = new ArrayList<>();
-		lives.add(new CachedVideo(1,0,"DUODUO PREVIEW","",1000));
-		lives.add(new CachedVideo(2,0,"YANYAN PREVIEW","",2000));
-		lives.add(new CachedVideo(3,1,"DUDU PREVIEW","",3000));
-		lives.add(new CachedVideo(4,1,"YAOYAO PREVIEW","",4000));
-		lives.add(new CachedVideo(5,2,"FRANK PREVIEW","",5000));
-		lives.add(new CachedVideo(6,3,"CANCAN PREVIEW","",6000));
+		lives.add(new CachedVideo(1,0,"DUODUO PREVIEW","cast3",1000));
+		lives.add(new CachedVideo(2,0,"YANYAN PREVIEW","cast2",2000));
+		lives.add(new CachedVideo(3,1,"DUDU PREVIEW","cast1",3000));
+		lives.add(new CachedVideo(4,1,"YAOYAO PREVIEW","cast3",4000));
+		lives.add(new CachedVideo(5,2,"FRANK PREVIEW","cast1",5000));
+		lives.add(new CachedVideo(6,3,"CANCAN PREVIEW","cast2",6000));
 		return lives;
 	}
 }

@@ -5,6 +5,7 @@ package com.lives.config;
 
 import org.glassfish.jersey.server.ResourceConfig;
 
+import com.lives.api.AuthResource;
 import com.lives.api.FriendResource;
 import com.lives.api.Hello;
 import com.lives.api.IndexImageResource;
@@ -26,5 +27,6 @@ public class APIApplication extends ResourceConfig {
 		register(MessageResource.class);
 		register(FriendResource.class);
 		register(SearchResource.class);
+		register(AuthResource.class);
 	}
 }

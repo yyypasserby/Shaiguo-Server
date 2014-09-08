@@ -8,9 +8,16 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
+	private int userRole;
 	private double hotRate;
 	private int status;
 	private int extraVideoId;
+	
+	//userRole
+	//0 : all
+	//1 : admin
+	//2 : room-admin
+	//3 : user
 	
 	//status
 	//0 : online
@@ -18,11 +25,31 @@ public class User {
 	//2 : casting
 	//3 : watching
 	//extraVideoId : if is watching, then id is available
+	public User() {}
+	
 	public User(int id, String name, String email, int status) {
 		this.userId = id;
+		this.userRole = 3;
 		this.username = name;
 		this.email = email;
+		this.hotRate = 100;
 		this.status = status;
+		if(status == 3)
+			this.extraVideoId = 0;
+	}
+	
+	public String verify() {
+		if(this.username == null)
+			return "USERNAME_NOT_VALID";
+		if(this.password == null)
+			return "PASSWORD_NOT_VALID";
+		System.out.println(this.username);
+		System.out.println(this.password);
+		
+		if("yyypasserby".compareTo(username) == 0 && "123456".compareTo(password) == 0) {
+			return "success";
+		}
+		return "USERNAME_PASSWORD_NOT_MATCHED";
 	}
 	/**
 	 * @return the username
@@ -110,5 +137,17 @@ public class User {
 	public void setExtraVideoId(int extraVideoId) {
 		if(this.status != 3) return;
 		this.extraVideoId = extraVideoId;
+	}
+	/**
+	 * @return the userRole
+	 */
+	public int getUserRole() {
+		return userRole;
+	}
+	/**
+	 * @param userRole the userRole to set
+	 */
+	public void setUserRole(int userRole) {
+		this.userRole = userRole;
 	}
 }

@@ -13,14 +13,15 @@ public class CachedVideo {
 	private int videoId;
 	private int userId;
 	private String videoname;
+	private String thumbnail;
 	private String location;
 	private Duration duration;
 	
-	public CachedVideo(int vid, int uid, String name, String location, long seconds) {
+	public CachedVideo(int vid, int uid, String name, String thumbnail, long seconds) {
 		this.videoId = vid;
 		this.userId = uid;
 		this.videoname = name;
-		this.location = location;
+		this.thumbnail = thumbnail;
 		this.duration = Duration.ofSeconds(seconds);
 	}
 	/**
@@ -82,5 +83,17 @@ public class CachedVideo {
 	 */
 	public void setVideoname(String videoname) {
 		this.videoname = videoname;
+	}
+	/**
+	 * @return the videoThumbnail
+	 */
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	/**
+	 * @param videoThumbnail the videoThumbnail to set
+	 */
+	public void setThumbnail(String videoThumbnail) {
+		this.thumbnail = videoThumbnail;
 	}
 }

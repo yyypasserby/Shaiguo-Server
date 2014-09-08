@@ -13,12 +13,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Live {
 	private int liveId;
 	private String livename;
-	private String liveImageSrc;
+	private String thumbnail;
 	private String timeToCast;
-	public Live(int id, String name, String imgSrc, String time) {
+	
+	public Live() {}
+	
+	public Live(int id, String name, String thumbnail, String time) {
 		this.liveId = id;
 		this.livename = name;
-		this.liveImageSrc = imgSrc;
+		this.thumbnail = thumbnail;
 		this.timeToCast = time;
 	}
 	
@@ -35,18 +38,7 @@ public class Live {
 	public void setLivename(String livename) {
 		this.livename = livename;
 	}
-	/**
-	 * @return the liveImageSrc
-	 */
-	public String getLiveImageSrc() {
-		return liveImageSrc;
-	}
-	/**
-	 * @param liveImageSrc the liveImageSrc to set
-	 */
-	public void setLiveImageSrc(String liveImageSrc) {
-		this.liveImageSrc = liveImageSrc;
-	}
+
 	/**
 	 * @return the timeToCast
 	 */
@@ -74,5 +66,20 @@ public class Live {
 	 */
 	public void setLiveId(int liveId) {
 		this.liveId = liveId;
+	}
+
+	/**
+	 * @return the liveThumbnail
+	 */
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+
+	/**
+	 * @param liveThumbnail the liveThumbnail to set
+	 */
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 }
