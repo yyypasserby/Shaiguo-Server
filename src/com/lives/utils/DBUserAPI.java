@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.lives.model.User;
 
@@ -11,14 +13,13 @@ public class DBUserAPI {
 	private String tablename;
 	private ResultSet  resultSet;
 	private PreparedStatement prepareState;
-	
-	public DBUserAPI() throws ClassNotFoundException, SQLException{
+	public DBUserAPI() throws SQLException{
+		tablename="User";
 	}
 
-	public boolean insertUser(String user_name,String pwd,String email,String Tag) throws SQLException, ClassNotFoundException{
+	public boolean insertUser(String user_name,String pwd,String email,String Tag) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-		tablename = "User";
 		String doInsert = "insert into " + tablename + "(username,password,email,tags) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ Tag +"')";
 		prepareState = connection.prepareStatement(doInsert);
 		return prepareState.execute();
@@ -28,10 +29,9 @@ public class DBUserAPI {
 		}
 	}
 	
-	public boolean deleteUser(int user_id) throws SQLException, ClassNotFoundException{
+	public boolean deleteUser(int user_id) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-		tablename="User";
 		String doDelete = "delete from " + tablename + " where id = '" + user_id+"'";
 		prepareState = connection.prepareStatement(doDelete);
 		return prepareState.execute();
@@ -41,31 +41,30 @@ public class DBUserAPI {
 		}
 	}
 	
-	public String checkUsername(String user_name) throws SQLException, ClassNotFoundException{
+	public String checkUsername(String user_name) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-		tablename="User";
 		String doCheck = "select * from " + tablename +" where username = '" + user_name+ "'";
 		prepareState = connection.prepareStatement(doCheck);
 		resultSet=prepareState.executeQuery();
-		if(resultSet.next()) 	return "USERNAME_IS_USED"; //used
-		return "USERNAME_IS_OK"; //this name is ok
+		if(resultSet.next()) 			//exit 	
+			return "USERNAME_IS_USED";  //used
+			return "USERNAME_IS_OK";    //this name is ok
 		}
 		finally{
 			connection.close();
 		}
 	}
 	
-	public boolean updateUser(int userid,String username,String password,String email, String tag) throws SQLException, ClassNotFoundException{
+	public boolean updateUser(int userid,String username,String password,String email, String tag) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			tablename = "User";
 			String doUpdate = "update " +tablename+ 
 				  " SET username='" + username +
 					"', password='" + password +
 					"', email ='"   + email +
-					"', tag ='"     + tag +
-					"' where id='"  + userid + "'";
+					"', tags ='"     + tag +
+					"'  where id='"  + userid + "'";
 			prepareState = connection.prepareStatement(doUpdate);
 			return prepareState.execute();
 		} finally{
@@ -73,10 +72,29 @@ public class DBUserAPI {
 		}
 	}
 	
-	public String checkLogin(String username, String password) throws SQLException, ClassNotFoundException{
+	public boolean updateUser(int userid,String username,String password,String email, String tag,int hotrate, int role,int status ,String extraVideo) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			tablename="User";
+			String doUpdate = "update " +tablename+ 
+				  " SET username='" + username +
+					"', password='" + password +
+					"', email ='"   + email +
+					"', tags ='"     + tag +
+					"', hotrate ='"     + hotrate +
+					"', role ='"     + role +
+					"', status ='"     + status +
+					"', extravideo ='"     + extraVideo +
+					"'  where id='"  + userid + "'";
+			prepareState = connection.prepareStatement(doUpdate);
+			return prepareState.execute();
+		} finally{
+			connection.close();
+		}
+	}
+	
+	public String checkLogin(String username, String password) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
 			if("USERNAME_IS_OK" == checkUsername(username)) return "USERNAME_NOT_MATCHED";
 			String doCheck = "select * from " + tablename +" where username = '" + username+ "' and password = '"+password+ "'";
 			prepareState = connection.prepareStatement(doCheck);
@@ -89,27 +107,26 @@ public class DBUserAPI {
 		}
 	}
 	
-	public User getUserById(int id) throws ClassNotFoundException, SQLException{
+	public User getUserById(int id) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			tablename="User";
 			String doCheck = "select * from " + tablename +" where id='"+ id +"'";
 			prepareState = connection.prepareStatement(doCheck);
 			resultSet=prepareState.executeQuery();
 			if(!resultSet.next()) 
 				return null;
-			resultSet.next();
-			return new User(id, resultSet.getString(2), resultSet.getString(4), 0);
+			return new User(id, resultSet.getString(2), resultSet.getString(4), resultSet.getString(5),
+						Integer.parseInt( resultSet.getString(6)),Integer.parseInt( resultSet.getString(7)),
+						Integer.parseInt( resultSet.getString(8)),resultSet.getString(9)
+						);
 		}
 		finally{
 			connection.close();
 		}
 	}
-	
-	public String getUserId(String username) throws ClassNotFoundException, SQLException{
+	public String getUserId(String username) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			tablename="User";
 			String doCheck = "select * from " + tablename +" where username='"+ username +"'";
 			prepareState = connection.prepareStatement(doCheck);
 			resultSet=prepareState.executeQuery();
@@ -119,8 +136,24 @@ public class DBUserAPI {
 		} finally{
 			connection.close();
 		}
-
 	}
 	
-
+	
+	public List<User> searchUserByName(String username) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		List<User> users = new ArrayList<User>();
+		System.out.println(username);
+		try{
+			String doCheck = "select * from " + tablename +" where username like '%"+ username +"%'";
+			prepareState = connection.prepareStatement(doCheck);
+			resultSet=prepareState.executeQuery();
+			while(resultSet.next())
+				users.add(new User(Integer.parseInt( resultSet.getString(1)), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
+					Integer.parseInt( resultSet.getString(6)),Integer.parseInt( resultSet.getString(7)),
+					Integer.parseInt( resultSet.getString(8)),resultSet.getString(9)));
+			return users;
+		} finally{
+			connection.close();
+		}
+	}
 }

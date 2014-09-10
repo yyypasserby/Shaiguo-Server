@@ -38,15 +38,25 @@ public class User {
 		userDB = new DBUserAPI();
 	}
 	
-	public User(int id, String name, String email, int status) {
+	public User(int id, String name, String email,int tags) {
 		this.userId = id;
 		this.userRole = 3;
 		this.username = name;
 		this.email = email;
 		this.hotRate = 100;
+		this.status = 3;
+		this.extraVideoId = 0;
+	}
+	
+	
+	public User(int id, String name, String email,String tags,int hotRate,int role,int status,String extraVideo) {
+		this.userId = id;
+		this.userRole = role;
+		this.username = name;
+		this.email = email;
+		this.hotRate = hotRate;
 		this.status = status;
-		if(status == 3)
-			this.extraVideoId = 0;
+		this.extraVideoId = 0;
 	}
 	
 	public String register() throws ClassNotFoundException, SQLException {

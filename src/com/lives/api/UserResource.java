@@ -2,20 +2,17 @@
  * 
  */
 package com.lives.api;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.websocket.Session;
-import java.sql.SQLException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+
 import com.lives.api.helper.Error;
 import com.lives.api.helper.Result;
 import com.lives.model.User;
@@ -32,15 +29,11 @@ public class UserResource {
 	public UserResource(){
 		try {
 			userDB = new DBUserAPI();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
 	@GET
 	@Path("/{userId}")
 	@Produces("application/json")
@@ -73,13 +66,13 @@ public class UserResource {
 	res=m.matches();
 	if(!res)
 		return new Result("failure", new Error(0, "EMAIL_NOT_VALID"));
-		
-	if("USERNAME_IS_USED".compareTo(result=user.register()) == 0)
-		return new Result("failure", new Error(0, result));
 
 	if("PASSWORD_NOT_VALID".compareTo(result=user.register()) == 0)
 		return new Result("failure", new Error(0, result));
-	
+		
+	else if("USERNAME_IS_USED".compareTo(result) == 0)
+		return new Result("failure", new Error(0, result));
+
 	user.setUserId(Integer.parseInt(result));
 		return new Result("success", user);
 	}	

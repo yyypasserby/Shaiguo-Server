@@ -16,8 +16,7 @@ public class CachedVideo {
 	private String videoname;
 	private String thumbnail;
 	private String location;
-	private Date date;
-	
+	private Date date = new Date();
 	public CachedVideo(int vid, int uid, String name, String thumbnail, long seconds) {
 		this.videoId = vid;
 		this.userId = uid;

@@ -15,11 +15,11 @@ public class DBRelationAPI {
 	private ResultSet  resultSet;
 	private PreparedStatement prepareState;
 	private List<Integer> list;
-	public DBRelationAPI() throws ClassNotFoundException, SQLException{
+	public DBRelationAPI() throws SQLException{
 		tablename = "UserRelation";
 	}
 	
-	public boolean insertRelation(int fromId, int toId) throws ClassNotFoundException, SQLException{
+	public boolean insertRelation(int fromId, int toId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 		String doInsert = "insert " +tablename+ " (from_id, to_id) values ( " +fromId+ "," +toId+" )";
@@ -30,7 +30,7 @@ public class DBRelationAPI {
 		}
 	}
 	
-	public boolean deleteRelation(int fromId, int toId) throws ClassNotFoundException, SQLException{
+	public boolean deleteRelation(int fromId, int toId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 		String doDelete = "delete from " +tablename+ " where from_id= " +fromId+ " and to_id= "+toId;
@@ -41,11 +41,26 @@ public class DBRelationAPI {
 		}
 	}
 	
-	public List<Integer> queryRelationFrom(int fromId) throws ClassNotFoundException, SQLException{
+	public List<Integer> queryRelationFrom(int fromId) throws  SQLException{
 		list = new ArrayList<Integer>();
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doQuery = "select * from " +tablename+" where from_id= " +fromId;
+			prepareState = connection.prepareStatement(doQuery);
+			resultSet = prepareState.executeQuery();
+			while(resultSet.next())
+				list.add(resultSet.getInt(3));
+			return list;
+		}finally{
+			connection.close();
+		}
+	}
+	
+	public List<Integer> queryRelationTo(int toId) throws  SQLException{
+		list = new ArrayList<Integer>();
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "select * from " +tablename+" where to_id= " +toId;
 			prepareState = connection.prepareStatement(doQuery);
 			resultSet = prepareState.executeQuery();
 			while(resultSet.next())
