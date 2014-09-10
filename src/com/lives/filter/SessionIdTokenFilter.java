@@ -18,7 +18,7 @@ public class SessionIdTokenFilter implements ContainerRequestFilter {
 		MultivaluedMap<String, String> headerMap = context.getHeaders();
 		Set<String> ks = headerMap.keySet();
 		for(String key : ks) {
-			System.out.println(key + " : " + headerMap.get(key));
+		//	System.out.println(key + " : " + headerMap.get(key));
 		}
 		if(access_token != null && "hehe".compareTo(access_token) == 0) {
 			System.out.println("Authenticated");
