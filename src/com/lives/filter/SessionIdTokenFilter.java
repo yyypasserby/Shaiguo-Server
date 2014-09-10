@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 public class SessionIdTokenFilter implements ContainerRequestFilter {
 
@@ -18,13 +19,18 @@ public class SessionIdTokenFilter implements ContainerRequestFilter {
 		MultivaluedMap<String, String> headerMap = context.getHeaders();
 		Set<String> ks = headerMap.keySet();
 		for(String key : ks) {
-		//	System.out.println(key + " : " + headerMap.get(key));
+			System.out.println(key + " : " + headerMap.get(key));
 		}
+
 		if(access_token != null && "hehe".compareTo(access_token) == 0) {
 			System.out.println("Authenticated");
 		}
 		else {
 			System.out.println("Not authenticated");
+			context.abortWith(Response
+                    .status(Response.Status.UNAUTHORIZED)
+                    .entity("User cannot access the resource.")
+                    .build());
 		}
 	}
 
