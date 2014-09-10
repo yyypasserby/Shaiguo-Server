@@ -4,6 +4,7 @@
 package com.lives.model;
 
 import java.time.Duration;
+import java.util.Date;
 
 /**
  * @author yyypasserby
@@ -15,14 +16,14 @@ public class CachedVideo {
 	private String videoname;
 	private String thumbnail;
 	private String location;
-	private Duration duration;
+	private Date duration;
 	
 	public CachedVideo(int vid, int uid, String name, String thumbnail, long seconds) {
 		this.videoId = vid;
 		this.userId = uid;
 		this.videoname = name;
 		this.thumbnail = thumbnail;
-		this.duration = Duration.ofSeconds(seconds);
+		duration.setTime(seconds);
 	}
 	/**
 	 * @return the videoId
@@ -63,13 +64,13 @@ public class CachedVideo {
 	/**
 	 * @return the duration
 	 */
-	public Duration getDuration() {
+	public Date getDuration() {
 		return duration;
 	}
 	/**
 	 * @param duration the duration to set
 	 */
-	public void setDuration(Duration duration) {
+	public void setDuration(Date duration) {
 		this.duration = duration;
 	}
 	/**
