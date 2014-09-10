@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
@@ -20,8 +21,9 @@ import com.lives.model.User;
 @Path("/friend")
 public class FriendResource {
 	@GET
+	@Path("/{userId}")
 	@Produces("application/json")
-	public List<User> getUserFriend(@QueryParam("userId") int userId) {
+	public List<User> getUserFriend(@PathParam("userId") int userId) {
 		List<User> friends = new ArrayList<>();
 		friends.add(new User(1,"dudu","dudu@shaiguo.com", 0));
 		friends.add(new User(2,"duoduo","duoduo@shaiguo.com", 1));

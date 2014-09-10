@@ -25,7 +25,7 @@ public class AuthResource {
 	public Result authenticated(User user) {
 		String resStr;
 		if(("success".compareTo(resStr = user.verify())) == 0) {
-			return new Result("success", user);
+			return new Result("success", new User(1, user.getUsername(), user.getEmail(), 0));
 		}
 		return new Result("failure", new Error(0, resStr));
 	}
