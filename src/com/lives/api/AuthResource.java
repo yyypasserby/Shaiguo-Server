@@ -3,6 +3,8 @@
  */
 package com.lives.api;
 
+import java.sql.SQLException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -22,7 +24,7 @@ public class AuthResource {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Result authenticated(User user) {
+	public Result authenticated(User user) throws ClassNotFoundException, SQLException {
 		String resStr;
 		if(("success".compareTo(resStr = user.verify())) == 0) {
 			return new Result("success", new User(1, user.getUsername(), user.getEmail(), 0));

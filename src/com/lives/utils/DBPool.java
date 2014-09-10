@@ -3,6 +3,7 @@ package com.lives.utils;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class DBPool {
@@ -11,9 +12,9 @@ public class DBPool {
 	final static String url = "jdbc:mysql://223.3.80.99:3306/Shaiguotest";
 	private String username = "admin";
 	private String pwd = "140";
-	int minSize = 1;
-	int initialSize = 1;
-	int maxSize=500;
+	int minSize = 10;
+	int initialSize = 10;
+	int maxSize=100;
 	int incrementalSize =5;
 	int maxIdleTime = 60;
 	private static DBPool dbPool;

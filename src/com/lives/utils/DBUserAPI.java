@@ -11,8 +11,7 @@ public class DBUserAPI {
 	private String tablename;
 	private ResultSet  resultSet;
 	private PreparedStatement prepareState;
-	boolean executTest;
-
+	
 	public DBUserAPI() throws ClassNotFoundException, SQLException{
 	}
 
@@ -82,7 +81,7 @@ public class DBUserAPI {
 			String doCheck = "select * from " + tablename +" where username = '" + username+ "' and password = '"+password+ "'";
 			prepareState = connection.prepareStatement(doCheck);
 			resultSet=prepareState.executeQuery();
-			if(resultSet.next())	return "LOGIN_SUCCESS";
+			if(resultSet.next())	return resultSet.getString(1);
 			return "USERNAME_PASSWORD_NOT_MATCHED"; //login failed
 		}
 		finally{
@@ -90,7 +89,7 @@ public class DBUserAPI {
 		}
 	}
 	
-	public User getUSerById(int id) throws ClassNotFoundException, SQLException{
+	public User getUserById(int id) throws ClassNotFoundException, SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			tablename="User";
@@ -106,4 +105,22 @@ public class DBUserAPI {
 			connection.close();
 		}
 	}
+	
+	public String getUserId(String username) throws ClassNotFoundException, SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			tablename="User";
+			String doCheck = "select * from " + tablename +" where username='"+ username +"'";
+			prepareState = connection.prepareStatement(doCheck);
+			resultSet=prepareState.executeQuery();
+			if(!resultSet.next()) 
+			return null;
+			return resultSet.getString(1);			
+		} finally{
+			connection.close();
+		}
+
+	}
+	
+
 }

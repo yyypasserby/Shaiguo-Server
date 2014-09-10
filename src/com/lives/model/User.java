@@ -1,9 +1,18 @@
 package com.lives.model;
 
+import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.lives.api.helper.Error;
+import com.lives.api.helper.Result;
+import com.lives.utils.DBUserAPI;
 
 @XmlRootElement
 public class User {
+	private DBUserAPI userDB;
 	private int userId;
 	private String username;
 	private String password;
@@ -25,7 +34,9 @@ public class User {
 	//2 : casting
 	//3 : watching
 	//extraVideoId : if is watching, then id is available
-	public User() {}
+	public User() throws ClassNotFoundException, SQLException {
+		userDB = new DBUserAPI();
+	}
 	
 	public User(int id, String name, String email, int status) {
 		this.userId = id;
@@ -38,18 +49,29 @@ public class User {
 			this.extraVideoId = 0;
 	}
 	
-	public String verify() {
+	public String register() throws ClassNotFoundException, SQLException {
+		boolean res=false;
+		String match_pwd="((?=.*\\d)(?=.*[a-z]).{6,20})";
+		Pattern p=Pattern.compile(match_pwd);
+		Matcher m=p.matcher(password);
+		res=m.matches();
+		if(!res)
+			return "PASSWORD_NOT_VALID";
+		if("USERNAME_IS_OK".compareTo(userDB.checkUsername(username))==0){
+			userDB.insertUser(username, password, email, null);
+			return userDB.getUserId(username);
+		}
+		return "USERNAME_IS_USED";
+	}
+
+	public String verify() throws ClassNotFoundException, SQLException {
 		if(this.username == null)
 			return "USERNAME_NOT_VALID";
 		if(this.password == null)
 			return "PASSWORD_NOT_VALID";
 		System.out.println(this.username);
 		System.out.println(this.password);
-		
-		if("yyypasserby".compareTo(username) == 0 && "123456".compareTo(password) == 0) {
-			return "success";
-		}
-		return "USERNAME_PASSWORD_NOT_MATCHED";
+		return userDB.checkLogin(username, password);
 	}
 	/**
 	 * @return the username
