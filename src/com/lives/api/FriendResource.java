@@ -16,6 +16,7 @@ import com.lives.model.User;
 
 /**
  * @author yyypasserby
+ * 
  *
  */
 @Path("/friend")
@@ -28,7 +29,7 @@ public class FriendResource {
 		friends.add(new User(1,"dudu","dudu@shaiguo.com", 0));
 		friends.add(new User(2,"duoduo","duoduo@shaiguo.com", 1));
 		friends.add(new User(3,"yanyan","yanyan@shaiguo.com", 2));
-		friends.add(new User(4,"cancan","cancan@shaiguo.com", 0));
+		friends.add(new User(4,"cancan","cancan@shaiguo.com", 0));	
 		return friends;
 	}
 }
