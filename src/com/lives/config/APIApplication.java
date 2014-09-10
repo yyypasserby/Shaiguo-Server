@@ -22,7 +22,7 @@ import org.codehaus.jackson.jaxrs.*;;
  */
 public class APIApplication extends ResourceConfig {
 	public APIApplication() {
-		register(SessionIdTokenFilter.class);
+		//register(SessionIdTokenFilter.class);
 		register(Hello.class);
 		register(JacksonJsonProvider.class);
 		register(UserResource.class);

@@ -14,15 +14,16 @@ public class SessionIdTokenFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(ContainerRequestContext context) throws IOException {
 		// TODO Auto-generated method stub
-		String access_token = context.getHeaderString("access_token");
-		System.out.println(access_token);
 		MultivaluedMap<String, String> headerMap = context.getHeaders();
+		List<String> listHeaders = headerMap.get("access-control-request-headers");
+		
+//		String access_token = context.getHeaderString("access_token");
+//		System.out.println(access_token);
 		Set<String> ks = headerMap.keySet();
 		for(String key : ks) {
 			System.out.println(key + " : " + headerMap.get(key));
 		}
-
-		if(access_token != null && "hehe".compareTo(access_token) == 0) {
+		if(listHeaders.contains("hehe")) {
 			System.out.println("Authenticated");
 		}
 		else {
