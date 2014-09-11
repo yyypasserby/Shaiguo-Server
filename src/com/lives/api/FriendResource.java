@@ -3,6 +3,7 @@
  */
 package com.lives.api;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-
 import com.lives.model.User;
+import com.lives.utils.DBRelationAPI;
+import com.lives.utils.DBUserAPI;
 
 /**
  * @author yyypasserby
@@ -21,15 +22,22 @@ import com.lives.model.User;
  */
 @Path("/friend")
 public class FriendResource {
+	DBRelationAPI dbRelation;
+	DBUserAPI dbUser;
+	public FriendResource() throws  SQLException{
+		dbRelation = new DBRelationAPI();
+		dbUser = new DBUserAPI();
+	}
 	@GET
 	@Path("/{userId}")
 	@Produces("application/json")
-	public List<User> getUserFriend(@PathParam("userId") int userId) {
+	public List<User> getUserFriend(@PathParam("userId") int userId) throws SQLException {
 		List<User> friends = new ArrayList<>();
-		friends.add(new User(1,"dudu","dudu@shaiguo.com", 0));
-		friends.add(new User(2,"duoduo","duoduo@shaiguo.com", 1));
-		friends.add(new User(3,"yanyan","yanyan@shaiguo.com", 2));
-		friends.add(new User(4,"cancan","cancan@shaiguo.com", 0));	
+		List<Integer> friendsId = dbRelation.queryRelationFrom(userId);
+		int size = friendsId.size();
+		System.out.println(size);
+		for(int i=0;i<size;i++)
+			friends.add(dbUser.getUserById(friendsId.get(i)));
 		return friends;
 	}
 }

@@ -3,8 +3,8 @@
  */
 package com.lives.model;
 
-import java.time.Duration;
 import java.util.Date;
+
 
 /**
  * @author yyypasserby
@@ -16,7 +16,7 @@ public class CachedVideo {
 	private String videoname;
 	private String thumbnail;
 	private String location;
-	private Date duration = new Date();
+	private Date date = new Date();
 	
 	public CachedVideo() {};
 	public CachedVideo(int vid, int uid, String name, String thumbnail, long seconds) {
@@ -24,7 +24,7 @@ public class CachedVideo {
 		this.userId = uid;
 		this.videoname = name;
 		this.thumbnail = thumbnail;
-		duration.setTime(seconds);
+		date.setTime(seconds);
 	}
 	/**
 	 * @return the videoId
@@ -63,16 +63,16 @@ public class CachedVideo {
 		this.location = location;
 	}
 	/**
-	 * @return the duration
+	 * @return the Date
 	 */
 	public Date getDuration() {
-		return duration;
+		return date;
 	}
 	/**
-	 * @param duration the duration to set
+	 * @param Date the Date to set
 	 */
-	public void setDuration(Date duration) {
-		this.duration = duration;
+	public void setDuration(Date Date) {
+		this.date = Date;
 	}
 	/**
 	 * @return the videoname

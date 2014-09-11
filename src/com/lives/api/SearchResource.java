@@ -1,5 +1,7 @@
 package com.lives.api;
 
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,8 @@ import com.lives.api.helper.PreSearchResult;
 import com.lives.model.CachedVideo;
 import com.lives.model.Live;
 import com.lives.model.User;
+import com.lives.utils.DBCachedVideoAPI;
+import com.lives.utils.DBUserAPI;
 
 /**
  * @author yyypasserby
@@ -19,18 +23,22 @@ import com.lives.model.User;
  */
 @Path("/search")
 public class SearchResource {
+	private DBUserAPI dbUser;
+	private DBCachedVideoAPI dbCachedVideo;
+	
+	public SearchResource() throws SQLException{
+		dbUser = new DBUserAPI();
+		dbCachedVideo = new DBCachedVideoAPI();
+	}
 	
 	@GET
 	@Path("/user")
 	@Produces("application/json")
-	public List<User> getUsersByName(@QueryParam("username") String username) {
-		List<User> users = new ArrayList<>();
-		users.add(new User(1,"DUDU", "dudu@shaiguo.com", 0));
-		users.add(new User(2,"YANYAN", "yanyan@shaiguo.com", 1));
-		users.add(new User(3,"DUODUO", "duoduo@shaiguo.com", 2));
-		return users;
+	public List<User> getUsersByName(@QueryParam("username") String username) throws SQLException {
+		if(username == "null" || username == null) return null;
+		return dbUser.searchUserByName(username);
 	}
-	
+
 	@GET
 	@Path("/live")
 	@Produces("application/json")
@@ -48,15 +56,9 @@ public class SearchResource {
 	@GET
 	@Path("/cached")
 	@Produces("application/json")
-	public List<CachedVideo> getCachedByName(@QueryParam("cachedname") String cachedname) {
-		List<CachedVideo> lives = new ArrayList<>();
-		lives.add(new CachedVideo(1,0,"DUODUO PREVIEW","cast3",1000));
-		lives.add(new CachedVideo(2,0,"YANYAN PREVIEW","cast2",2000));
-		lives.add(new CachedVideo(3,1,"DUDU PREVIEW","cast1",3000));
-		lives.add(new CachedVideo(4,1,"YAOYAO PREVIEW","cast3",4000));
-		lives.add(new CachedVideo(5,2,"FRANK PREVIEW","cast1",5000));
-		lives.add(new CachedVideo(6,3,"CANCAN PREVIEW","cast2",6000));
-		return lives;
+	public List<CachedVideo> getCachedByName(@QueryParam("cachedname") String cachedname) throws NumberFormatException, SQLException, ParseException {
+		if(cachedname == "" || cachedname == null) return null;
+		return dbCachedVideo.searchCachedVideoByName(cachedname);
 	}
 	
 	@GET
