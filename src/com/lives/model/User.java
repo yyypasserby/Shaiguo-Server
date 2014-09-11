@@ -1,5 +1,8 @@
 package com.lives.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -9,6 +12,7 @@ public class User {
 	private String password;
 	private String email;
 	private int userRole;
+	private List<Integer> tagList = new ArrayList<>();
 	private double hotRate;
 	private int status;
 	private int extraVideoId;
@@ -34,6 +38,8 @@ public class User {
 		this.email = email;
 		this.hotRate = 100;
 		this.status = status;
+		this.getTagList().add(0);
+		this.getTagList().add(1);
 		if(status == 3)
 			this.extraVideoId = 0;
 	}
@@ -149,5 +155,19 @@ public class User {
 	 */
 	public void setUserRole(int userRole) {
 		this.userRole = userRole;
+	}
+
+	/**
+	 * @return the tagList
+	 */
+	public List<Integer> getTagList() {
+		return tagList;
+	}
+
+	/**
+	 * @param tagList the tagList to set
+	 */
+	public void setTagList(List<Integer> tagList) {
+		this.tagList = tagList;
 	}
 }

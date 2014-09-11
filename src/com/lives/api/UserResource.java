@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.websocket.Session;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,6 +25,9 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 
 import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
+import com.lives.api.helper.Result;
+import com.lives.api.helper.Error;
+
 import com.lives.model.User;
 
 /**
@@ -40,10 +42,7 @@ public class UserResource {
 	@Path("/{userId}")
 	@Produces("application/json")
 	public User getUser(@PathParam("userId") int userId) {
-		
 		User user = new User(0, "yyypasserby", "yiyunyao@shaiguo.com", 0);
-		User user0 = new User(0, "0", "0", 0);
-		
 		return user;
 	}
 	
@@ -55,22 +54,22 @@ public class UserResource {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public String postUser(User user) {
-		boolean res=false;
-		String match_email="^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
-		String match_name="^[a-z0-9_-]{3,15}$";
-		String match_pwd="((?=.*\\d)(?=.*[a-z]).{6,20})";
-		
-		Pattern p=Pattern.compile(match_name);
-		Matcher m=p.matcher(user.getUsername());
-		res=m.matches();
-		if(res)
-		{
-			p=Pattern.compile(match_email);
-			m=p.matcher(user.getEmail());
-			res=m.matches();
-		}
-		
+	public Result postUser(User user) {
+		boolean res = true;
+//		String match_email="^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
+//		String match_name="^[a-z0-9_-]{3,15}$";
+//		String match_pwd="((?=.*\\d)(?=.*[a-z]).{6,20})";
+//		
+//		Pattern p=Pattern.compile(match_name);
+//		Matcher m=p.matcher(user.getUsername());
+//		res=m.matches();
+//		if(res)
+//		{
+//			p=Pattern.compile(match_email);
+//			m=p.matcher(user.getEmail());
+//			res=m.matches();
+//		}
+//		
 		//To Do
 		//check username is not same to name in mysql
 		
@@ -78,11 +77,11 @@ public class UserResource {
 		{
 			//To Do
 			//Save in MySql
-			return "{\"result\" : true}";
+			return new Result("success", user);
 		}
 		else
 		{
-			return "{\"result\" : false}";
+			return new Result("failed", new Error(0, "USERNAME_NOT_VALID"));
 		}
 	}
 	
