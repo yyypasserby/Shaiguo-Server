@@ -9,9 +9,11 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import com.lives.api.AuthResource;
 import com.lives.api.FriendResource;
 import com.lives.api.Hello;
+import com.lives.api.HotResource;
 import com.lives.api.IndexImageResource;
 import com.lives.api.MessageResource;
 import com.lives.api.SearchResource;
+import com.lives.api.SubscribeResource;
 import com.lives.api.TagResource;
 import com.lives.api.UserResource;
 import com.lives.filter.SessionIdTokenFilter;
@@ -33,5 +35,7 @@ public class APIApplication extends ResourceConfig {
 		register(SearchResource.class);
 		register(AuthResource.class);
 		register(TagResource.class);
+		register(SubscribeResource.class);
+		register(HotResource.class);
 	}
 }

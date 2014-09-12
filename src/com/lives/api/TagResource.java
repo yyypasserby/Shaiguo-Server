@@ -24,11 +24,11 @@ public class TagResource {
 	@Produces("application/json")
 	public List<Tag> getTags(@PathParam("userId") int userId) {
 		List<Tag> tags = new ArrayList<>();
-		tags.add(new Tag(0, "shaiguo", 100));
-		tags.add(new Tag(1, "music", 200));
-		tags.add(new Tag(2, "sports", 300));
-		tags.add(new Tag(3, "games", 400));
-		tags.add(new Tag(4, "moocs", 500));
+		tags.add(new Tag(0, "晒果", "shaiguo.png", 100));
+		tags.add(new Tag(1, "音乐", "music.png", 200));
+		tags.add(new Tag(2, "体育", "sports.png", 300));
+		tags.add(new Tag(3, "游戏", "games.png", 400));
+		tags.add(new Tag(4, "在线教育", "moocs.png", 500));
 		return tags;
 	}
 }

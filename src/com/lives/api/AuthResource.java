@@ -26,8 +26,10 @@ public class AuthResource {
 	@Produces("application/json")
 	public Result authenticated(User user) throws ClassNotFoundException, SQLException {
 		String resStr;
+		String auth_token = "shaiguowanghuanyinni";
 		if(("success".compareTo(resStr = user.verify())) == 0) {
-			return new Result("success", new User(1, user.getUsername(), user.getEmail(), 0));
+			
+			return new Result(auth_token, new User(Integer.parseInt("1"), user.getUsername(), user.getEmail(), 0));
 		}
 		return new Result("failure", new Error(0, resStr));
 	}
