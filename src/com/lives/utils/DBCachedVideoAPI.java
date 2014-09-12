@@ -13,48 +13,53 @@ import java.util.List;
 import com.lives.model.CachedVideo;
 
 public class DBCachedVideoAPI {
-	private String tablename;
-	private ResultSet  resultSet;
-	private PreparedStatement prepareState;
-	
-	public DBCachedVideoAPI(){
-		tablename="CachedVideo";
-	}
-	
-	public boolean insertCachedVideo(int userId, String location, String duration,String name) throws SQLException{
+	private static String tablename="CachedVideo";;
+	private static ResultSet  resultSet;
+	private static PreparedStatement prepareState;
+	private static SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
+
+	static public int insertCachedVideo(int userId, String location,Date duration,String name) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			String time = "24:00:00";
-			if(duration.length()>8)
-				return false;
-			else if(time.compareTo(duration)<0)
-				return false;
 			String doInsert = "insert " +tablename+ 
 					" (userId, location, duration,cachedname) values ('" +userId+
 					"','" +location+
-					"','" +duration+
+					"','" +sdf.format(duration)+
 					"','" +name+ "')";
 			prepareState = connection.prepareStatement(doInsert);
-			return prepareState.execute();
+			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
 		}
 	}
 	
-	public boolean deleteCachedVideo(int userId, String location) throws SQLException{
+	static public int deleteCachedVideo(int userId, String location) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doDelete = "delete from " +tablename+
 					" where userId= "  +userId+
 					" and location='" +location+ "'";
 			prepareState = connection.prepareStatement(doDelete);
-			return prepareState.execute();
+			return prepareState.executeUpdate();
+		}finally{
+			connection.close();
+		}
+	}
+	
+	static public int deleteCachedVideo(int cachedId) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doDelete = "delete from " +tablename+
+					" where id= "  +cachedId;
+			prepareState = connection.prepareStatement(doDelete);
+			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
 		}
 	}
 
-	public List<CachedVideo> searchCachedVideoByName(String cachedname) throws NumberFormatException, SQLException, ParseException{
+
+	static public List<CachedVideo> searchCachedVideoByName(String cachedname) throws NumberFormatException, SQLException, ParseException{
 		Connection connection = DBPool.getInstance().getConnection();
 		List<CachedVideo> cachedlist = new ArrayList<CachedVideo>(); 
 		try{
@@ -62,13 +67,11 @@ public class DBCachedVideoAPI {
 					" where cachedname like '%" +cachedname+ "%'";
 			prepareState = connection.prepareStatement(doSearch);
 			resultSet = prepareState.executeQuery();
-			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-			Date date;
 			while(resultSet.next())
-			{	date = sdf.parse(resultSet.getString(4));
-				cachedlist.add(new CachedVideo(Integer.parseInt(resultSet.getString(1)),
-						Integer.parseInt(resultSet.getString(2)),resultSet.getString(3),
-						resultSet.getString(5),date.getTime()));
+			{	
+				cachedlist.add(new CachedVideo(resultSet.getInt(1),
+						resultSet.getInt(2),resultSet.getString(3),sdf.parse(resultSet.getString(4)),
+						resultSet.getString(5)));
 			}
 			return cachedlist;
 		}finally{

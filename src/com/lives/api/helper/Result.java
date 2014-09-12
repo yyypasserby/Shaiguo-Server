@@ -8,6 +8,10 @@ public class Result {
 	private Object object;
 	
 	public Result() {}
+	public Result(String result) {
+		this.result = result;
+	}
+	
 	public Result(String result, Object obj) {
 		this.result = result;
 		this.object = obj;

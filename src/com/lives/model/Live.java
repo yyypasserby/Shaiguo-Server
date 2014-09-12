@@ -15,6 +15,8 @@ public class Live {
 	private String livename;
 	private String thumbnail;
 	private String timeToCast;
+	private int attention;
+	private int rating;
 	
 	public Live() {}
 	
@@ -23,6 +25,8 @@ public class Live {
 		this.livename = name;
 		this.thumbnail = thumbnail;
 		this.timeToCast = time;
+		this.attention = 1000;
+		this.rating = 100;
 	}
 	
 	
@@ -81,5 +85,33 @@ public class Live {
 	 */
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+
+	/**
+	 * @return the attention
+	 */
+	public int getAttention() {
+		return attention;
+	}
+
+	/**
+	 * @param attention the attention to set
+	 */
+	public void setAttention(int attention) {
+		this.attention = attention;
+	}
+
+	/**
+	 * @return the rating
+	 */
+	public int getRating() {
+		return rating;
+	}
+
+	/**
+	 * @param rating the rating to set
+	 */
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 }
