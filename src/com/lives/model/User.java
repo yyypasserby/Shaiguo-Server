@@ -54,7 +54,7 @@ public class User {
 		this.extraVideoId = 0;
 	}
 
-	public User(int id, String name, String email, String tags, int hotRate,
+	public User(int id, String name, String email, String tags, double hotRate,
             int role, int status, String extraVideo) {
 		this.userId = id;
 		this.userRole = role;
@@ -182,7 +182,7 @@ public class User {
 	 * @param hotRate
 	 *            the hotRate to set
 	 */
-	public void setHotRate(Integer hotRate) {
+	public void setHotRate(double hotRate) {
 		this.hotRate = hotRate;
 	}
 

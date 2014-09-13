@@ -83,7 +83,7 @@ public class DBCachedVideoAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doSearch = "select cachedname from " +tablename+ 
-					" where cachedname like '%" +key+ "%'";
+					" where cachedname like '%" +key+ "%' limit 0,1";
 			prepareState = connection.prepareStatement(doSearch);
 			resultSet = prepareState.executeQuery();
 			if(resultSet.next())

@@ -131,7 +131,7 @@ public class DBVideoAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doSearch = "select name from " +tablename+ 
-					" where name like '%" +key+ "%'";
+					" where name like '%" +key+ "%' limit 0,1";
 			prepareState = connection.prepareStatement(doSearch);
 			resultSet = prepareState.executeQuery();
 			if(resultSet.next())

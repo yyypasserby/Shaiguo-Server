@@ -58,7 +58,6 @@ public class SearchResource {
 			preList.add(new PreSearchResult(0,DBUserAPI.searchPreName(key)));
 			preList.add(new PreSearchResult(1,DBVideoAPI.searchPreName(key)));
 			preList.add(new PreSearchResult(2,DBCachedVideoAPI.searchPreName(key)));
-		Collections.sort(preList);
 		return preList;
 	}
 }
