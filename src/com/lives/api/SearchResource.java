@@ -44,12 +44,7 @@ public class SearchResource {
 	@Produces("application/json")
 	public List<Live> getLivesByName(@QueryParam("livename") String livename) {
 		List<Live> lives = new ArrayList<>();
-		lives.add(new Live(1,"DUODUO DOTA2 CASTING","cast1","12:00"));
-		lives.add(new Live(2,"CANCAN LOL CASTING","cast2","18:00"));
-		lives.add(new Live(3,"YANYAN ASSASSINATION CASTING","cast3","13:00"));
-		lives.add(new Live(2,"CANCAN LOL CASTING","cast2","18:00"));
-		lives.add(new Live(2,"CANCAN LOL CASTING","cast2","18:00"));
-		lives.add(new Live(2,"CANCAN LOL CASTING","cast2","18:00"));
+		
 		return lives;
 	}
 	

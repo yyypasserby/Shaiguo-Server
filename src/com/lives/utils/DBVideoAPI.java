@@ -9,7 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.lives.model.Video;
+
+import com.lives.model.Live;
 
 public class DBVideoAPI {
 	private static String tablename="Video";
@@ -86,9 +87,9 @@ public class DBVideoAPI {
 		}
 	}
 
-	static public List<Video> searchVideoByName(String name) throws NumberFormatException, SQLException, ParseException{
+	static public List<Live> searchVideoByName(String name) throws NumberFormatException, SQLException, ParseException{
 		Connection connection = DBPool.getInstance().getConnection();
-		List<Video> videolist = new ArrayList<Video>(); 
+		List<Live> videolist = new ArrayList<Live>(); 
 		try{
 			String doSearch = "select * from " +tablename+ 
 					" where name like '%" +name+ "%'";
@@ -96,9 +97,9 @@ public class DBVideoAPI {
 			resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 			{	
-				videolist.add(new Video(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
+				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
-						resultSet.getInt(7),sdf.parse(resultSet.getString(8))));
+						resultSet.getInt(7),sdf.parse(resultSet.getString(8)),resultSet.getString(9)));
 			}
 			return videolist;
 		}finally{
@@ -106,18 +107,18 @@ public class DBVideoAPI {
 		}
 	}
 	
-	static public List<Video> sortVideo() throws NumberFormatException, SQLException, ParseException{
+	static public List<Live> sortVideo() throws NumberFormatException, SQLException, ParseException{
 		Connection connection = DBPool.getInstance().getConnection();
-		List<Video> videolist = new ArrayList<Video>(); 
+		List<Live> videolist = new ArrayList<Live>(); 
 		try{
 			String doSearch = "select * from " +tablename+ " order by hotRate desc limit 0,5";
 			prepareState = connection.prepareStatement(doSearch);
 			resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 			{	
-				videolist.add(new Video(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
+				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
-						resultSet.getInt(7),sdf.parse(resultSet.getString(8))));
+						resultSet.getInt(7),sdf.parse(resultSet.getString(8)),resultSet.getString(9)));
 			}
 			return videolist;
 		}finally{

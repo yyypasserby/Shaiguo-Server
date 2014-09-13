@@ -23,7 +23,7 @@ public class User {
 	private int castTagId;
 
 	private List<Integer> tagList = new ArrayList<>();
-
+	private String tags;
 	private double hotRate;
 	private int status;
 	private int extraVideoId;
@@ -54,7 +54,7 @@ public class User {
 		this.extraVideoId = 0;
 	}
 
-	public User(int id, String name, String email, List<Integer> tags, int hotRate,
+	public User(int id, String name, String email, String tags, int hotRate,
             int role, int status, String extraVideo) {
 		this.userId = id;
 		this.userRole = role;
@@ -62,6 +62,7 @@ public class User {
 		this.email = email;
 		this.hotRate = hotRate;
 		this.status = status;
+		this.tags = tags;
 		this.getTagList().add(0);
 		this.getTagList().add(1);
 		if (status == 3)
@@ -107,6 +108,18 @@ public class User {
 	 */
 	public String getUsername() {
 		return username;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public void setHotRate(double hotRate) {
+		this.hotRate = hotRate;
 	}
 
 	/**

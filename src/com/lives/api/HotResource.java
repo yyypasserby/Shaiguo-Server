@@ -12,11 +12,9 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-
 import com.lives.model.Live;
 import com.lives.model.Tag;
 import com.lives.model.User;
-import com.lives.model.Video;
 import com.lives.utils.DBTagAPI;
 import com.lives.utils.DBUserAPI;
 import com.lives.utils.DBVideoAPI;
@@ -37,7 +35,7 @@ public class HotResource {
 	@GET
 	@Path("/live")
 	@Produces("application/json")
-	public List<Video> getHotLive() throws NumberFormatException, SQLException, ParseException {
+	public List<Live> getHotLive() throws NumberFormatException, SQLException, ParseException {
 		return DBVideoAPI.sortVideo();
 	}
 

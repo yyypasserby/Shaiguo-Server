@@ -3,6 +3,10 @@
  */
 package com.lives.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -14,21 +18,80 @@ public class Live {
 	private int liveId;
 	private String livename;
 	private String thumbnail;
-	private String timeToCast;
+	private Date timeToCast;
 	private int attention;
 	private int rating;
+	private int tag;
+	private int userId;
+	private int isRecommend;
+	private String location;
+	
+	
+	
+
+	public Live(int liveId,int tag,int userId,int isRecommend, String location,String livename,int rating,Date timeToCast,String thumbnail){
+		this.liveId = liveId;
+		this.tag = tag;
+		this.userId = userId;
+		this.isRecommend = isRecommend;
+		this.location = location;
+		this.livename = livename;
+		this.rating = rating;
+		this.timeToCast = timeToCast;
+	}
+	
 	
 	public Live() {}
 	
-	public Live(int id, String name, String thumbnail, String time) {
+	public Live(int id, String name, String thumbnail, String time) throws ParseException {
+		SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
 		this.liveId = id;
 		this.livename = name;
 		this.thumbnail = thumbnail;
-		this.timeToCast = time;
+		this.timeToCast = sdf.parse(time);
 		this.attention = 1000;
 		this.rating = 100;
 	}
 	
+	public int getTag() {
+		return tag;
+	}
+
+
+	public void setTag(int tag) {
+		this.tag = tag;
+	}
+
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+
+	public int getIsRecommend() {
+		return isRecommend;
+	}
+
+
+	public void setIsRecommend(int isRecommend) {
+		this.isRecommend = isRecommend;
+	}
+
+
+	public String getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	
 	/**
 	 * @return the livename
@@ -46,13 +109,13 @@ public class Live {
 	/**
 	 * @return the timeToCast
 	 */
-	public String getTimeToCast() {
+	public Date getTimeToCast() {
 		return timeToCast;
 	}
 	/**
 	 * @param timeToCast the timeToCast to set
 	 */
-	public void setTimeToCast(String timeToCast) {
+	public void setTimeToCast(Date timeToCast) {
 		this.timeToCast = timeToCast;
 	}
 

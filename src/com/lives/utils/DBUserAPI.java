@@ -137,7 +137,7 @@ public class DBUserAPI {
 			if (!resultSet.next())
 
 				return new User();
-			return new User(id, resultSet.getString(2), resultSet.getString(4), changeTagToList(resultSet.getString(5)),
+			return new User(id, resultSet.getString(2), resultSet.getString(4), resultSet.getString(5),
 						resultSet.getInt(6),resultSet.getInt(7),
 						resultSet.getInt(8),resultSet.getString(9));
 		}
@@ -171,7 +171,7 @@ public class DBUserAPI {
 
 			resultSet=prepareState.executeQuery();
 			while(resultSet.next())
-				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), changeTagToList(resultSet.getString(5)),
+				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
 					resultSet.getInt(6),resultSet.getInt(7),
 					resultSet.getInt(8),resultSet.getString(9)));
 
@@ -189,7 +189,7 @@ public class DBUserAPI {
 			prepareState = connection.prepareStatement(doUpdate);
 			resultSet = prepareState.executeQuery();
 			while(resultSet.next())
-				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), changeTagToList(resultSet.getString(5)),
+				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
 					resultSet.getInt(6),resultSet.getInt(7),
 					resultSet.getInt(8),resultSet.getString(9)));		
 			return users;
