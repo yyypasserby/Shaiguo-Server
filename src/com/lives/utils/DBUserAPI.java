@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lives.model.Tag;
 import com.lives.model.User;
 
 public class DBUserAPI {
@@ -14,10 +15,28 @@ public class DBUserAPI {
 	private static ResultSet resultSet;
 	private static PreparedStatement prepareState;
 
-	static public int insertUser(String user_name,String pwd,String email,String Tag) throws SQLException{
+	public static String changeTagToString(List<Integer> tag){
+		String a = tag.toString();
+		a=a.replace("[", "");
+		a=a.replace("]", "");
+		a=a.replace(" ", "");
+		return a;
+	}
+	
+	static public List<Integer> changeTagToList(String tag){
+		String[] arr = tag.split(",");
+		List<Integer> list2=new ArrayList<Integer>();
+		for(int i=0;i<arr.length;i++){
+			list2.add(Integer.parseInt(arr[i]));
+		}
+		return list2;
+	}
+	
+	static public int insertUser(String user_name,String pwd,String email,List<Integer> tag) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		String tagString = changeTagToString(tag);
 		try{
-		String doInsert = "insert into " + tablename + " (username,password,email,tags) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ Tag +"')";
+		String doInsert = "insert into " + tablename + " (username,password,email,tags) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ tagString +"')";
 		prepareState = connection.prepareStatement(doInsert);
 		return prepareState.executeUpdate();
 		}
@@ -54,13 +73,13 @@ public class DBUserAPI {
 		}
 	}
 	
-	static public int updateUser(int userid,String username,String password,String email, String tag) throws SQLException{
-
+	static public int updateUser(int userid,String username,String password,String email, List<Integer> tag) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		String tagString = changeTagToString(tag);
 		try {
 			String doUpdate = "update " + tablename + " SET username='"
 					+ username + "', password='" + password + "', email ='"
-					+ email + "', tags ='" + tag + "'  where id='" + userid
+					+ email + "', tags ='" + tagString + "'  where id='" + userid
 					+ "'";
 			prepareState = connection.prepareStatement(doUpdate);
 			return prepareState.executeUpdate();
@@ -69,13 +88,14 @@ public class DBUserAPI {
 		}
 	}
 	
-	static public int updateUser(int userid,String username,String password,String email, String tag,int hotrate, int role,int status ,String extraVideo) throws SQLException{
+	static public int updateUser(int userid,String username,String password,String email, List<Integer> tag,int hotrate, int role,int status ,String extraVideo) throws SQLException{
 
 		Connection connection = DBPool.getInstance().getConnection();
+		String tagString = changeTagToString(tag);
 		try {
 			String doUpdate = "update " + tablename + " SET username='"
 					+ username + "', password='" + password + "', email ='"
-					+ email + "', tags ='" + tag + "', hotrate ='" + hotrate
+					+ email + "', tags ='" + tagString + "', hotrate ='" + hotrate
 					+ "', role ='" + role + "', status ='" + status
 					+ "', extravideo ='" + extraVideo + "'  where id='"
 					+ userid + "'";
@@ -114,7 +134,7 @@ public class DBUserAPI {
 			resultSet = prepareState.executeQuery();
 			if (!resultSet.next())
 				return new User();
-			return new User(id, resultSet.getString(2), resultSet.getString(4), resultSet.getString(5),
+			return new User(id, resultSet.getString(2), resultSet.getString(4), changeTagToList(resultSet.getString(5)),
 						resultSet.getInt(6),resultSet.getInt(7),
 						resultSet.getInt(8),resultSet.getString(9));
 		}
@@ -147,12 +167,29 @@ public class DBUserAPI {
 			prepareState = connection.prepareStatement(doCheck);
 			resultSet=prepareState.executeQuery();
 			while(resultSet.next())
-				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
+				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), changeTagToList(resultSet.getString(5)),
 					resultSet.getInt(6),resultSet.getInt(7),
 					resultSet.getInt(8),resultSet.getString(9)));
 
 			return users;
 		} finally {
+			connection.close();
+		}
+	}
+	
+	static public List<User> sortUsers() throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		List<User> users = new ArrayList<User>();
+		try{
+			String doUpdate = "select * from " +tablename+ " order by hotrate desc limit 0,5";
+			prepareState = connection.prepareStatement(doUpdate);
+			resultSet = prepareState.executeQuery();
+			while(resultSet.next())
+				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), changeTagToList(resultSet.getString(5)),
+					resultSet.getInt(6),resultSet.getInt(7),
+					resultSet.getInt(8),resultSet.getString(9)));		
+			return users;
+		}finally{
 			connection.close();
 		}
 	}

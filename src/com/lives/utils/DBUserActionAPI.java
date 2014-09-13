@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.lives.model.Tag;
 import com.lives.model.UserAction;
 
 public class DBUserActionAPI {
@@ -19,7 +17,7 @@ public class DBUserActionAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			if(getActionByUserId(userId)!=null) return -1; 
-			String doInsert = "insert into " +tablename+ " (userId,state,type) values (" +userId+ ",0,0)";
+			String doInsert = "insert into " +tablename+ " (userId,vid,type) values (" +userId+ ",0,0)";
 			prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
@@ -27,11 +25,11 @@ public class DBUserActionAPI {
 		}
 	}
 	
-	static public int insertAction(int userId,int state,int type) throws SQLException{
+	static public int insertAction(int userId,int vid,int type) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			if(getActionByUserId(userId)!=null) return -1; 
-			String doInsert = "insert into " +tablename+ " (userId,state,type) values (" +userId+ ","+state+","+type+")";
+			String doInsert = "insert into " +tablename+ " (userId,vid,type) values (" +userId+ ","+vid+","+type+")";
 			prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
@@ -64,10 +62,10 @@ public class DBUserActionAPI {
 		}
 	}
 	
-	static public int updateAction(int actionId,int state, int type) throws SQLException{
+	static public int updateAction(int actionId,int vid, int type) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			String doCheck = "update " +tablename+ " set state=" +state+ ",type=" +type+ " where id=" +actionId;
+			String doCheck = "update " +tablename+ " set vid=" +vid+ ",type=" +type+ " where id=" +actionId;
 			prepareState = connection.prepareStatement(doCheck);
 			return prepareState.executeUpdate();
 		}finally{

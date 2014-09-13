@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.lives.model.Tag;
 
@@ -104,6 +106,20 @@ public class DBTagAPI {
 			if(!resultSet.next())
 				return new Tag();
 			return new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6));
+		}finally{
+			connection.close();
+		}
+	}
+	static public List<Tag> sortTags() throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		List<Tag> taglist = new ArrayList<Tag>();
+		try{
+			String doUpdate = "select * from " +tablename+ " order by tagAttention desc limit 0,5";
+			prepareState = connection.prepareStatement(doUpdate);
+			resultSet = prepareState.executeQuery();
+			while(resultSet.next())
+				taglist.add(new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6)));
+			return taglist;
 		}finally{
 			connection.close();
 		}

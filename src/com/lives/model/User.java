@@ -14,7 +14,6 @@ import com.lives.utils.DBUserAPI;
 
 @XmlRootElement
 public class User {
-	private DBUserAPI userDB;
 	private int userId;
 	private String username;
 	private String password;
@@ -23,7 +22,7 @@ public class User {
 	private int userRole;
 	private int castTagId;
 	private List<Integer> tagList = new ArrayList<>();
-	private double hotRate;
+	private Integer hotRate;
 	private int status;
 	private int extraVideoId;
 	
@@ -39,9 +38,8 @@ public class User {
 	//2 : casting
 	//3 : watching
 	//extraVideoId : if is watching, then id is available
-	public User() throws SQLException {
+	public User() {
 
-		userDB = new DBUserAPI();
 	}
 
 	public User(int id, String name, String email, int tags) {
@@ -54,7 +52,7 @@ public class User {
 		this.extraVideoId = 0;
 	}
 
-	public User(int id, String name, String email, String tags, int hotRate,
+	public User(int id, String name, String email, List<Integer> tags, int hotRate,
 			int role, int status, String extraVideo) {
 		this.userId = id;
 		this.userRole = role;
@@ -78,16 +76,15 @@ public class User {
 		res=m.matches();
 		if(!res)
 			return "PASSWORD_NOT_VALID";
-		if ("USERNAME_IS_OK".compareTo(userDB.checkUsername(username)) == 0) {
-			userDB.insertUser(username, password, email, null);
-			return userDB.getUserId(username);
+		if ("USERNAME_IS_OK".compareTo(DBUserAPI.checkUsername(username)) == 0) {
+			DBUserAPI.insertUser(username, password, email, null);
+			return DBUserAPI.getUserId(username);
 		}
 		return "USERNAME_IS_USED";
 	}
 
 	public String verify() throws SQLException {
 		boolean res=false;
-		String result;
 		String match_name="^[a-z0-9_-]{3,15}$";
 		String match_pwd="((?=.*\\d)(?=.*[a-z]).{6,20})";
 		Pattern p=Pattern.compile(match_name);
@@ -101,7 +98,7 @@ public class User {
 		if(!res)
 			return "PASSWORD_NOT_VALID";
 
-		return userDB.checkLogin(username, password);
+		return DBUserAPI.checkLogin(username, password);
 	}
 
 	/**
@@ -167,7 +164,7 @@ public class User {
 	/**
 	 * @return the hotRate
 	 */
-	public double getHotRate() {
+	public Integer getHotRate() {
 		return hotRate;
 	}
 
@@ -175,7 +172,7 @@ public class User {
 	 * @param hotRate
 	 *            the hotRate to set
 	 */
-	public void setHotRate(double hotRate) {
+	public void setHotRate(Integer hotRate) {
 		this.hotRate = hotRate;
 	}
 

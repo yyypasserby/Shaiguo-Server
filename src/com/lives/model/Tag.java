@@ -9,7 +9,7 @@ public class Tag {
 	private String thumbnailSmall;
 	private String thumbnailBig;
 	private int livingNumber;
-	private int tagAttention;
+	private Integer tagAttention;
 	
 	public Tag() {}
 	public Tag(int id, String name, String thumbnailSmall,String thumbnailBig, int attention) {
@@ -26,7 +26,6 @@ public class Tag {
 		this.tagId = id;
 		this.tagName = name;
 		this.thumbnailSmall = thumbnailSmall;
-		this.thumbnailBig = thumbnailBig;
 		this.livingNumber = 10;
 		this.tagAttention = attention;
 	}
@@ -66,13 +65,13 @@ public class Tag {
 	/**
 	 * @return the tagAttention
 	 */
-	public int getTagAttention() {
+	public Integer getTagAttention() {
 		return tagAttention;
 	}
 	/**
 	 * @param tagAttention the tagAttention to set
 	 */
-	public void setTagAttention(int tagAttention) {
+	public void setTagAttention(Integer tagAttention) {
 		this.tagAttention = tagAttention;
 	}
 	/**
@@ -109,4 +108,5 @@ public class Tag {
 	public void setThumbnailSmall(String thumbnail) {
 		this.thumbnailSmall = thumbnail;
 	}
+
 }

@@ -4,18 +4,18 @@ public class UserAction {
 
 	private int actionId;
 	private int userId;
-	private int state;
+	private int vid;
 	private int type;
 	
 	public UserAction(){
-		this.state=0;
+		this.vid=0;
 		this.type=0;
 	}
 	
-	public UserAction(int actionId,int userId,int state,int type){
+	public UserAction(int actionId,int userId,int vid,int type){
 		this.actionId = actionId;
 		this.userId = userId;
-		this.state=state;
+		this.vid=vid;
 		this.type=type;
 	}
 	
@@ -31,11 +31,11 @@ public class UserAction {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public int getState() {
-		return state;
+	public int getvid() {
+		return vid;
 	}
-	public void setState(int state) {
-		this.state = state;
+	public void setvid(int vid) {
+		this.vid = vid;
 	}
 	public int getType() {
 		return type;
