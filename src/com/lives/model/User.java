@@ -182,13 +182,6 @@ public class User {
 		return hotRate;
 	}
 
-	/**
-	 * @param hotRate
-	 *            the hotRate to set
-	 */
-	public void setHotRate(Integer hotRate) {
-		this.hotRate = hotRate;
-	}
 
 	/**
 	 * @return the status

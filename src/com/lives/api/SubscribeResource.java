@@ -17,7 +17,7 @@ import com.lives.api.helper.Result;
 @Path("/subscribe")
 public class SubscribeResource {
 	@GET
-	@Produces("applicaiton/json")
+	@Produces("application/json")
 	public Result subscribe(@QueryParam("from_id") int fromId, @QueryParam("to_id") int toId) {
 		System.out.println("from_id = " + fromId + ", to_id = " + toId);
 		return new Result("success");

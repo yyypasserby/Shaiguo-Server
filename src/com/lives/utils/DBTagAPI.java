@@ -91,7 +91,7 @@ public class DBTagAPI {
 			resultSet = prepareState.executeQuery();
 			if(!resultSet.next())
 				return new Tag();
-			return new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6));
+			return new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(7), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6));
 		}finally{
 			connection.close();
 		}
@@ -105,7 +105,7 @@ public class DBTagAPI {
 			resultSet = prepareState.executeQuery();
 			if(!resultSet.next())
 				return new Tag();
-			return new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6));
+			return new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(7), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6));
 		}finally{
 			connection.close();
 		}
@@ -118,7 +118,21 @@ public class DBTagAPI {
 			prepareState = connection.prepareStatement(doUpdate);
 			resultSet = prepareState.executeQuery();
 			while(resultSet.next())
-				taglist.add(new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6)));
+				taglist.add(new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(7), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6)));
+			return taglist;
+		}finally{
+			connection.close();
+		}
+	}
+	static public List<Tag> allTags() throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		List<Tag> taglist = new ArrayList<Tag>();
+		try{
+			String doUpdate = "select * from " +tablename;
+			prepareState = connection.prepareStatement(doUpdate);
+			resultSet = prepareState.executeQuery();
+			while(resultSet.next())
+				taglist.add(new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(7), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6)));
 			return taglist;
 		}finally{
 			connection.close();

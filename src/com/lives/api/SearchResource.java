@@ -34,15 +34,16 @@ public class SearchResource {
 	@GET
 	@Path("/user")
 	@Produces("application/json")
-	public List<User> getUsersByName(@QueryParam("username") String username) throws SQLException {
+	public List<User> getUsersByName(@QueryParam("content") String username) throws SQLException {
 		if(username == "null" || username == null) return null;
-		return dbUser.searchUserByName(username);
+		System.out.println(username);
+		return DBUserAPI.searchUserByName(username);
 	}
 
 	@GET
 	@Path("/live")
 	@Produces("application/json")
-	public List<Live> getLivesByName(@QueryParam("livename") String livename) {
+	public List<Live> getLivesByName(@QueryParam("content") String livename) {
 		List<Live> lives = new ArrayList<>();
 		
 		return lives;
@@ -51,9 +52,17 @@ public class SearchResource {
 	@GET
 	@Path("/cached")
 	@Produces("application/json")
-	public List<CachedVideo> getCachedByName(@QueryParam("cachedname") String cachedname) throws NumberFormatException, SQLException, ParseException {
+	public List<CachedVideo> getCachedByName(@QueryParam("content") String cachedname) throws NumberFormatException, SQLException, ParseException {
 		if(cachedname == "" || cachedname == null) return null;
 		return dbCachedVideo.searchCachedVideoByName(cachedname);
+	}
+	
+	@GET
+	@Path("/category")
+	@Produces("application/json")
+	public List<Live> getLivesByCategory(@QueryParam("id") int id) {
+		List<Live> lives = new ArrayList<>();
+		return lives;
 	}
 	
 	@GET

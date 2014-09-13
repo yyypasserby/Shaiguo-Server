@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Tag {
 	private String tagName;
+	private String tagNameEng;
 	private int tagId;
 	private String thumbnailSmall;
 	private String thumbnailBig;
@@ -30,9 +31,10 @@ public class Tag {
 		this.tagAttention = attention;
 	}
 	
-	public Tag(int id, String name, int attention, int live,String thumbnailSmall,String thumbnailBig) {
+	public Tag(int id, String name, String nameEng, int attention, int live,String thumbnailSmall,String thumbnailBig) {
 		this.tagId = id;
 		this.tagName = name;
+		this.tagNameEng = nameEng;
 		this.thumbnailSmall = thumbnailSmall;
 		this.thumbnailBig = thumbnailBig;
 		this.livingNumber = live;
@@ -107,6 +109,18 @@ public class Tag {
 	 */
 	public void setThumbnailSmall(String thumbnail) {
 		this.thumbnailSmall = thumbnail;
+	}
+	/**
+	 * @return the tagNameEng
+	 */
+	public String getTagNameEng() {
+		return tagNameEng;
+	}
+	/**
+	 * @param tagNameEng the tagNameEng to set
+	 */
+	public void setTagNameEng(String tagNameEng) {
+		this.tagNameEng = tagNameEng;
 	}
 
 }
