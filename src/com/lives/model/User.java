@@ -14,7 +14,6 @@ import com.lives.utils.DBUserAPI;
 
 @XmlRootElement
 public class User {
-	private DBUserAPI userDB;
 	private int userId;
 	private String username;
 	private String password;
@@ -22,25 +21,27 @@ public class User {
 	private int attention;
 	private int userRole;
 	private int castTagId;
+
 	private List<Integer> tagList = new ArrayList<>();
+
 	private double hotRate;
 	private int status;
 	private int extraVideoId;
+	
+	//userRole
+	//0 : all
+	//1 : admin
+	//2 : room-admin
+	//3 : user
+	
+	//status
+	//0 : online
+	//1 : offline
+	//2 : casting
+	//3 : watching
+	//extraVideoId : if is watching, then id is available
+	public User() {
 
-	// userRole
-	// 0 : all
-	// 1 : admin
-	// 2 : room-admin
-	// 3 : user
-
-	// status
-	// 0 : online
-	// 1 : offline
-	// 2 : casting
-	// 3 : watching
-	// extraVideoId : if is watching, then id is available
-	public User() throws ClassNotFoundException, SQLException {
-		userDB = new DBUserAPI();
 	}
 
 	public User(int id, String name, String email, int tags) {
@@ -53,8 +54,8 @@ public class User {
 		this.extraVideoId = 0;
 	}
 
-	public User(int id, String name, String email, String tags, int hotRate,
-			int role, int status, String extraVideo) {
+	public User(int id, String name, String email, List<Integer> tags, int hotRate,
+            int role, int status, String extraVideo) {
 		this.userId = id;
 		this.userRole = role;
 		this.username = name;
@@ -68,30 +69,37 @@ public class User {
 		else
 			this.extraVideoId = -1;
 	}
-
-	public String register() throws ClassNotFoundException, SQLException {
-		boolean res = false;
-		String match_pwd = "((?=.*\\d)(?=.*[a-z]).{6,20})";
-		Pattern p = Pattern.compile(match_pwd);
-		Matcher m = p.matcher(password);
-		res = m.matches();
-		if (!res)
+	public String register() throws SQLException {
+		boolean res=false;
+		String match_pwd="((?=.*\\d)(?=.*[a-z]).{6,20})";
+		Pattern p=Pattern.compile(match_pwd);
+		Matcher m=p.matcher(password);
+		res=m.matches();
+		if(!res)
 			return "PASSWORD_NOT_VALID";
-		if ("USERNAME_IS_OK".compareTo(userDB.checkUsername(username)) == 0) {
-			userDB.insertUser(username, password, email, null);
-			return userDB.getUserId(username);
+		if ("USERNAME_IS_OK".compareTo(DBUserAPI.checkUsername(username)) == 0) {
+			DBUserAPI.insertUser(username, password, email, null);
+			return DBUserAPI.getUserId(username);
 		}
 		return "USERNAME_IS_USED";
 	}
 
-	public String verify() throws ClassNotFoundException, SQLException {
-		if (this.username == null)
+	public String verify() throws SQLException {
+		boolean res=false;
+		String match_name="^[a-z0-9_-]{3,15}$";
+		String match_pwd="((?=.*\\d)(?=.*[a-z]).{6,20})";
+		Pattern p=Pattern.compile(match_name);
+		Matcher m=p.matcher(username);
+		res=m.matches();
+		if(!res)
 			return "USERNAME_NOT_VALID";
-		if (this.password == null)
+		p=Pattern.compile(match_pwd);
+		m=p.matcher(password);
+		res=m.matches();
+		if(!res)
 			return "PASSWORD_NOT_VALID";
-		System.out.println("login username : " + this.username);
-		System.out.println(this.password);
-		return userDB.checkLogin(username, password);
+
+		return DBUserAPI.checkLogin(username, password);
 	}
 
 	/**
@@ -165,7 +173,7 @@ public class User {
 	 * @param hotRate
 	 *            the hotRate to set
 	 */
-	public void setHotRate(double hotRate) {
+	public void setHotRate(Integer hotRate) {
 		this.hotRate = hotRate;
 	}
 

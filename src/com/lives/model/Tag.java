@@ -6,16 +6,36 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Tag {
 	private String tagName;
 	private int tagId;
-	private String thumbnail;
+	private String thumbnailSmall;
+	private String thumbnailBig;
 	private int livingNumber;
-	private int tagAttention;
+	private Integer tagAttention;
 	
 	public Tag() {}
-	public Tag(int id, String name, String thumbnail, int attention) {
+	public Tag(int id, String name, String thumbnailSmall,String thumbnailBig, int attention) {
 		this.tagId = id;
 		this.tagName = name;
-		this.thumbnail = thumbnail;
+		this.thumbnailSmall = thumbnailSmall;
+		this.thumbnailBig = thumbnailBig;
 		this.livingNumber = 10;
+		this.tagAttention = attention;
+	}
+	
+
+	public Tag(int id, String name, String thumbnailSmall ,int attention) {
+		this.tagId = id;
+		this.tagName = name;
+		this.thumbnailSmall = thumbnailSmall;
+		this.livingNumber = 10;
+		this.tagAttention = attention;
+	}
+	
+	public Tag(int id, String name, int attention, int live,String thumbnailSmall,String thumbnailBig) {
+		this.tagId = id;
+		this.tagName = name;
+		this.thumbnailSmall = thumbnailSmall;
+		this.thumbnailBig = thumbnailBig;
+		this.livingNumber = live;
 		this.tagAttention = attention;
 	}
 	/**
@@ -45,13 +65,13 @@ public class Tag {
 	/**
 	 * @return the tagAttention
 	 */
-	public int getTagAttention() {
+	public Integer getTagAttention() {
 		return tagAttention;
 	}
 	/**
 	 * @param tagAttention the tagAttention to set
 	 */
-	public void setTagAttention(int tagAttention) {
+	public void setTagAttention(Integer tagAttention) {
 		this.tagAttention = tagAttention;
 	}
 	/**
@@ -69,13 +89,24 @@ public class Tag {
 	/**
 	 * @return the thumbnail
 	 */
-	public String getThumbnail() {
-		return thumbnail;
+	public String getThumbnailBig() {
+		return thumbnailBig;
 	}
 	/**
 	 * @param thumbnail the thumbnail to set
 	 */
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	public void setThumbnailBig(String thumbnail) {
+		this.thumbnailBig = thumbnail;
 	}
+	
+	public String getThumbnailSmall() {
+		return thumbnailSmall;
+	}
+	/**
+	 * @param thumbnail the thumbnail to set
+	 */
+	public void setThumbnailSmall(String thumbnail) {
+		this.thumbnailSmall = thumbnail;
+	}
+
 }

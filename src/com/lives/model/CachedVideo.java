@@ -19,12 +19,12 @@ public class CachedVideo {
 	private Date date = new Date();
 	
 	public CachedVideo() {};
-	public CachedVideo(int vid, int uid, String name, String thumbnail, long seconds) {
+	public CachedVideo(int vid, int uid, String name, Date date,String thumbnail) {
 		this.videoId = vid;
 		this.userId = uid;
 		this.videoname = name;
 		this.thumbnail = thumbnail;
-		date.setTime(seconds);
+		this.date=date;
 	}
 	/**
 	 * @return the videoId

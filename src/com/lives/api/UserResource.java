@@ -26,24 +26,14 @@ import com.lives.utils.DBUserAPI;
  */
 @Path("/user")
 public class UserResource {
-	private DBUserAPI userDB;
-
-	public UserResource() {
-		try {
-			userDB = new DBUserAPI();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	@GET
 	@Path("/{userId}")
 	@Produces("application/json")
 	public User getUser(@PathParam("userId") int userId)
-			throws ClassNotFoundException, SQLException {
+			throws SQLException {
 		System.out.println(userId);
-		return userDB.getUserById(userId);
+		return DBUserAPI.getUserById(userId);
 	}
 
 	/*

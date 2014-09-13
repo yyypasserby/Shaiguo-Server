@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import com.lives.api.helper.Result;
 import com.lives.api.helper.Error;
 import com.lives.model.User;
+import com.lives.utils.DBUserAPI;
 
 
 /**
@@ -24,13 +25,14 @@ public class AuthResource {
 	@POST
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Result authenticated(User user) throws ClassNotFoundException, SQLException {
-		String resStr;
-		String auth_token = "shaiguowanghuanyinni";
-		if(("success".compareTo(resStr = user.verify())) == 0) {
-			
-			return new Result(auth_token, new User(Integer.parseInt("1"), user.getUsername(), user.getEmail(), 0));
+
+
+	public Result authenticated(User user) throws SQLException {
+		String resStr=user.verify();
+		if(resStr.length()<=11){
+			user= DBUserAPI.getUserById(Integer.parseInt(resStr));
+				return new Result("success", user);
 		}
-		return new Result("failure", new Error(0, resStr));
+			return new Result("failure", new Error(0, resStr));
 	}
 }

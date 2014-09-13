@@ -11,60 +11,56 @@ import java.util.List;
 
 public class DBRelationAPI {
 
-	private String tablename;
-	private ResultSet  resultSet;
-	private PreparedStatement prepareState;
-	private List<Integer> list;
-	public DBRelationAPI() throws SQLException{
-		tablename = "UserRelation";
-	}
+	private static String tablename= "UserRelation";
+	private static ResultSet  resultSet;
+	private static PreparedStatement prepareState;
 	
-	public boolean insertRelation(int fromId, int toId) throws SQLException{
+	static public int insertRelation(int fromId, int toId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 		String doInsert = "insert " +tablename+ " (from_id, to_id) values ( " +fromId+ "," +toId+" )";
 		prepareState = connection.prepareStatement(doInsert);
-		return prepareState.execute();
+		return prepareState.executeUpdate();
 		}finally{
 			connection.close();
 		}
 	}
 	
-	public boolean deleteRelation(int fromId, int toId) throws SQLException{
+	static public int deleteRelation(int fromId, int toId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 		String doDelete = "delete from " +tablename+ " where from_id= " +fromId+ " and to_id= "+toId;
 		prepareState = connection.prepareStatement(doDelete);
-		return prepareState.execute();
+		return prepareState.executeUpdate();
 		}finally{
 			connection.close();
 		}
 	}
 	
-	public List<Integer> queryRelationFrom(int fromId) throws  SQLException{
-		list = new ArrayList<Integer>();
+	static public List<Integer> queryRelationFrom(int fromId) throws  SQLException{
+		List<Integer> list = new ArrayList<Integer>();
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			String doQuery = "select * from " +tablename+" where from_id= " +fromId;
+			String doQuery = "select to_id from " +tablename+" where from_id= " +fromId;
 			prepareState = connection.prepareStatement(doQuery);
 			resultSet = prepareState.executeQuery();
 			while(resultSet.next())
-				list.add(resultSet.getInt(3));
+				list.add(resultSet.getInt(1));
 			return list;
 		}finally{
 			connection.close();
 		}
 	}
 	
-	public List<Integer> queryRelationTo(int toId) throws  SQLException{
-		list = new ArrayList<Integer>();
+	static public List<Integer> queryRelationTo(int toId) throws  SQLException{
+		List<Integer> list = new ArrayList<Integer>();
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			String doQuery = "select * from " +tablename+" where to_id= " +toId;
+			String doQuery = "select from_id from " +tablename+" where to_id= " +toId;
 			prepareState = connection.prepareStatement(doQuery);
 			resultSet = prepareState.executeQuery();
 			while(resultSet.next())
-				list.add(resultSet.getInt(2));
+				list.add(resultSet.getInt(1));
 			return list;
 		}finally{
 			connection.close();
