@@ -78,4 +78,20 @@ public class DBCachedVideoAPI {
 			connection.close();
 		}
 	}
+	
+	static public String searchPreName(String key) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doSearch = "select cachedname from " +tablename+ 
+					" where cachedname like '%" +key+ "%' limit 0,1";
+			prepareState = connection.prepareStatement(doSearch);
+			resultSet = prepareState.executeQuery();
+			if(resultSet.next())
+				return resultSet.getString(1);
+			return new String();
+		}finally{
+			connection.close();
+		}
+	}
+	
 }

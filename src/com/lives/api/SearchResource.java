@@ -3,6 +3,7 @@ package com.lives.api;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -16,6 +17,7 @@ import com.lives.model.Live;
 import com.lives.model.User;
 import com.lives.utils.DBCachedVideoAPI;
 import com.lives.utils.DBUserAPI;
+import com.lives.utils.DBVideoAPI;
 
 /**
  * @author yyypasserby
@@ -23,13 +25,6 @@ import com.lives.utils.DBUserAPI;
  */
 @Path("/search")
 public class SearchResource {
-	private DBUserAPI dbUser;
-	private DBCachedVideoAPI dbCachedVideo;
-	
-	public SearchResource() throws SQLException{
-		dbUser = new DBUserAPI();
-		dbCachedVideo = new DBCachedVideoAPI();
-	}
 	
 	@GET
 	@Path("/user")
@@ -43,18 +38,18 @@ public class SearchResource {
 	@GET
 	@Path("/live")
 	@Produces("application/json")
-	public List<Live> getLivesByName(@QueryParam("content") String livename) {
-		List<Live> lives = new ArrayList<>();
-		
-		return lives;
+
+	public List<Live> getLivesByName(@QueryParam("content") String livename) throws NumberFormatException, SQLException, ParseException {
+		if(livename == "null" || livename == null) return new ArrayList<Live>();
+		return DBVideoAPI.searchVideoByName(livename);
 	}
 	
 	@GET
 	@Path("/cached")
 	@Produces("application/json")
 	public List<CachedVideo> getCachedByName(@QueryParam("content") String cachedname) throws NumberFormatException, SQLException, ParseException {
-		if(cachedname == "" || cachedname == null) return null;
-		return dbCachedVideo.searchCachedVideoByName(cachedname);
+		if(cachedname == "" || cachedname == null) return new ArrayList<CachedVideo>();
+		return DBCachedVideoAPI.searchCachedVideoByName(cachedname);
 	}
 	
 	@GET
@@ -68,11 +63,11 @@ public class SearchResource {
 	@GET
 	@Path("/pre")
 	@Produces("application/json")
-	public List<PreSearchResult> getPreSearchResult(@QueryParam("key") String key) {
-		List<PreSearchResult> resultList = new ArrayList<>();
-		resultList.add(new PreSearchResult(0, "hehe"));
-		resultList.add(new PreSearchResult(1, "haha"));
-		resultList.add(new PreSearchResult(2, "laladasd"));
-		return resultList;
+	public List<PreSearchResult> getPreSearchResult(@QueryParam("content") String key) throws NumberFormatException, SQLException, ParseException {
+		List<PreSearchResult> preList = new  ArrayList<PreSearchResult>();
+			preList.add(new PreSearchResult(0,DBUserAPI.searchPreName(key)));
+			preList.add(new PreSearchResult(1,DBVideoAPI.searchPreName(key)));
+			preList.add(new PreSearchResult(2,DBCachedVideoAPI.searchPreName(key)));
+		return preList;
 	}
 }

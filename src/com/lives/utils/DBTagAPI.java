@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +98,22 @@ public class DBTagAPI {
 		}
 	}
 	
+	static public String searchPreName(String key) throws NumberFormatException, SQLException, ParseException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doSearch = "select tagName from " +tablename+ 
+					" where tagName like '%" +key+ "%'";
+			prepareState = connection.prepareStatement(doSearch);
+			resultSet = prepareState.executeQuery();
+			if(resultSet.next())
+				return resultSet.getString(1);
+			return new String();
+		}finally{
+			connection.close();
+		}
+	}
+	
+	
 	static public Tag getTagByName(String tagName) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
@@ -138,4 +155,5 @@ public class DBTagAPI {
 			connection.close();
 		}
 	}
+	
 }

@@ -12,6 +12,7 @@ public class Tag {
 	private int livingNumber;
 	private Integer tagAttention;
 	
+	
 	public Tag() {}
 	public Tag(int id, String name, String thumbnailSmall,String thumbnailBig, int attention) {
 		this.tagId = id;

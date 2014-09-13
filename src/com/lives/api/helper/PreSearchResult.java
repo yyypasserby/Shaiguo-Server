@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement
-public class PreSearchResult {
+public class PreSearchResult implements Comparable<PreSearchResult>{
 	private int searchType;
 	private String searchResult;
 	
@@ -48,5 +48,17 @@ public class PreSearchResult {
 	 */
 	public void setSearchResult(String searchResult) {
 		this.searchResult = searchResult;
+	}
+
+	@Override
+	public int compareTo(PreSearchResult pre) {
+		// TODO Auto-generated method stub
+		if(this.getSearchResult().compareTo(pre.getSearchResult())==0)
+			pre.setEmpty();
+		return 1;
+	}
+	
+	public void setEmpty() {
+		this.searchResult="";
 	}
 }

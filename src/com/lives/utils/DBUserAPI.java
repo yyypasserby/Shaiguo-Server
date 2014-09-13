@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.lives.model.Tag;
 import com.lives.model.User;
 
 public class DBUserAPI {
@@ -113,7 +111,7 @@ public class DBUserAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			if("USERNAME_IS_OK" == checkUsername(username)) return "USERNAME_NOT_MATCHED";
-			String doCheck = "select id from " + tablename +" where username = '" + username+ "' and password = '"+password+ "'";
+			String doCheck = "select id from " + tablename +" where username = '" + username+ "' and password = '"+password+ "' ";
 
 			prepareState = connection.prepareStatement(doCheck);
 			resultSet = prepareState.executeQuery();
@@ -180,6 +178,22 @@ public class DBUserAPI {
 			connection.close();
 		}
 	}
+	
+	static public String searchPreName(String key) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doSearch = "select username from " +tablename+ 
+					" where username like '%" +key+ "%' limit 0,1";
+			prepareState = connection.prepareStatement(doSearch);
+			resultSet = prepareState.executeQuery();
+			if(resultSet.next())
+				return resultSet.getString(1);
+			return new String();
+		}finally{
+			connection.close();
+		}
+	}
+	
 	
 	static public List<User> sortUsers() throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();

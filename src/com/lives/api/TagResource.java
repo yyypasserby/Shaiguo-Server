@@ -32,5 +32,5 @@ public class TagResource {
 //		tags.add(new Tag(2, "体育", "sports.png", 300));
 //		tags.add(new Tag(3, "游戏", "games.png", 400));
 		return DBTagAPI.allTags();
-	}
+    }
 }
