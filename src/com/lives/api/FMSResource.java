@@ -13,7 +13,13 @@ import javax.ws.rs.QueryParam;
 public class FMSResource {
 	@GET
 	@Produces("application/json")
-	public String streamChange(@QueryParam("streamname") String name,@QueryParam("status") int status) {
-		return "{\"hello\" : \"hi\"}";
+	public String streamChange(@QueryParam("streamname") String name,@QueryParam("status") int status) 
+	{
+		/*
+		 * status
+		 * 0------stop
+		 * 1------play
+		 */
+		return "{\"Stream:\" "+name+" \"status\": "+status+"}";
 	}
 }
