@@ -21,7 +21,7 @@ public class User {
 	private int attention;
 	private int userRole;
 	private int castTagId;
-
+	private double remainUps;
 	private List<Integer> tagList = new ArrayList<>();
 	private String tags;
 	private double hotRate;
@@ -51,6 +51,7 @@ public class User {
 		this.email = email;
 		this.hotRate = 100;
 		this.status = 3;
+		this.remainUps = 0;
 		this.extraVideoId = 0;
 	}
 
@@ -63,6 +64,7 @@ public class User {
 		this.hotRate = hotRate;
 		this.status = status;
 		this.tags = tags;
+		this.remainUps = 0;
 		this.getTagList().add(0);
 		this.getTagList().add(1);
 		if (status == 3)
@@ -273,5 +275,19 @@ public class User {
 	 */
 	public void setAttention(int attention) {
 		this.attention = attention;
+	}
+
+	/**
+	 * @return the remainUps
+	 */
+	public double getRemainUps() {
+		return remainUps;
+	}
+
+	/**
+	 * @param remainUps the remainUps to set
+	 */
+	public void setRemainUps(double remainUps) {
+		this.remainUps = remainUps;
 	}
 }
