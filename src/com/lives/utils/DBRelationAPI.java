@@ -52,6 +52,20 @@ public class DBRelationAPI {
 		}
 	}
 	
+	static public boolean checkRelation(int fromId,int toId) throws  SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "select to_id from " +tablename+" where from_id= " +fromId+ " and to_id=" +toId;
+			prepareState = connection.prepareStatement(doQuery);
+			resultSet = prepareState.executeQuery();
+			if(resultSet.next())
+				return true;  //it exits 
+			return false;	  
+		}finally{
+			connection.close();
+		}
+	}
+	
 	static public List<Integer> queryRelationTo(int toId) throws  SQLException{
 		List<Integer> list = new ArrayList<Integer>();
 		Connection connection = DBPool.getInstance().getConnection();

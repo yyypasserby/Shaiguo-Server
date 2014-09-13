@@ -107,6 +107,41 @@ public class DBVideoAPI {
 		}
 	}
 	
+	static public List<Live> searchVideoByTag(int tag) throws NumberFormatException, SQLException, ParseException{
+		Connection connection = DBPool.getInstance().getConnection();
+		List<Live> videolist = new ArrayList<Live>(); 
+		try{
+			String doSearch = "select * from " +tablename+ 
+					" where tags = " +tag;
+			prepareState = connection.prepareStatement(doSearch);
+			resultSet = prepareState.executeQuery();
+			while(resultSet.next())
+			{	
+				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
+						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
+						resultSet.getInt(7),sdf.parse(resultSet.getString(8)),resultSet.getString(9)));
+			}
+			return videolist;
+		}finally{
+			connection.close();
+		}
+	}
+	
+	static public String searchPreName(String key) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doSearch = "select name from " +tablename+ 
+					" where name like '%" +key+ "%'";
+			prepareState = connection.prepareStatement(doSearch);
+			resultSet = prepareState.executeQuery();
+			if(resultSet.next())
+				return resultSet.getString(1);
+			return new String();
+		}finally{
+			connection.close();
+		}
+	}
+	
 	static public List<Live> sortVideo() throws NumberFormatException, SQLException, ParseException{
 		Connection connection = DBPool.getInstance().getConnection();
 		List<Live> videolist = new ArrayList<Live>(); 

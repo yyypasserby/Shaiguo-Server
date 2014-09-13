@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.lives.model.UserAction;
 
 public class DBUserActionAPI {
@@ -16,7 +19,7 @@ public class DBUserActionAPI {
 	static public int insertAction(int userId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			if(getActionByUserId(userId)!=null) return -1; 
+			if(getActionByUserId(userId).size()>0) return -1; 
 			String doInsert = "insert into " +tablename+ " (userId,vid,type) values (" +userId+ ",0,0)";
 			prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
@@ -28,7 +31,7 @@ public class DBUserActionAPI {
 	static public int insertAction(int userId,int vid,int type) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			if(getActionByUserId(userId)!=null) return -1; 
+			if(getActionByUserId(userId).size()>0) return -1; 
 			String doInsert = "insert into " +tablename+ " (userId,vid,type) values (" +userId+ ","+vid+","+type+")";
 			prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
@@ -48,15 +51,31 @@ public class DBUserActionAPI {
 		}
 	}
 	
-	static public UserAction getActionByUserId(int userId) throws SQLException{
+	static public List<UserAction> getActionByUserId(int userId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		List<UserAction>  actions = new ArrayList<UserAction>();
 		try{
-			String doCheck = "select * from " +tablename+ " where id=" +userId;
+			String doCheck = "select * from " +tablename+ " where userId=" +userId;
 			prepareState = connection.prepareStatement(doCheck);
 			resultSet = prepareState.executeQuery();
-			if(!resultSet.next())
-				return new UserAction();
-			return new UserAction(resultSet.getInt(1),resultSet.getInt(2), resultSet.getInt(3),resultSet.getInt(4));
+			while(resultSet.next())
+				actions.add(new UserAction(resultSet.getInt(1),resultSet.getInt(2), resultSet.getInt(3),resultSet.getInt(4)));
+			return actions;
+		}finally{
+			connection.close();
+		}
+	}
+	
+	static public List<Integer> getActionIdByUserId(int userId) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		List<Integer>  actionIds = new ArrayList<Integer>();
+		try{
+			String doCheck = "select id from " +tablename+ " where userId=" +userId;
+			prepareState = connection.prepareStatement(doCheck);
+			resultSet = prepareState.executeQuery();
+			while(resultSet.next())
+				actionIds.add(resultSet.getInt(1));
+			return actionIds;
 		}finally{
 			connection.close();
 		}

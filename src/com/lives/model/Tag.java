@@ -10,7 +10,14 @@ public class Tag {
 	private String thumbnailBig;
 	private int livingNumber;
 	private Integer tagAttention;
+	private String tagNameEng;
 	
+	public String getTagNameEng() {
+		return tagNameEng;
+	}
+	public void setTagNameEng(String tagNameEng) {
+		this.tagNameEng = tagNameEng;
+	}
 	public Tag() {}
 	public Tag(int id, String name, String thumbnailSmall,String thumbnailBig, int attention) {
 		this.tagId = id;

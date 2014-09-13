@@ -118,10 +118,6 @@ public class User {
 		this.tags = tags;
 	}
 
-	public void setHotRate(double hotRate) {
-		this.hotRate = hotRate;
-	}
-
 	/**
 	 * @param username
 	 *            the username to set

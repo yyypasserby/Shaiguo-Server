@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.lives.model.Tag;
 import com.lives.model.User;
 
 public class DBUserAPI {
@@ -180,6 +178,22 @@ public class DBUserAPI {
 			connection.close();
 		}
 	}
+	
+	static public String searchPreName(String key) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doSearch = "select username from " +tablename+ 
+					" where username like '%" +key+ "%'";
+			prepareState = connection.prepareStatement(doSearch);
+			resultSet = prepareState.executeQuery();
+			if(resultSet.next())
+				return resultSet.getString(1);
+			return new String();
+		}finally{
+			connection.close();
+		}
+	}
+	
 	
 	static public List<User> sortUsers() throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
