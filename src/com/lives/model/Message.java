@@ -3,37 +3,54 @@
  */
 package com.lives.model;
 
+import java.util.Date;
+
 /**
  * @author yyypasserby
  *
  */
 public class Message {
-	private String username;
+
+	private int actionId;
+	private int userId;
+	private int vid;
+	private int type;
 	private String heading;
+	private String content;
 	private String thumbnail;
 	private String castTime;
-	private String status;
+	private String username;
 	
-	public Message(String name, String heading, String thumbnail, String time, String status) {
-		this.username = name;
-		this.heading = heading;
-		this.thumbnail = thumbnail;
-		this.castTime = time;
-		this.status = status;
-	}
-	
-	/**
-	 * @return the username
-	 */
+
 	public String getUsername() {
 		return username;
 	}
-	/**
-	 * @param username the username to set
-	 */
+
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+
+	public Message(String name, String heading, String thumbnail, String time, String status) {
+		this.heading = heading;
+		this.thumbnail = thumbnail;
+	}
+	
+
+	public Message(int aid, int uid,int vid, int type,String heading, String content,String thumbnail, String time,String username) {
+		this.actionId=aid;
+		this.userId=uid;
+		this.vid=vid;
+		this.type=type;
+		this.heading=heading;
+		this.content =content;
+		this.thumbnail = thumbnail;
+		this.castTime=time;
+		this.username=username;
+	}
+	
+	
 	/**
 	 * @return the heading
 	 */
@@ -58,28 +75,52 @@ public class Message {
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
 	}
-	/**
-	 * @return the castTime
-	 */
+
+	public int getActionId() {
+		return actionId;
+	}
+
+	public void setActionId(int actionId) {
+		this.actionId = actionId;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public int getVid() {
+		return vid;
+	}
+
+	public void setVid(int vid) {
+		this.vid = vid;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public String getCastTime() {
 		return castTime;
 	}
-	/**
-	 * @param castTime the castTime to set
-	 */
+
 	public void setCastTime(String castTime) {
 		this.castTime = castTime;
-	}
-	/**
-	 * @return the status
-	 */
-	public String getStatus() {
-		return status;
-	}
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(String status) {
-		this.status = status;
 	}
 }
