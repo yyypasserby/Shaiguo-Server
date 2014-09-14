@@ -33,7 +33,9 @@ public class DBUserAPI {
 	
 	static public int insertUser(String user_name,String pwd,String email,List<Integer> tag) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
-		String tagString = changeTagToString(tag);
+		String tagString = "";
+		if(tag != null) 
+			tagString = changeTagToString(tag);
 		try{
 		String doInsert = "insert into " + tablename + " (username,password,email,tags) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ tagString +"')";
 		prepareState = connection.prepareStatement(doInsert);
