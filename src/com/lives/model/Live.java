@@ -44,7 +44,6 @@ public class Live {
 	public Live() {}
 	
 	public Live(int id, String name, String thumbnail, String time) throws ParseException {
-		SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
 		this.liveId = id;
 		this.livename = name;
 		this.thumbnail = thumbnail;
