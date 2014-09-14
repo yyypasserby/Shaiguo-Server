@@ -70,7 +70,7 @@ public class DBCachedVideoAPI {
 			while(resultSet.next())
 			{	
 				cachedlist.add(new CachedVideo(resultSet.getInt(1),
-						resultSet.getInt(2),resultSet.getString(3),sdf.parse(resultSet.getString(4)),
+						resultSet.getInt(2),resultSet.getString(3),resultSet.getString(4),
 						resultSet.getString(5)));
 			}
 			return cachedlist;

@@ -6,10 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import com.lives.model.Message;
 
-import com.lives.model.UserAction;
-
-public class DBUserActionAPI {
+public class DBMessageAPI {
 
 	private static String tablename= "Action";
 	private static ResultSet  resultSet;
@@ -40,6 +39,7 @@ public class DBUserActionAPI {
 		}
 	}
 	
+	
 	static public int deleteAction(int actionId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
@@ -51,16 +51,17 @@ public class DBUserActionAPI {
 		}
 	}
 	
-	static public List<UserAction> getActionByUserId(int userId) throws SQLException{
+	static public List<Message> getActionByUserId(int userId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
-		List<UserAction>  actions = new ArrayList<UserAction>();
+		List<Message>  messages = new ArrayList<Message>();
 		try{
 			String doCheck = "select * from " +tablename+ " where userId=" +userId;
 			prepareState = connection.prepareStatement(doCheck);
 			resultSet = prepareState.executeQuery();
 			while(resultSet.next())
-				actions.add(new UserAction(resultSet.getInt(1),resultSet.getInt(2), resultSet.getInt(3),resultSet.getInt(4)));
-			return actions;
+				messages.add(new Message(resultSet.getInt(1),resultSet.getInt(2), resultSet.getInt(3),resultSet.getInt(4),
+						resultSet.getString(5)));
+			return messages;
 		}finally{
 			connection.close();
 		}

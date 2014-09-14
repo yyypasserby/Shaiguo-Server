@@ -99,7 +99,7 @@ public class DBVideoAPI {
 			{	
 				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
-						resultSet.getInt(7),sdf.parse(resultSet.getString(8)),resultSet.getString(9)));
+						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9)));
 			}
 			return videolist;
 		}finally{
@@ -119,7 +119,7 @@ public class DBVideoAPI {
 			{	
 				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
-						resultSet.getInt(7),sdf.parse(resultSet.getString(8)),resultSet.getString(9)));
+						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9)));
 			}
 			return videolist;
 		}finally{
@@ -153,7 +153,7 @@ public class DBVideoAPI {
 			{	
 				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
-						resultSet.getInt(7),sdf.parse(resultSet.getString(8)),resultSet.getString(9)));
+						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9)));
 			}
 			return videolist;
 		}finally{

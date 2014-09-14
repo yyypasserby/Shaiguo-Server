@@ -1,4 +1,5 @@
 package com.lives.api;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import com.lives.model.Message;
-import com.lives.model.UserAction;
+import com.lives.utils.DBFriendActionAPI;
+import com.lives.utils.DBRelationAPI;
+import com.lives.utils.DBMessageAPI;
 
 /**
  * @author yyypasserby
@@ -21,25 +24,29 @@ import com.lives.model.UserAction;
 @Path("/action")
 public class ActionResource 
 {
-	@Path("/user")
 	@GET
+	@Path("/user/{userId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<UserAction> getUserAction(@PathParam("userId") int userId)
+	public List<Message> getUserAction(@PathParam("userId") int userId) throws SQLException
 	{
-		List<UserAction> action = new ArrayList<>();
-		action.add(new UserAction(0,1,0,0));
-		action.add(new UserAction(0,2,2,0));
-		return action;
+		List<Message> messages = new ArrayList<>();
+		messages=DBMessageAPI.getActionByUserId(userId);
+		return messages;
 	}
 	
-	@Path("/friend")
 	@GET
+	@Path("/friend/{userId}")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public List<UserAction> getUserFriendAction(@PathParam("userId") int userId)
+	public List<Message> getUserFriendAction(@PathParam("userId") int userId) throws SQLException
 	{
-		List<UserAction> action = new ArrayList<>();
-		return action;
+//		List<Integer> friends = DBRelationAPI.queryRelationFrom(userId);
+//		List<Integer> actions = new ArrayList<Integer>();
+//		for(int i=0;i<friends.size();i++)
+//			actions.addAll(DBUserActionAPI.getActionIdByUserId(friends.get(i)));
+//		List<Prediction>
+		List<Message> actions = DBFriendActionAPI.getFriendActionById(userId);
+		return actions;
 	}
 }

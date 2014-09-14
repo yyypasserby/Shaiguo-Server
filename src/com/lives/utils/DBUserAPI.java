@@ -143,6 +143,21 @@ public class DBUserAPI {
 			connection.close();
 		}
 	}
+	
+	static public String getUserNameById(int id) throws SQLException {
+		Connection connection = DBPool.getInstance().getConnection();
+		try {
+			String doCheck = "select username from " + tablename + " where id=" + id+ " limit 0,1";
+			prepareState = connection.prepareStatement(doCheck);
+			resultSet = prepareState.executeQuery();
+			if (!resultSet.next())
+				return new String();
+			return resultSet.getString(1);
+		}
+		finally{
+			connection.close();
+		}
+	}
 
 	static public String getUserId(String username) throws SQLException {
 		Connection connection = DBPool.getInstance().getConnection();

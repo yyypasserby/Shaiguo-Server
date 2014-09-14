@@ -16,15 +16,15 @@ public class CachedVideo {
 	private String videoname;
 	private String thumbnail;
 	private String location;
-	private Date date = new Date();
+	private String duration;
 	
 	public CachedVideo() {};
-	public CachedVideo(int vid, int uid, String name, Date date,String thumbnail) {
+	public CachedVideo(int vid, int uid, String name, String duration,String thumbnail) {
 		this.videoId = vid;
 		this.userId = uid;
 		this.videoname = name;
 		this.thumbnail = thumbnail;
-		this.date=date;
+		this.duration=duration;
 	}
 	/**
 	 * @return the videoId
@@ -62,17 +62,11 @@ public class CachedVideo {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	/**
-	 * @return the Date
-	 */
-	public Date getDuration() {
-		return date;
+	public String getDuration() {
+		return duration;
 	}
-	/**
-	 * @param Date the Date to set
-	 */
-	public void setDuration(Date Date) {
-		this.date = Date;
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 	/**
 	 * @return the videoname

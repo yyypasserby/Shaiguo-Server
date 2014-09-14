@@ -18,7 +18,7 @@ public class Live {
 	private int liveId;
 	private String livename;
 	private String thumbnail;
-	private Date timeToCast;
+	private String timeToCast;
 	private int attention;
 	private int rating;
 	private int tag;
@@ -29,7 +29,7 @@ public class Live {
 	
 	
 
-	public Live(int liveId,int tag,int userId,int isRecommend, String location,String livename,int rating,Date timeToCast,String thumbnail){
+	public Live(int liveId,int tag,int userId,int isRecommend, String location,String livename,int rating,String timeToCast,String thumbnail){
 		this.liveId = liveId;
 		this.tag = tag;
 		this.userId = userId;
@@ -48,7 +48,7 @@ public class Live {
 		this.liveId = id;
 		this.livename = name;
 		this.thumbnail = thumbnail;
-		this.timeToCast = sdf.parse(time);
+		this.timeToCast =time;
 		this.attention = 1000;
 		this.rating = 100;
 	}
@@ -109,13 +109,13 @@ public class Live {
 	/**
 	 * @return the timeToCast
 	 */
-	public Date getTimeToCast() {
+	public String getTimeToCast() {
 		return timeToCast;
 	}
 	/**
 	 * @param timeToCast the timeToCast to set
 	 */
-	public void setTimeToCast(Date timeToCast) {
+	public void setTimeToCast(String timeToCast) {
 		this.timeToCast = timeToCast;
 	}
 
