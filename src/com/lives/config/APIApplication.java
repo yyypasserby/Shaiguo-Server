@@ -7,6 +7,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 import com.lives.api.AuthResource;
+import com.lives.api.FMSResource;
 import com.lives.api.FriendResource;
 import com.lives.api.Hello;
 import com.lives.api.HotResource;
@@ -37,5 +38,6 @@ public class APIApplication extends ResourceConfig {
 		register(TagResource.class);
 		register(SubscribeResource.class);
 		register(HotResource.class);
+		register(FMSResource.class);
 	}
 }

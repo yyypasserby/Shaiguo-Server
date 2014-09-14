@@ -10,7 +10,7 @@ import com.lives.model.User;
 
 public class DBUserAPI {
 
-	private static String tablename="User";;
+	private static String tablename="User";
 	private static ResultSet resultSet;
 	private static PreparedStatement prepareState;
 
