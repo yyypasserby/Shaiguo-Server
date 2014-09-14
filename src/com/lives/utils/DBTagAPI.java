@@ -64,7 +64,7 @@ public class DBTagAPI {
 	static public int updateTagAttention(int tagId, int tagAttention) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			String doCheck = "update " +tablename+ " set tagAttention=" +tagAttention+ " where tagId=" +tagId;
+			String doCheck = "update " +tablename+ " set tagAttention=" +tagAttention+ " where id=" +tagId;
 			prepareState = connection.prepareStatement(doCheck);
 			return prepareState.executeUpdate();
 		}finally{
@@ -76,7 +76,7 @@ public class DBTagAPI {
 	static public int updateTagLiveNumber(int tagId, int liveNumber) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			String doCheck = "update " +tablename+ " set liveNumber=" +liveNumber+ " where tagId=" +tagId;
+			String doCheck = "update " +tablename+ " set liveNumber=" +liveNumber+ " where id=" +tagId;
 			prepareState = connection.prepareStatement(doCheck);
 			return prepareState.executeUpdate();
 		}finally{

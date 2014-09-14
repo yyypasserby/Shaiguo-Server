@@ -9,6 +9,9 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <listener>
+  <listener-class>com.lives.listener.TimerListener</listener-class>
+  </listener>
   <filter>
     <filter-name>CrossFilter</filter-name>
     <filter-class>com.lives.filter.CrossFilter</filter-class>

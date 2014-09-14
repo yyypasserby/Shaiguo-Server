@@ -31,8 +31,7 @@ public class DBFriendActionAPI {
 			resultSet= prepareState.executeQuery();
 			while(resultSet.next())
 				messages.add(new Message(resultSet.getInt(4),resultSet.getInt(5),resultSet.getInt(6),resultSet.getInt(7),
-						resultSet.getString(8),resultSet.getString(9),resultSet.getString(10),resultSet.getString(11),
-						DBUserAPI.getUserNameById(resultSet.getInt(3))));
+						resultSet.getString(8)));
 			return messages;				
 		}finally{
 			connection.close();

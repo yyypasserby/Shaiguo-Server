@@ -60,8 +60,7 @@ public class DBMessageAPI {
 			resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 				messages.add(new Message(resultSet.getInt(1),resultSet.getInt(2), resultSet.getInt(3),resultSet.getInt(4),
-						resultSet.getString(5),resultSet.getString(6),resultSet.getString(7),resultSet.getString(8),
-						DBUserAPI.getUserNameById(userId)));
+						resultSet.getString(5)));
 			return messages;
 		}finally{
 			connection.close();
