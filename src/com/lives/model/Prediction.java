@@ -9,27 +9,42 @@ public class Prediction {
 	private String heading;
 	private String content;
 	private String thumbnail;
-	private Date sendtime;
+	private String sendtime;
+	private String casttime;
 	
+
 	public Prediction(){}
 	
 
-	public Prediction(int predictionId,int actionId,String heading,String content,String thumbnail,Date sendtime){
+	public Prediction(int predictionId,int actionId,String heading,String content,String thumbnail,String sendtime,String casttime){
 		this.preId = predictionId;
 		this.actionId = actionId;
 		this.heading = heading;
 		this.content = content;
 		this.thumbnail = thumbnail;
 		this.sendtime = sendtime;
+		this.casttime=casttime;
 	}
 	
-	public Date getSendtime() {
-		return sendtime;
+	
+
+	public String getCasttime() {
+		return casttime;
 	}
-	public void setSendtime(Date sendtime) {
+
+
+	public void setCasttime(String casttime) {
+		this.casttime = casttime;
+	}
+
+
+	public void setSendtime(String sendtime) {
 		this.sendtime = sendtime;
 	}
-	
+
+	public String getSendtime() {
+		return sendtime;
+	}
 	public int getPreId() {
 		return preId;
 	}

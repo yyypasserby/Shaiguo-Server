@@ -3,7 +3,6 @@
  */
 package com.lives.model;
 
-import java.util.Date;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

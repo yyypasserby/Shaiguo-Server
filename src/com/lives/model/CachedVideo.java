@@ -3,8 +3,6 @@
  */
 package com.lives.model;
 
-import java.util.Date;
-
 
 /**
  * @author yyypasserby

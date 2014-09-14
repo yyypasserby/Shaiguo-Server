@@ -81,7 +81,7 @@ public class User {
 		if(!res)
 			return "PASSWORD_NOT_VALID";
 		if ("USERNAME_IS_OK".compareTo(DBUserAPI.checkUsername(username)) == 0) {
-			DBUserAPI.insertUser(username, password, email, null);
+			DBUserAPI.insertUser(username, password, email, "");
 			return DBUserAPI.getUserId(username);
 		}
 		return "USERNAME_IS_USED";

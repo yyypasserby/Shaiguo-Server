@@ -22,20 +22,19 @@ public class DBUserAPI {
 		return a;
 	}
 	
-	static public List<Integer> changeTagToList(String tag){
+	static public List<String> changeTagToList(String tag){
 		String[] arr = tag.split(",");
-		List<Integer> list2=new ArrayList<Integer>();
+		List<String> list2=new ArrayList<>();
 		for(int i=0;i<arr.length;i++){
-			list2.add(Integer.parseInt(arr[i]));
+			list2.add(arr[i]);
 		}
 		return list2;
 	}
 	
-	static public int insertUser(String user_name,String pwd,String email,List<Integer> tag) throws SQLException{
+	static public int insertUser(String user_name,String pwd,String email,String tag) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
-		String tagString = changeTagToString(tag);
 		try{
-		String doInsert = "insert into " + tablename + " (username,password,email,tags) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ tagString +"')";
+		String doInsert = "insert into " + tablename + " (username,password,email,tags) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ tag+"')";
 		prepareState = connection.prepareStatement(doInsert);
 		return prepareState.executeUpdate();
 		}
@@ -72,13 +71,12 @@ public class DBUserAPI {
 		}
 	}
 	
-	static public int updateUser(int userid,String username,String password,String email, List<Integer> tag) throws SQLException{
+	static public int updateUser(int userid,String username,String password,String email, String tag) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
-		String tagString = changeTagToString(tag);
 		try {
 			String doUpdate = "update " + tablename + " SET username='"
 					+ username + "', password='" + password + "', email ='"
-					+ email + "', tags ='" + tagString + "'  where id='" + userid
+					+ email + "', tags ='" + tag + "'  where id='" + userid
 					+ "'";
 			prepareState = connection.prepareStatement(doUpdate);
 			return prepareState.executeUpdate();
@@ -87,14 +85,13 @@ public class DBUserAPI {
 		}
 	}
 	
-	static public int updateUser(int userid,String username,String password,String email, List<Integer> tag,int hotrate, int role,int status ,String extraVideo) throws SQLException{
+	static public int updateUser(int userid,String username,String password,String email,String tag,int hotrate, int role,int status ,String extraVideo) throws SQLException{
 
 		Connection connection = DBPool.getInstance().getConnection();
-		String tagString = changeTagToString(tag);
 		try {
 			String doUpdate = "update " + tablename + " SET username='"
 					+ username + "', password='" + password + "', email ='"
-					+ email + "', tags ='" + tagString + "', hotrate ='" + hotrate
+					+ email + "', tags ='" + tag + "', hotrate ='" + hotrate
 					+ "', role ='" + role + "', status ='" + status
 					+ "', extravideo ='" + extraVideo + "'  where id='"
 					+ userid + "'";
@@ -172,6 +169,28 @@ public class DBUserAPI {
 			connection.close();
 		}
 	}
+	
+	static public User getUserByName(String username) throws SQLException {
+		Connection connection = DBPool.getInstance().getConnection();
+		List<User> users = new ArrayList<User>();
+		System.out.println(username);
+		try {
+			String doCheck = "select * from " + tablename
+					+ " where username ='" + username + "'";
+			prepareState = connection.prepareStatement(doCheck);
+
+			resultSet=prepareState.executeQuery();
+			if(!resultSet.next())
+				return new User();
+			return new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
+					resultSet.getInt(6),resultSet.getInt(7),
+					resultSet.getInt(8),resultSet.getString(9));
+
+		} finally {
+			connection.close();
+		}
+	}
+	
 
 	static public List<User> searchUserByName(String username) throws SQLException {
 		Connection connection = DBPool.getInstance().getConnection();
@@ -193,6 +212,8 @@ public class DBUserAPI {
 			connection.close();
 		}
 	}
+	
+	
 	
 	static public String searchPreName(String key) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
@@ -226,4 +247,20 @@ public class DBUserAPI {
 			connection.close();
 		}
 	}
+	
+	static public List<List> getUserTags() throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		List<List> taglist = new ArrayList<>();
+		try{
+			String doQuery = "select tags from User";
+			prepareState = connection.prepareStatement(doQuery);
+			resultSet = prepareState.executeQuery();
+			while(resultSet.next())
+				taglist.add(changeTagToList(resultSet.getString(1)));
+			return taglist;
+		}finally{
+			connection.close();
+		}
+	}
+	
 }

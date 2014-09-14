@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import com.lives.model.Prediction;
 
 	public class DBPredictionAPI {
@@ -15,10 +13,10 @@ import com.lives.model.Prediction;
 		private static String tablename= "Prediction";
 		private static ResultSet  resultSet;
 		private static PreparedStatement prepareState;
-		private static SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
 	
 		
-		static public int insertPrediction(int actionId,String heading,String content,String thumbnail,Date sendtime) throws SQLException{
+		static public int insertPrediction(int actionId,String heading,String content
+				,String thumbnail,String sendtime,String casttime) throws SQLException{
 			Connection connection = DBPool.getInstance().getConnection();
 			try{
 				String doInsert = "replace into " +tablename+ " (actionId,heading,content,thumbnail,sendtime)"
@@ -26,7 +24,8 @@ import com.lives.model.Prediction;
 						  "','"        +heading+
 						  "','"        +content+
 						  "','"        +thumbnail+
-						  "','"        +sdf.format(sendtime)+
+						  "','"        +sendtime+
+						  "','"		   +casttime+
 						  "')";
 				prepareState = connection.prepareStatement(doInsert);
 				return prepareState.executeUpdate();
@@ -48,17 +47,18 @@ import com.lives.model.Prediction;
 		}
 		
 		
-		static public int updatePrediction(int predictionId,int actionId,String heading,String content,String thumbnail,Date sendtime) throws SQLException{
+		static public int updatePrediction(int predictionId,int actionId,String heading,String content,
+				String thumbnail,String sendtime,String casttime) throws SQLException{
 			Connection connection = DBPool.getInstance().getConnection();
 			try{
 				String doCheck = "update " +tablename+ 
-						" set id=" +predictionId+
-						", actionId=" +actionId+
-						", heading='" +heading+
+						"set actionId=" +actionId+
+						" , heading='" +heading+
 						"', content='" +content+
 						"', thumbnail='" +thumbnail+
 						"', sendtime='" +heading+
-						" where predictionId=" +sdf.format(sendtime);
+						"', casttime='" +casttime+
+						"' where id=" +predictionId;
 				prepareState = connection.prepareStatement(doCheck);
 				return prepareState.executeUpdate();
 			}finally{
@@ -66,7 +66,7 @@ import com.lives.model.Prediction;
 			}
 		}
 		
-		static public Prediction getPredictionById(int predictionId) throws SQLException, ParseException{
+		static public Prediction getPredictionById(int predictionId) throws SQLException{
 			Connection connection = DBPool.getInstance().getConnection();
 			try{
 				String doCheck = "select * from " +tablename+ " where id=" +predictionId;
@@ -76,7 +76,7 @@ import com.lives.model.Prediction;
 					return new Prediction();
 				return new Prediction(resultSet.getInt(1),resultSet.getInt(2),
 						resultSet.getString(3),resultSet.getString(4),
-						resultSet.getString(5),sdf.parse(resultSet.getString(6)));
+						resultSet.getString(5),resultSet.getString(6),resultSet.getString(7));
 			}finally{
 				connection.close();
 			}
@@ -93,7 +93,7 @@ import com.lives.model.Prediction;
 					return new Prediction();
 				return new Prediction(resultSet.getInt(1),resultSet.getInt(2),
 						resultSet.getString(3),resultSet.getString(4),
-						resultSet.getString(5),sdf.parse(resultSet.getString(6)));
+						resultSet.getString(5),resultSet.getString(6),resultSet.getString(7));
 			}finally{
 				connection.close();
 			}
