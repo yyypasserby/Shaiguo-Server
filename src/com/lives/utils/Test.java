@@ -7,7 +7,7 @@ public class Test {
 
 	public static void main(String[] args) throws NumberFormatException, SQLException, ParseException 
 	{
-		System.out.println(DBStreamStatusAPI.Change_User_Status("carlos",1));
+		System.out.println(DBStreamStatusAPI.Change_User_Status("clos",0));
 
 	}
 
