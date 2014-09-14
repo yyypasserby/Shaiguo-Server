@@ -17,7 +17,7 @@ public class Message {
 	private int userId;
 	private int vid;
 	private int type;
-	private String castTime;
+	private String time;
 	
 	public Message() {}
 
@@ -26,7 +26,7 @@ public class Message {
 		this.userId=uid;
 		this.vid=vid;
 		this.type=type;
-		this.castTime=time;
+		this.time=time;
 	}
 	
 	
@@ -64,11 +64,11 @@ public class Message {
 	}
 
 
-	public String getCastTime() {
-		return castTime;
+	public String gettime() {
+		return time;
 	}
 
-	public void setCastTime(String castTime) {
-		this.castTime = castTime;
+	public void settime(String time) {
+		this.time = time;
 	}
 }

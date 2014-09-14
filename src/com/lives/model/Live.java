@@ -29,7 +29,8 @@ public class Live {
 	
 	
 
-	public Live(int liveId,int tag,int userId,int isRecommend, String location,String livename,int rating,String timeToCast,String thumbnail){
+	public Live(int liveId,int tag,int userId,int isRecommend, String location,
+			String livename,int rating,String timeToCast,String thumbnail){
 		this.liveId = liveId;
 		this.tag = tag;
 		this.userId = userId;
@@ -44,7 +45,6 @@ public class Live {
 	public Live() {}
 	
 	public Live(int id, String name, String thumbnail, String time) throws ParseException {
-		SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
 		this.liveId = id;
 		this.livename = name;
 		this.thumbnail = thumbnail;

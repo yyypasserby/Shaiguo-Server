@@ -33,6 +33,8 @@ public class DBUserAPI {
 	
 	static public int insertUser(String user_name,String pwd,String email,String tag) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		if(tag == null) 
+			tag="";
 		try{
 		String doInsert = "insert into " + tablename + " (username,password,email,tags) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ tag+"')";
 		prepareState = connection.prepareStatement(doInsert);
@@ -78,6 +80,17 @@ public class DBUserAPI {
 					+ username + "', password='" + password + "', email ='"
 					+ email + "', tags ='" + tag + "'  where id='" + userid
 					+ "'";
+			prepareState = connection.prepareStatement(doUpdate);
+			return prepareState.executeUpdate();
+		} finally{
+			connection.close();
+		}
+	}
+	
+	static public int updateUserTags(int userId,String tags) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try {
+			String doUpdate = "update " + tablename + " SET tags ='" +tags+ "' where id="+userId;
 			prepareState = connection.prepareStatement(doUpdate);
 			return prepareState.executeUpdate();
 		} finally{

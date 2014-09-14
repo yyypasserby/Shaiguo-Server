@@ -56,7 +56,6 @@ public class ActionResource
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Result receiveAction(Message action) {
-		System.out.println(action.getCastTime());
 		System.out.println(action.getUserId());
 		System.out.println(action.getVid());
 		System.out.println(action.getType());

@@ -160,4 +160,20 @@ public class DBVideoAPI {
 			connection.close();
 		}
 	}
+	
+	static public Live getVideoById(int vid) throws NumberFormatException, SQLException, ParseException{
+		Connection connection = DBPool.getInstance().getConnection(); 
+		try{
+			String doSearch = "select * from " +tablename+ " where id="+vid+" limit 0,1";
+			prepareState = connection.prepareStatement(doSearch);
+			resultSet = prepareState.executeQuery();
+			if(resultSet.next())
+			return (new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
+					resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
+					resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9)));
+			return (new Live());
+		}finally{
+			connection.close();
+		}
+	}
 }
