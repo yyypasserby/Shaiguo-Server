@@ -13,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import com.lives.api.helper.Error;
 import com.lives.api.helper.Result;
@@ -68,5 +69,14 @@ public class UserResource {
 
 		user.setUserId(Integer.parseInt(result));
 		return new Result("success", user);
+	}
+	
+	@POST
+	@Path("/modifyTags")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Result modifyTags(@QueryParam("userId") int userId, @QueryParam("tags") String tags) {
+		System.out.println(userId + " " + tags);
+		return new Result("success");
 	}
 }
