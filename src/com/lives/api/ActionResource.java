@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import com.lives.api.helper.Result;
 import com.lives.model.Message;
 import com.lives.utils.DBFriendActionAPI;
 import com.lives.utils.DBRelationAPI;
@@ -48,5 +49,17 @@ public class ActionResource
 //		List<Prediction>
 		List<Message> actions = DBFriendActionAPI.getFriendActionById(userId);
 		return actions;
+	}
+	
+	@POST
+	@Path("/receive")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Result receiveAction(Message action) {
+		System.out.println(action.getCastTime());
+		System.out.println(action.getUserId());
+		System.out.println(action.getVid());
+		System.out.println(action.getType());
+		return new Result("success");
 	}
 }

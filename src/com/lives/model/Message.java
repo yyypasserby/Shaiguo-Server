@@ -5,10 +5,13 @@ package com.lives.model;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author yyypasserby
  *
  */
+@XmlRootElement
 public class Message {
 
 	private int actionId;
@@ -17,7 +20,7 @@ public class Message {
 	private int type;
 	private String castTime;
 	
-
+	public Message() {}
 
 	public Message(int aid, int uid,int vid, int type, String time) {
 		this.actionId=aid;
