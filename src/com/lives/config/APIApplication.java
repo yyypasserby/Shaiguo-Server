@@ -19,6 +19,7 @@ import com.lives.api.SearchResource;
 import com.lives.api.SubscribeResource;
 import com.lives.api.TagResource;
 import com.lives.api.UserResource;
+import com.lives.api.VideoResource;
 import com.lives.filter.SessionIdTokenFilter;
 
 import org.codehaus.jackson.jaxrs.*;;
@@ -43,5 +44,6 @@ public class APIApplication extends ResourceConfig {
 		register(FMSResource.class);
 		register(ActionResource.class);
 		register(CastResource.class);
+		register(VideoResource.class);
 	}
 }

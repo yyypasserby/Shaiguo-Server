@@ -77,11 +77,12 @@ public class UserResource {
 		return new Result("success", user);
 	}
 	
-	@POST
+	@GET
 	@Path("/modifyTags")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Result modifyTags(@QueryParam("userId") int userId, @QueryParam("tags") String tags) throws SQLException {
+		System.out.println("userId : " + userId + " tags : " + tags);
 		if(DBUserAPI.updateUserTags(userId, tags)>0)
 		return new Result("success");
 		return new Result("failed",new Error(0,"change tags failed"));
