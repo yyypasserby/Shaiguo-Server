@@ -5,28 +5,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.lives.model.CachedVideo;
 
 public class DBCachedVideoAPI {
 	private static String tablename="CachedVideo";;
-	private static ResultSet  resultSet;
-	private static PreparedStatement prepareState;
-	private static SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
 
-	static public int insertCachedVideo(int userId, String location,Date duration,String name) throws SQLException{
+	static public int insertCachedVideo(int userId, String location,String duration,String name) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doInsert = "insert " +tablename+ 
 					" (userId, location, duration,cachedname) values ('" +userId+
 					"','" +location+
-					"','" +sdf.format(duration)+
+					"','" +duration+
 					"','" +name+ "')";
-			prepareState = connection.prepareStatement(doInsert);
+			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -39,7 +34,7 @@ public class DBCachedVideoAPI {
 			String doDelete = "delete from " +tablename+
 					" where userId= "  +userId+
 					" and location='" +location+ "'";
-			prepareState = connection.prepareStatement(doDelete);
+			PreparedStatement prepareState = connection.prepareStatement(doDelete);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -51,7 +46,7 @@ public class DBCachedVideoAPI {
 		try{
 			String doDelete = "delete from " +tablename+
 					" where id= "  +cachedId;
-			prepareState = connection.prepareStatement(doDelete);
+			PreparedStatement prepareState = connection.prepareStatement(doDelete);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -65,8 +60,8 @@ public class DBCachedVideoAPI {
 		try{
 			String doSearch = "select * from " +tablename+ 
 					" where cachedname like '%" +cachedname+ "%'";
-			prepareState = connection.prepareStatement(doSearch);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			 ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 			{	
 				cachedlist.add(new CachedVideo(resultSet.getInt(1),
@@ -84,8 +79,8 @@ public class DBCachedVideoAPI {
 		try{
 			String doSearch = "select cachedname from " +tablename+ 
 					" where cachedname like '%" +key+ "%' limit 0,1";
-			prepareState = connection.prepareStatement(doSearch);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			 ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
 				return resultSet.getString(1);
 			return new String();

@@ -14,11 +14,8 @@ import com.lives.model.Live;
 
 public class DBVideoAPI {
 	private static String tablename="Video";
-	private static ResultSet  resultSet;
-	private static PreparedStatement prepareState;
-	private static SimpleDateFormat sdf= new SimpleDateFormat("HH:mm:ss");
 	
-	static public int insertVideo(int tags,int userId, String location,String name,Date duration) throws SQLException{
+	static public int insertVideo(int tags,int userId, String location,String name,String duration) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doInsert = "insert " +tablename+ 
@@ -28,16 +25,16 @@ public class DBVideoAPI {
 					" ,'" +location+
 					"','" +name+
 					"', " +0+  //hotRate
-					" ,'" +sdf.format(duration)+
+					" ,'" +duration+
 					"')";
-			prepareState = connection.prepareStatement(doInsert);
+			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
 		}
 	}
 	
-	static public int insertVideo(int tags,int userId,int isRecommend, String location,String name,int hotRate,Date duration) throws SQLException{
+	static public int insertVideo(int tags,int userId,int isRecommend, String location,String name,int hotRate,String duration) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doInsert = "insert " +tablename+ 
@@ -47,16 +44,16 @@ public class DBVideoAPI {
 					" ,'" +location+
 					"','" +name+
 					"', " +hotRate+  //hotRate
-					" ,'" +sdf.format(duration)+
+					" ,'" +duration+
 					"')";
-			prepareState = connection.prepareStatement(doInsert);
+			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
 		}
 	}
 	
-	static public int updateVideo(int tags,int userId,int isRecommend, String location,String name,int hotRate,Date duration) throws SQLException{
+	static public int updateVideo(int tags,int userId,int isRecommend, String location,String name,int hotRate,String duration) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doInsert = "update " +tablename+ 
@@ -66,9 +63,9 @@ public class DBVideoAPI {
 					" ,'" +location+
 					"','" +name+
 					"', " +hotRate+  //hotRate
-					" ,'" +sdf.format(duration)+
+					" ,'" +duration+
 					"')";
-			prepareState = connection.prepareStatement(doInsert);
+			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -80,7 +77,7 @@ public class DBVideoAPI {
 		try{
 			String doDelete = "delete from " +tablename+
 					" where id= "  +videoId;
-			prepareState = connection.prepareStatement(doDelete);
+			PreparedStatement prepareState = connection.prepareStatement(doDelete);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -93,8 +90,8 @@ public class DBVideoAPI {
 		try{
 			String doSearch = "select * from " +tablename+ 
 					" where name like '%" +name+ "%'";
-			prepareState = connection.prepareStatement(doSearch);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 			{	
 				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
@@ -113,8 +110,8 @@ public class DBVideoAPI {
 		try{
 			String doSearch = "select * from " +tablename+ 
 					" where tags = " +tag;
-			prepareState = connection.prepareStatement(doSearch);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 			{	
 				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
@@ -132,8 +129,8 @@ public class DBVideoAPI {
 		try{
 			String doSearch = "select name from " +tablename+ 
 					" where name like '%" +key+ "%' limit 0,1";
-			prepareState = connection.prepareStatement(doSearch);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
 				return resultSet.getString(1);
 			return new String();
@@ -147,8 +144,8 @@ public class DBVideoAPI {
 		List<Live> videolist = new ArrayList<Live>(); 
 		try{
 			String doSearch = "select * from " +tablename+ " order by hotRate desc limit 0,5";
-			prepareState = connection.prepareStatement(doSearch);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 			{	
 				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
@@ -165,8 +162,8 @@ public class DBVideoAPI {
 		Connection connection = DBPool.getInstance().getConnection(); 
 		try{
 			String doSearch = "select * from " +tablename+ " where id="+vid+" limit 0,1";
-			prepareState = connection.prepareStatement(doSearch);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
 			return (new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 					resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),

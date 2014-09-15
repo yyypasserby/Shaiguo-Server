@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import com.lives.api.helper.Error;
 import com.lives.api.helper.Result;
 import com.lives.model.Message;
 import com.lives.utils.DBFriendActionAPI;
@@ -55,10 +56,13 @@ public class ActionResource
 	@Path("/receive")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Result receiveAction(Message action) {
+	public Result receiveAction(Message action) throws SQLException {
+
 		System.out.println(action.getUserId());
-		System.out.println(action.getVid());
 		System.out.println(action.getType());
-		return new Result("success");
+		System.out.println(action.gettime());
+		if(DBMessageAPI.insertAction(action.getUserId(),action.getVid(),action.getType(),action.gettime())>0)
+			return new Result("success");
+		return new Result("failed",new Error(0,"action insert failed"));		
 	}
 }

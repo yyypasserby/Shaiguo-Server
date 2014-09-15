@@ -22,22 +22,17 @@ import com.lives.utils.DBUserAPI;
  */
 @Path("/friend")
 public class FriendResource {
-	DBRelationAPI dbRelation;
-	DBUserAPI dbUser;
-	public FriendResource() throws  SQLException{
-		dbRelation = new DBRelationAPI();
-		dbUser = new DBUserAPI();
-	}
+
 	@GET
 	@Path("/{userId}")
 	@Produces("application/json")
 	public List<User> getUserFriend(@PathParam("userId") int userId) throws SQLException {
 		List<User> friends = new ArrayList<>();
-		List<Integer> friendsId = dbRelation.queryRelationFrom(userId);
+		List<Integer> friendsId = DBRelationAPI.queryRelationFrom(userId);
 		int size = friendsId.size();
 		System.out.println(size);
 		for(int i=0;i<size;i++)
-			friends.add(dbUser.getUserById(friendsId.get(i)));
+			friends.add(DBUserAPI.getUserById(friendsId.get(i)));
 		return friends;
 	}
 }

@@ -10,8 +10,6 @@ public class DBStreamStatusAPI
 {
 	private static String Usertablename="User";
 	private static String Videotablename="Video";
-	private static ResultSet resultSet;
-	private static PreparedStatement prepareState;
 	
 	static public String Change_User_Status(String name,int status) throws NumberFormatException, SQLException, ParseException
 	{
@@ -29,7 +27,7 @@ public class DBStreamStatusAPI
 				userstatus=2;
 			}
 			String sql = "UPDATE `"+Usertablename+"` INNER JOIN `"+Videotablename+"`  SET status = "+userstatus+" WHERE "+Videotablename+".userId=User.id AND "+Videotablename+".location=\""+name+"\";";
-			prepareState = connection.prepareStatement(sql);
+			PreparedStatement prepareState = connection.prepareStatement(sql);
 			res=prepareState.executeUpdate();
 			if(res>0)
 			{

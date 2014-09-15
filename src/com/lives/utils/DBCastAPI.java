@@ -17,8 +17,6 @@ public class DBCastAPI {
 	private static String secondParam=tablename2+".userId";
 	private static String condition=tablename1+".username";
 	private static String orderBy=tablename2+".time"; 
-	private static ResultSet  resultSet;
-	private static PreparedStatement prepareState;
 	
 	static public int getVidByUsername(String username) throws SQLException{
 		Connection connection=DBPool.getInstance().getConnection();
@@ -27,8 +25,8 @@ public class DBCastAPI {
 					 " where " +firstParam+ "=" +secondParam+ " and " +condition+
 					"='" +username+ "'";
 			System.out.println(doQuery);
-			prepareState = connection.prepareStatement(doQuery);
-			resultSet= prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet= prepareState.executeQuery();
 			if(!resultSet.next())
 				return 0;
 			return resultSet.getInt(1);				

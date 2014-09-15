@@ -13,8 +13,6 @@ import com.lives.model.Tag;
 public class DBTagAPI {
 
 	private static String tablename= "Tag";
-	private static ResultSet  resultSet;
-	private static PreparedStatement prepareState;
 	
 	
 	static public int insertTag(String tagName,String thumbnailSmall,String thumbnailBig) throws SQLException{
@@ -25,7 +23,7 @@ public class DBTagAPI {
 					+tagName+        "',0,'"
 					+thumbnailSmall+ "','"
 					+thumbnailBig+   "') ";
-			prepareState = connection.prepareStatement(doInsert);
+			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -42,7 +40,7 @@ public class DBTagAPI {
 					+live+		   " ,'"
 					+thumbnailBig+   "','"
 					+thumbnailSmall+ "') ";
-			prepareState = connection.prepareStatement(doInsert);
+			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -53,7 +51,7 @@ public class DBTagAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doDelete = "delete from " +tablename+ " where id=" +tagId;
-			prepareState = connection.prepareStatement(doDelete);
+			PreparedStatement prepareState = connection.prepareStatement(doDelete);
 			return prepareState.executeUpdate();
 //			return prepareState.execute();
 		}finally{
@@ -65,7 +63,7 @@ public class DBTagAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doCheck = "update " +tablename+ " set tagAttention=" +tagAttention+ " where id=" +tagId;
-			prepareState = connection.prepareStatement(doCheck);
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -77,7 +75,7 @@ public class DBTagAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doCheck = "update " +tablename+ " set liveNumber=" +liveNumber+ " where id=" +tagId;
-			prepareState = connection.prepareStatement(doCheck);
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -88,8 +86,8 @@ public class DBTagAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doCheck = "select * from " +tablename+ " where id=" +tagId;
-			prepareState = connection.prepareStatement(doCheck);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
+			ResultSet resultSet = prepareState.executeQuery();
 			if(!resultSet.next())
 				return new Tag();
 			return new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(7), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6));
@@ -103,8 +101,8 @@ public class DBTagAPI {
 		try{
 			String doSearch = "select tagName from " +tablename+ 
 					" where tagName like '%" +key+ "%'";
-			prepareState = connection.prepareStatement(doSearch);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
 				return resultSet.getString(1);
 			return new String();
@@ -118,8 +116,8 @@ public class DBTagAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doUpdate = "select * from " +tablename+ " where tagName='" +tagName+ "'";
-			prepareState = connection.prepareStatement(doUpdate);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
+			ResultSet resultSet = prepareState.executeQuery();
 			if(!resultSet.next())
 				return new Tag();
 			return new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(7), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6));
@@ -132,8 +130,8 @@ public class DBTagAPI {
 		List<Tag> taglist = new ArrayList<Tag>();
 		try{
 			String doUpdate = "select * from " +tablename+ " order by tagAttention desc limit 0,5";
-			prepareState = connection.prepareStatement(doUpdate);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 				taglist.add(new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(7), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6)));
 			return taglist;
@@ -146,8 +144,8 @@ public class DBTagAPI {
 		List<Tag> taglist = new ArrayList<Tag>();
 		try{
 			String doUpdate = "select * from " +tablename;
-			prepareState = connection.prepareStatement(doUpdate);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 				taglist.add(new Tag(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(7), resultSet.getInt(3),resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6)));
 			return taglist;
