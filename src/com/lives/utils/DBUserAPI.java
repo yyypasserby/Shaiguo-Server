@@ -276,4 +276,19 @@ public class DBUserAPI {
 		}
 	}
 	
+	static public boolean checkId(int id) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "select 1 from User where id="+id;
+			prepareState = connection.prepareStatement(doQuery);
+			resultSet = prepareState.executeQuery();
+			if(!resultSet.next())
+				return false;
+			return true;
+		}finally{
+			connection.close();
+		}
+
+	}
+	
 }

@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import com.lives.api.helper.Error;
 import com.lives.api.helper.Result;
 import com.lives.utils.DBRelationAPI;
+import com.lives.utils.DBUserAPI;
 
 /**
  * @author yyypasserby
@@ -29,8 +30,11 @@ public class SubscribeResource {
 		if(fromId == null || toId == null) return new Result("false");
 		if(DBRelationAPI.checkRelation(fromId, toId))
 			return new Result("failed",new Error(0,"it exits!"));
-		DBRelationAPI.insertRelation(fromId, toId);
-		return new Result("success");
+		if(DBUserAPI.checkId(fromId)&&DBUserAPI.checkId(toId)){
+			DBRelationAPI.insertRelation(fromId, toId);
+			return new Result("success");
+		}
+		return new Result("failed",new Error(0,"id no valid"));
 	}
 	
 	@GET

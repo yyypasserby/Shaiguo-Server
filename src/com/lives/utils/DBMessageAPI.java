@@ -27,11 +27,10 @@ public class DBMessageAPI {
 		}
 	}
 	
-	static public int insertAction(int userId,int vid,int type) throws SQLException{
+	static public int insertAction(int userId,int vid,int type,String time) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			if(getActionByUserId(userId).size()>0) return -1; 
-			String doInsert = "insert into " +tablename+ " (userId,vid,type) values (" +userId+ ","+vid+","+type+")";
+			String doInsert = "insert into " +tablename+ " (userId,vid,type,time) values (" +userId+ ","+vid+","+type+",'"+time+"')";
 			prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{

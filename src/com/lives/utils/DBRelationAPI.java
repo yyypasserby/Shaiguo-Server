@@ -18,6 +18,7 @@ public class DBRelationAPI {
 	static public int insertRelation(int fromId, int toId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
+		
 		String doInsert = "insert " +tablename+ " (from_id, to_id) values ( " +fromId+ "," +toId+" )";
 		prepareState = connection.prepareStatement(doInsert);
 		return prepareState.executeUpdate();
