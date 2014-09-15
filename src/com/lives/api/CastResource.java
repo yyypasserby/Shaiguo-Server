@@ -3,8 +3,12 @@
  */
 package com.lives.api;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import com.lives.api.helper.Result;
 import com.lives.model.Live;
 import com.lives.utils.DBCastAPI;
 import com.lives.utils.DBVideoAPI;
@@ -23,15 +28,43 @@ import com.lives.utils.DBVideoAPI;
 
 @Path("/casting")
 public class CastResource {
+
+	public static String byteArrayToHexString(byte[] b) {
+		String result = "";
+		for (int i = 0; i < b.length; i++) {
+			result += Integer.toString((b[i] & 0xff) + 0x100, 16).substring(1);
+		}
+		return result;
+	}
+
 	@GET
 	@Path("/{username}")
 	@Produces("application/json")
-	public Live getCasterByName(@PathParam("username") String username) throws SQLException, NumberFormatException, ParseException {
-		int vid=DBCastAPI.getVidByUsername(username);
+	public Live getCasterByName(@PathParam("username") String username)
+			throws SQLException, NumberFormatException, ParseException {
+		int vid = DBCastAPI.getVidByUsername(username);
 		System.out.println(vid);
-		if(vid <= 0)
+		if (vid <= 0)
 			return new Live();
 		return DBVideoAPI.getVideoById(vid);
 	}
-	
+
+	@GET
+	@Path("/apply")
+	@Produces("application/json")
+	public Result applyForCast(@QueryParam("username") String username) {
+		String encrypt = username + "shaiguo" + Calendar.DATE;
+		System.out.println(encrypt);
+		MessageDigest md = null;
+	    try {
+	        md = MessageDigest.getInstance("SHA-1");
+	    }
+	    catch(NoSuchAlgorithmException e) {
+	        e.printStackTrace();
+	    } 
+	    String hash = byteArrayToHexString(md.digest(encrypt.getBytes()));
+	    hash = hash.substring(13, 23);
+	    System.out.println(hash);
+	    return new Result(hash);
+	}
 }

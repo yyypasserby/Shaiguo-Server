@@ -67,13 +67,13 @@ public class User {
 		this.hotRate = hotRate;
 		this.userRole = role;
 		this.status = status;
-		if(thumbnail=="null")
-			this.thumbnail="default.png";
+		this.thumbnail=thumbnail;
 		this.extraVideoId=vid;
 		this.attention=attention;
 		this.castTagId=tag;
 		this.remainUps=remainUps;
 	}
+	
 	public String register() throws SQLException {
 		boolean res=false;
 		String match_pwd="((?=.*\\d)(?=.*[a-z]).{6,20})";
