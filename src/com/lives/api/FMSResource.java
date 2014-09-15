@@ -18,7 +18,7 @@ import com.lives.utils.DBStreamStatusAPI;
 public class FMSResource {
 	@GET
 	@Produces("application/json")
-	public String streamChange(@QueryParam("streamname") String name,@QueryParam("status") int status) throws NumberFormatException, SQLException, ParseException 
+	public String streamChange(@QueryParam("streamname") String name,@QueryParam("status") int status,@QueryParam("savename") String save) throws NumberFormatException, SQLException, ParseException 
 	{
 		/*
 		 * status
@@ -26,7 +26,7 @@ public class FMSResource {
 		 * 1------play
 		 */
 		//return "helllo";
-		String str=DBStreamStatusAPI.Change_User_Status(name,status);
+		String str=DBStreamStatusAPI.Change_User_Status(name,status,save);
 		return str;
 	}
 }
