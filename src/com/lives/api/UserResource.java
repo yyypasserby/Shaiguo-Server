@@ -40,8 +40,8 @@ public class UserResource {
 	@GET
 	@Path("/username/{username}")
 	@Produces("application/json")
-	public User getUserByUsername(@PathParam("username") String username) {
-		return new User();
+	public User getUserByUsername(@PathParam("username") String username) throws SQLException {
+		return  DBUserAPI.getUserByName(username);
 	}
 	/*
 	 * function: add a new user (regist)

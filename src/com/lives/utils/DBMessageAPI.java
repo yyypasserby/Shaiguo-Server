@@ -11,16 +11,13 @@ import com.lives.model.Message;
 public class DBMessageAPI {
 
 	private static String tablename= "Action";
-	private static ResultSet  resultSet;
-	private static PreparedStatement prepareState;
-	
 	
 	static public int insertAction(int userId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			if(getActionByUserId(userId).size()>0) return -1; 
 			String doInsert = "insert into " +tablename+ " (userId,vid,type) values (" +userId+ ",0,0)";
-			prepareState = connection.prepareStatement(doInsert);
+			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -31,7 +28,7 @@ public class DBMessageAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doInsert = "insert into " +tablename+ " (userId,vid,type,time) values (" +userId+ ","+vid+","+type+",'"+time+"')";
-			prepareState = connection.prepareStatement(doInsert);
+			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -43,7 +40,7 @@ public class DBMessageAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doDelete = "delete from " +tablename+ " where id=" +actionId;
-			prepareState = connection.prepareStatement(doDelete);
+			PreparedStatement prepareState = connection.prepareStatement(doDelete);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -55,8 +52,8 @@ public class DBMessageAPI {
 		List<Message>  messages = new ArrayList<Message>();
 		try{
 			String doCheck = "select * from " +tablename+ " where userId=" +userId;
-			prepareState = connection.prepareStatement(doCheck);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 				messages.add(new Message(resultSet.getInt(1),resultSet.getInt(2), resultSet.getInt(3),resultSet.getInt(4),
 						resultSet.getString(5)));
@@ -71,8 +68,8 @@ public class DBMessageAPI {
 		List<Integer>  actionIds = new ArrayList<Integer>();
 		try{
 			String doCheck = "select id from " +tablename+ " where userId=" +userId;
-			prepareState = connection.prepareStatement(doCheck);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 				actionIds.add(resultSet.getInt(1));
 			return actionIds;
@@ -85,7 +82,7 @@ public class DBMessageAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doCheck = "update " +tablename+ " set vid=" +vid+ ",type=" +type+ " where id=" +actionId;
-			prepareState = connection.prepareStatement(doCheck);
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();

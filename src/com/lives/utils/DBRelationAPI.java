@@ -12,15 +12,13 @@ import java.util.List;
 public class DBRelationAPI {
 
 	private static String tablename= "UserRelation";
-	private static ResultSet  resultSet;
-	private static PreparedStatement prepareState;
 	
 	static public int insertRelation(int fromId, int toId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 		
 		String doInsert = "insert " +tablename+ " (from_id, to_id) values ( " +fromId+ "," +toId+" )";
-		prepareState = connection.prepareStatement(doInsert);
+		PreparedStatement prepareState = connection.prepareStatement(doInsert);
 		return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -31,7 +29,7 @@ public class DBRelationAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 		String doDelete = "delete from " +tablename+ " where from_id= " +fromId+ " and to_id= "+toId;
-		prepareState = connection.prepareStatement(doDelete);
+		PreparedStatement prepareState = connection.prepareStatement(doDelete);
 		return prepareState.executeUpdate();
 		}finally{
 			connection.close();
@@ -43,8 +41,8 @@ public class DBRelationAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doQuery = "select to_id from " +tablename+" where from_id= " +fromId;
-			prepareState = connection.prepareStatement(doQuery);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 				list.add(resultSet.getInt(1));
 			return list;
@@ -57,8 +55,8 @@ public class DBRelationAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doQuery = "select to_id from " +tablename+" where from_id= " +fromId+ " and to_id=" +toId;
-			prepareState = connection.prepareStatement(doQuery);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
 				return true;  //it exits 
 			return false;	  
@@ -72,8 +70,8 @@ public class DBRelationAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doQuery = "select from_id from " +tablename+" where to_id= " +toId;
-			prepareState = connection.prepareStatement(doQuery);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 				list.add(resultSet.getInt(1));
 			return list;

@@ -11,8 +11,6 @@ import com.lives.model.Prediction;
 	public class DBPredictionAPI {
 
 		private static String tablename= "Prediction";
-		private static ResultSet  resultSet;
-		private static PreparedStatement prepareState;
 	
 		
 		static public int insertPrediction(int actionId,String heading,String content
@@ -27,7 +25,7 @@ import com.lives.model.Prediction;
 						  "','"        +sendtime+
 						  "','"		   +casttime+
 						  "')";
-				prepareState = connection.prepareStatement(doInsert);
+				PreparedStatement prepareState = connection.prepareStatement(doInsert);
 				return prepareState.executeUpdate();
 			}finally{
 				connection.close();
@@ -38,7 +36,7 @@ import com.lives.model.Prediction;
 			Connection connection = DBPool.getInstance().getConnection();
 			try{
 				String doDelete = "delete from " +tablename+ " where id=" +predictionId;
-				prepareState = connection.prepareStatement(doDelete);
+				PreparedStatement prepareState = connection.prepareStatement(doDelete);
 				return prepareState.executeUpdate();
 //				return prepareState.execute();
 			}finally{
@@ -59,7 +57,7 @@ import com.lives.model.Prediction;
 						"', sendtime='" +heading+
 						"', casttime='" +casttime+
 						"' where id=" +predictionId;
-				prepareState = connection.prepareStatement(doCheck);
+				PreparedStatement prepareState = connection.prepareStatement(doCheck);
 				return prepareState.executeUpdate();
 			}finally{
 				connection.close();
@@ -70,8 +68,8 @@ import com.lives.model.Prediction;
 			Connection connection = DBPool.getInstance().getConnection();
 			try{
 				String doCheck = "select * from " +tablename+ " where id=" +predictionId;
-				prepareState = connection.prepareStatement(doCheck);
-				resultSet = prepareState.executeQuery();
+				PreparedStatement prepareState = connection.prepareStatement(doCheck);
+				ResultSet resultSet = prepareState.executeQuery();
 				if(!resultSet.next())
 					return new Prediction();
 				return new Prediction(resultSet.getInt(1),resultSet.getInt(2),
@@ -87,8 +85,8 @@ import com.lives.model.Prediction;
 			Connection connection = DBPool.getInstance().getConnection();
 			try{
 				String doCheck = "select * from " +tablename+ " where actionId=" +actionId;
-				prepareState = connection.prepareStatement(doCheck);
-				resultSet = prepareState.executeQuery();
+				PreparedStatement prepareState = connection.prepareStatement(doCheck);
+				ResultSet resultSet = prepareState.executeQuery();
 				if(!resultSet.next())
 					return new Prediction();
 				return new Prediction(resultSet.getInt(1),resultSet.getInt(2),

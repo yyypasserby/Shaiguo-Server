@@ -11,8 +11,6 @@ import com.lives.model.User;
 public class DBUserAPI {
 
 	private static String tablename="User";
-	private static ResultSet resultSet;
-	private static PreparedStatement prepareState;
 
 	public static String changeTagToString(List<Integer> tag){
 		String a = tag.toString();
@@ -37,7 +35,7 @@ public class DBUserAPI {
 			tag="";
 		try{
 		String doInsert = "insert into " + tablename + " (username,password,email,tags) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ tag+"')";
-		prepareState = connection.prepareStatement(doInsert);
+		PreparedStatement prepareState = connection.prepareStatement(doInsert);
 		return prepareState.executeUpdate();
 		}
 		finally{
@@ -49,7 +47,7 @@ public class DBUserAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 		String doDelete = "delete from " + tablename + " where id = '" + user_id+"'";
-		prepareState = connection.prepareStatement(doDelete);
+		PreparedStatement prepareState = connection.prepareStatement(doDelete);
 		return prepareState.executeUpdate();
 		}
 		finally{
@@ -62,8 +60,8 @@ public class DBUserAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 		String doCheck = "select id from " + tablename +" where username = '" + user_name+ "'";
-		prepareState = connection.prepareStatement(doCheck);
-		resultSet=prepareState.executeQuery();
+		PreparedStatement prepareState = connection.prepareStatement(doCheck);
+		ResultSet resultSet=prepareState.executeQuery();
 		if(resultSet.next()) 			//exit 	
 			return "USERNAME_IS_USED";  //used
 			return "USERNAME_IS_OK";    //this name is ok
@@ -80,7 +78,7 @@ public class DBUserAPI {
 					+ username + "', password='" + password + "', email ='"
 					+ email + "', tags ='" + tag + "'  where id='" + userid
 					+ "'";
-			prepareState = connection.prepareStatement(doUpdate);
+			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
 			return prepareState.executeUpdate();
 		} finally{
 			connection.close();
@@ -91,7 +89,7 @@ public class DBUserAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try {
 			String doUpdate = "update " + tablename + " SET tags ='" +tags+ "' where id="+userId;
-			prepareState = connection.prepareStatement(doUpdate);
+			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
 			return prepareState.executeUpdate();
 		} finally{
 			connection.close();
@@ -108,7 +106,7 @@ public class DBUserAPI {
 					+ "', role ='" + role + "', status ='" + status
 					+ "', extravideo ='" + extraVideo + "'  where id='"
 					+ userid + "'";
-			prepareState = connection.prepareStatement(doUpdate);
+			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
 
 			return prepareState.executeUpdate();
 		} finally{
@@ -123,8 +121,8 @@ public class DBUserAPI {
 			if("USERNAME_IS_OK" == checkUsername(username)) return "USERNAME_NOT_MATCHED";
 			String doCheck = "select id from " + tablename +" where username = '" + username+ "' and password = '"+password+ "' ";
 
-			prepareState = connection.prepareStatement(doCheck);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
+			ResultSet resultSet = prepareState.executeQuery();
 			if (resultSet.next()) {
 				System.out.println(resultSet.getString(1));
 				return resultSet.getString(1);
@@ -140,8 +138,8 @@ public class DBUserAPI {
 		try {
 			String doCheck = "select * from " + tablename + " where id='" + id
 					+ "'";
-			prepareState = connection.prepareStatement(doCheck);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
+			ResultSet resultSet = prepareState.executeQuery();
 			if (!resultSet.next())
 
 				return new User();
@@ -159,8 +157,8 @@ public class DBUserAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try {
 			String doCheck = "select username from " + tablename + " where id=" + id+ " limit 0,1";
-			prepareState = connection.prepareStatement(doCheck);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
+			ResultSet resultSet = prepareState.executeQuery();
 			if (!resultSet.next())
 				return new String();
 			return resultSet.getString(1);
@@ -174,8 +172,8 @@ public class DBUserAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doCheck = "select id from " + tablename +" where username='"+ username +"'";
-			prepareState = connection.prepareStatement(doCheck);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
+			ResultSet resultSet = prepareState.executeQuery();
 			if (!resultSet.next())
 				return "";
 			return resultSet.getString(1);
@@ -191,9 +189,9 @@ public class DBUserAPI {
 		try {
 			String doCheck = "select * from " + tablename
 					+ " where username ='" + username + "'";
-			prepareState = connection.prepareStatement(doCheck);
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
 
-			resultSet=prepareState.executeQuery();
+			ResultSet resultSet=prepareState.executeQuery();
 			if(!resultSet.next())
 				return new User();
 			return new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
@@ -213,9 +211,9 @@ public class DBUserAPI {
 		try {
 			String doCheck = "select * from " + tablename
 					+ " where username like '%" + username + "%'";
-			prepareState = connection.prepareStatement(doCheck);
+			PreparedStatement prepareState = connection.prepareStatement(doCheck);
 
-			resultSet=prepareState.executeQuery();
+			ResultSet resultSet=prepareState.executeQuery();
 			while(resultSet.next())
 				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
 					resultSet.getInt(6),resultSet.getInt(7),
@@ -234,8 +232,8 @@ public class DBUserAPI {
 		try{
 			String doSearch = "select username from " +tablename+ 
 					" where username like '%" +key+ "%' limit 0,1";
-			prepareState = connection.prepareStatement(doSearch);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
 				return resultSet.getString(1);
 			return new String();
@@ -250,8 +248,8 @@ public class DBUserAPI {
 		List<User> users = new ArrayList<User>();
 		try{
 			String doUpdate = "select * from " +tablename+ " order by hotrate desc limit 0,5";
-			prepareState = connection.prepareStatement(doUpdate);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
 					resultSet.getInt(6),resultSet.getInt(7),
@@ -267,8 +265,8 @@ public class DBUserAPI {
 		List<List> taglist = new ArrayList<>();
 		try{
 			String doQuery = "select tags from User";
-			prepareState = connection.prepareStatement(doQuery);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
 				taglist.add(changeTagToList(resultSet.getString(1)));
 			return taglist;
@@ -281,8 +279,8 @@ public class DBUserAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doQuery = "select 1 from User where id="+id;
-			prepareState = connection.prepareStatement(doQuery);
-			resultSet = prepareState.executeQuery();
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet = prepareState.executeQuery();
 			if(!resultSet.next())
 				return false;
 			return true;

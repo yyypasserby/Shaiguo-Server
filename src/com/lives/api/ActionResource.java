@@ -63,7 +63,6 @@ public class ActionResource
 		System.out.println(action.gettime());
 		if(DBMessageAPI.insertAction(action.getUserId(),action.getVid(),action.getType(),action.gettime())>0)
 			return new Result("success");
-		return new Result("failed",new Error(0,"action insert failed"));
-		
+		return new Result("failed",new Error(0,"action insert failed"));		
 	}
 }
