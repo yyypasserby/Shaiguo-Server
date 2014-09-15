@@ -9,6 +9,7 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import com.lives.api.ActionResource;
 import com.lives.api.AuthResource;
 import com.lives.api.CastResource;
+import com.lives.api.ChatRoomResource;
 import com.lives.api.FMSResource;
 import com.lives.api.FriendResource;
 import com.lives.api.Hello;
@@ -45,5 +46,6 @@ public class APIApplication extends ResourceConfig {
 		register(ActionResource.class);
 		register(CastResource.class);
 		register(VideoResource.class);
+		register(ChatRoomResource.class);
 	}
 }
