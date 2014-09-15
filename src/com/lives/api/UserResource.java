@@ -37,6 +37,12 @@ public class UserResource {
 		return DBUserAPI.getUserById(userId);
 	}
 
+	@GET
+	@Path("/username/{username}")
+	@Produces("application/json")
+	public User getUserByUsername(@PathParam("username") String username) {
+		return new User();
+	}
 	/*
 	 * function: add a new user (regist)
 	 */
