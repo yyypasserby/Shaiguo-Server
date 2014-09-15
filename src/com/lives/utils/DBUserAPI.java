@@ -145,8 +145,8 @@ public class DBUserAPI {
 				return new User();
 			System.out.println("id" + id);
 			return new User(id, resultSet.getString(2), resultSet.getString(4), resultSet.getString(5),
-						resultSet.getInt(6),resultSet.getInt(7),
-						resultSet.getInt(8),resultSet.getString(9));
+						resultSet.getInt(6),resultSet.getInt(7),resultSet.getInt(8),resultSet.getString(9),
+						resultSet.getInt(10),resultSet.getInt(11),resultSet.getInt(12),resultSet.getInt(13));
 		}
 		finally{
 			connection.close();
@@ -194,9 +194,9 @@ public class DBUserAPI {
 			ResultSet resultSet=prepareState.executeQuery();
 			if(!resultSet.next())
 				return new User();
-			return new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
-					resultSet.getInt(6),resultSet.getInt(7),
-					resultSet.getInt(8),resultSet.getString(9));
+			return new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(4), resultSet.getString(5),
+					resultSet.getInt(6),resultSet.getInt(7),resultSet.getInt(8),resultSet.getString(9),
+					resultSet.getInt(10),resultSet.getInt(11),resultSet.getInt(12),resultSet.getInt(13));
 
 		} finally {
 			connection.close();
@@ -215,9 +215,9 @@ public class DBUserAPI {
 
 			ResultSet resultSet=prepareState.executeQuery();
 			while(resultSet.next())
-				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
-					resultSet.getInt(6),resultSet.getInt(7),
-					resultSet.getInt(8),resultSet.getString(9)));
+				users.add(new User(resultSet.getInt(1),resultSet.getString(2), resultSet.getString(4), resultSet.getString(5),
+						resultSet.getInt(6),resultSet.getInt(7),resultSet.getInt(8),resultSet.getString(9),
+						resultSet.getInt(10),resultSet.getInt(11),resultSet.getInt(12),resultSet.getInt(13)));
 
 			return users;
 		} finally {
@@ -251,9 +251,9 @@ public class DBUserAPI {
 			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
-				users.add(new User(resultSet.getInt(1), resultSet.getString(2),resultSet.getString(4), resultSet.getString(5),
-					resultSet.getInt(6),resultSet.getInt(7),
-					resultSet.getInt(8),resultSet.getString(9)));		
+				users.add(new User(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(4), resultSet.getString(5),
+						resultSet.getInt(6),resultSet.getInt(7),resultSet.getInt(8),resultSet.getString(9),
+						resultSet.getInt(10),resultSet.getInt(11),resultSet.getInt(12),resultSet.getInt(13)));		
 			return users;
 		}finally{
 			connection.close();
@@ -287,7 +287,17 @@ public class DBUserAPI {
 		}finally{
 			connection.close();
 		}
-
+	}
+	
+	static public int updateUserThumb(int id,String thumbnail) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "update " +tablename+ " set thumbnail='"+thumbnail+"' where id="+id; 
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			return prepareState.executeUpdate();
+		}finally{
+			connection.close();
+		}
 	}
 	
 }

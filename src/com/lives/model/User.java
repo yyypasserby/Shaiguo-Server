@@ -18,15 +18,15 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
-	private int attention;
-	private int userRole;
-	private int castTagId;
-	private double remainUps;
-	private List<Integer> tagList = new ArrayList<>();
 	private String tags;
 	private double hotRate;
+	private int userRole;
 	private int status;
+	public String thumbnail;
 	private int extraVideoId;
+	private int attention;
+	private int castTagId;
+	private double remainUps;
 	
 	//userRole
 	//0 : all
@@ -53,24 +53,26 @@ public class User {
 		this.status = 3;
 		this.remainUps = 0;
 		this.extraVideoId = 0;
+		this.thumbnail="default.png";
 	}
 
+
+
 	public User(int id, String name, String email, String tags, double hotRate,
-            int role, int status, String extraVideo) {
+            int role, int status, String thumbnail,int vid,int attention,int tag,int remainUps) {
 		this.userId = id;
-		this.userRole = role;
 		this.username = name;
 		this.email = email;
-		this.hotRate = hotRate;
-		this.status = status;
 		this.tags = tags;
-		this.remainUps = 0;
-		this.getTagList().add(0);
-		this.getTagList().add(1);
-		if (status == 3)
-			this.extraVideoId = 0;
-		else
-			this.extraVideoId = -1;
+		this.hotRate = hotRate;
+		this.userRole = role;
+		this.status = status;
+		if(thumbnail=="null")
+			this.thumbnail="default.png";
+		this.extraVideoId=vid;
+		this.attention=attention;
+		this.castTagId=tag;
+		this.remainUps=remainUps;
 	}
 	public String register() throws SQLException {
 		boolean res=false;
@@ -237,20 +239,6 @@ public class User {
 		this.userRole = userRole;
 	}
 
-	/**
-	 * @return the tagList
-	 */
-	public List<Integer> getTagList() {
-		return tagList;
-	}
-
-	/**
-	 * @param tagList
-	 *            the tagList to set
-	 */
-	public void setTagList(List<Integer> tagList) {
-		this.tagList = tagList;
-	}
 
 	/**
 	 * @return the castTagId
