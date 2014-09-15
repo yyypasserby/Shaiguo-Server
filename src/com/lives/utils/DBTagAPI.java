@@ -154,4 +154,19 @@ public class DBTagAPI {
 		}
 	}
 	
+	static public int checkTag(int tagId) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		List<Tag> taglist = new ArrayList<Tag>();
+		try{
+			String doUpdate = "select 1 from " +tablename+ " where id="+tagId;
+			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
+			ResultSet resultSet = prepareState.executeQuery();
+			if(!resultSet.next())
+				return -1;
+			return 1;
+		}finally{
+			connection.close();
+		}
+	}
+	
 }
