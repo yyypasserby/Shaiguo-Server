@@ -55,9 +55,8 @@ public class SearchResource {
 	@GET
 	@Path("/category")
 	@Produces("application/json")
-	public List<Live> getLivesByCategory(@QueryParam("id") int id) {
-		List<Live> lives = new ArrayList<>();
-		return lives;
+	public List<Live> getLivesByCategory(@QueryParam("id") int id) throws NumberFormatException, SQLException, ParseException {
+		return DBVideoAPI.searchVideoByTag(id);
 	}
 	
 	@GET
@@ -65,8 +64,8 @@ public class SearchResource {
 	@Produces("application/json")
 	public List<PreSearchResult> getPreSearchResult(@QueryParam("content") String key) throws NumberFormatException, SQLException, ParseException {
 		List<PreSearchResult> preList = new  ArrayList<PreSearchResult>();
-			preList.add(new PreSearchResult(0,DBUserAPI.searchPreName(key)));
-			preList.add(new PreSearchResult(1,DBVideoAPI.searchPreName(key)));
+			preList.add(new PreSearchResult(0,DBVideoAPI.searchPreName(key)));
+			preList.add(new PreSearchResult(1,DBUserAPI.searchPreName(key)));
 			preList.add(new PreSearchResult(2,DBCachedVideoAPI.searchPreName(key)));
 		return preList;
 	}

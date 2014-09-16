@@ -78,7 +78,12 @@ public class User {
 		boolean res=false;
 		String match_pwd="((?=.*\\d)(?=.*[a-z]).{6,20})";
 		Pattern p=Pattern.compile(match_pwd);
-		Matcher m=p.matcher(password);
+		Matcher m;
+		try{
+			m=p.matcher(this.getPassword());
+		}catch(Exception e){
+			return "PASSWORD_IS_EMPTY";
+		}
 		res=m.matches();
 		if(!res)
 			return "PASSWORD_NOT_VALID";
@@ -94,12 +99,21 @@ public class User {
 		String match_name="^[a-z0-9_-]{3,15}$";
 		String match_pwd="((?=.*\\d)(?=.*[a-z]).{6,20})";
 		Pattern p=Pattern.compile(match_name);
-		Matcher m=p.matcher(username);
+		Matcher m;		
+		try{
+			m=p.matcher(this.getUsername());
+		}catch(Exception e){
+			return "USERNAME_IS_EMPTY";
+		}
 		res=m.matches();
 		if(!res)
 			return "USERNAME_NOT_VALID";
 		p=Pattern.compile(match_pwd);
-		m=p.matcher(password);
+		try{
+			m=p.matcher(this.getPassword());
+		}catch(Exception e){
+			return "PASSWORD_IS_EMPTY";
+		}
 		res=m.matches();
 		if(!res)
 			return "PASSWORD_NOT_VALID";

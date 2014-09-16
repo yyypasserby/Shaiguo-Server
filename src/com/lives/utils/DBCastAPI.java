@@ -15,15 +15,17 @@ public class DBCastAPI {
 	private static String tablename2="Cast";
 	private static String firstParam=tablename1+".id";
 	private static String secondParam=tablename2+".userId";
-	private static String condition=tablename1+".username";
+	private static String condition1=tablename1+".username";
+	private static String condition2=tablename2+".state";
 	private static String orderBy=tablename2+".time"; 
 	
 	static public int getVidByUsername(String username) throws SQLException{
 		Connection connection=DBPool.getInstance().getConnection();
 		try{
 			String doQuery = "select vid from " +tablename1+ " inner join " +tablename2+
-					 " where " +firstParam+ "=" +secondParam+ " and " +condition+
-					"='" +username+ "'";
+					 " where " +firstParam+ "=" +secondParam+ " and " +condition1+
+					"='" +username+ "' and " +condition2+"=1";
+			System.out.println(doQuery);
 			PreparedStatement prepareState = connection.prepareStatement(doQuery);
 			System.out.println(doQuery);
 			ResultSet resultSet= prepareState.executeQuery();

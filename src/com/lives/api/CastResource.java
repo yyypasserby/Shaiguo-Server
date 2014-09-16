@@ -59,16 +59,28 @@ public class CastResource {
 		try{
 			String encrypt = live.getUserId() + "shaiguo" + Calendar.DATE;	
 			MessageDigest md = null;
-	    try {
 	        md = MessageDigest.getInstance("SHA-1");
-	    }
-	    catch(NoSuchAlgorithmException e) {
-	        e.printStackTrace();
-	    } 
 
 	    	String hash = byteArrayToHexString(md.digest(encrypt.getBytes()));
 	    	hash = hash.substring(13, 23);
 	    	int res;
+	    	try{
+	    	int tag=live.getTag();
+	    	}catch(Exception e){
+	    		return new Result("failed",new Error(0,"TAG_IS_EMPTY"));	    		
+	    	}
+
+	    	try{
+	    	int id=live.getUserId();
+	    	}catch(Exception e){
+	    		return new Result("failed",new Error(0,"USERID_IS_EMPTY"));	    		
+	    	}
+
+	    	try{
+	    	String name=live.getLivename();
+	    	}catch(Exception e){
+	    		return new Result("failed",new Error(0,"LIVENAME_IS_EMPTY"));	    		
+	    	}
 	    	if(DBVideoAPI.checkLocation(hash)){
 	    		DBVideoAPI.updateTodayApply(live.getTag(), live.getUserId(), hash, live.getLivename());
 	    		return new Result("succcess",hash);

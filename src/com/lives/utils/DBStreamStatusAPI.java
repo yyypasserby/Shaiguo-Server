@@ -79,6 +79,7 @@ public class DBStreamStatusAPI
 			else
 			{
 				sql = "UPDATE `"+Casttablename+"` INNER JOIN `"+Videotablename+"`  SET state = "+status+" WHERE "+Videotablename+".userId="+userId+" AND "+Videotablename+".id="+vid+";";
+				System.out.println(sql);
 				prepareState = connection.prepareStatement(sql);
 				res=prepareState.executeUpdate();
 				if(res>0)

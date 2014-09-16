@@ -17,11 +17,11 @@ public class CachedVideo {
 	private String duration;
 	
 	public CachedVideo() {};
-	public CachedVideo(int vid, int uid, String name, String duration,String thumbnail) {
+	public CachedVideo(int vid, int uid, String location, String duration,String name) {
 		this.videoId = vid;
 		this.userId = uid;
 		this.videoname = name;
-		this.thumbnail = thumbnail;
+		this.location=location;
 		this.duration=duration;
 	}
 	/**

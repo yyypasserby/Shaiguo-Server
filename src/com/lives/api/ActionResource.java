@@ -1,5 +1,6 @@
 package com.lives.api;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +11,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-
+import com.lives.api.helper.*;
 import com.lives.api.helper.Error;
 import com.lives.api.helper.Result;
+import com.lives.model.Live;
 import com.lives.model.Message;
 import com.lives.utils.DBFriendActionAPI;
 import com.lives.utils.DBRelationAPI;
 import com.lives.utils.DBMessageAPI;
+import com.lives.utils.DBVideoAPI;
 
 /**
  * @author yyypasserby
@@ -64,5 +67,16 @@ public class ActionResource
 		}catch(Exception e){
 			return new Result("failed",new Error(0,e.toString()));
 		}
+	}
+	@POST
+	@Path("/recommend")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Result recommendLive(List<Integer> tags) throws NumberFormatException, SQLException, ParseException{
+		List<Live> lives = new ArrayList<>();
+		for(int i=0;i<tags.size();i++){
+			lives.add(DBVideoAPI.recommendVideoByTag(tags.get(i)));
+		}			
+		return new Result("success",lives);
 	}
 }

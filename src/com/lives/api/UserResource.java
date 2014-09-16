@@ -56,14 +56,24 @@ public class UserResource {
 		String match_email = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
 		String match_name = "^[a-z0-9_-]{3,15}$";
 		
-		try{
 		Pattern p = Pattern.compile(match_name);
-		Matcher m = p.matcher(user.getUsername());
+		
+		Matcher m;
+
+		try{
+			m = p.matcher(user.getUsername());
+		}catch(Exception e){
+			return new Result("failure",new Error(0,"USERNAME_IS_EMPTY"));
+		}
 		res = m.matches();
 		if (!res)
 			return new Result("failure", new Error(0, "USERNAME_NOT_VALID"));
 		p = Pattern.compile(match_email);
-		m = p.matcher(user.getEmail());
+		try{
+			m = p.matcher(user.getEmail());
+		}catch(Exception e){
+			return new Result("failure",new Error(0,"EMAIL_IS_EMPTY"));
+		}
 		res = m.matches();
 		if (!res)
 			return new Result("failure", new Error(0, "EMAIL_NOT_VALID"));
@@ -73,12 +83,13 @@ public class UserResource {
 
 		else if ("USERNAME_IS_USED".compareTo(result) == 0)
 			return new Result("failure", new Error(0, result));
+		
+		else if ("PASSWORD_IS_EMPTY".compareTo(result) == 0)
+			return new Result("failure", new Error(0, result));
+
 
 		user.setUserId(Integer.parseInt(result));
 		return new Result("success", user);
-		}catch(Exception e){
-			return new Result("failure",new Error(0,e.toString()));
-		}
 		
 	}
 	

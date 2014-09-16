@@ -26,15 +26,16 @@ public class AuthResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Result authenticated(User user) throws SQLException {
-		try{
 		String resStr=user.verify();
 		if(resStr.length()<=11){
+			try{
 			user= DBUserAPI.getUserById(Integer.parseInt(resStr));
+			}catch(Exception e){
+				return new Result("failure",new Error(0,"USERID_IS_EMPTY"));
+			}
 				return new Result("success", user);
+			
 		}
 			return new Result("failure", new Error(0, resStr));
-	}catch(Exception e){
-		return new Result("failure",new Error(0,e.toString()));
-	}
 	}
 }

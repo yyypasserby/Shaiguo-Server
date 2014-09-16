@@ -19,6 +19,7 @@ public class DBVideoAPI {
 	static String tablename2="Cast";
 	static String firstParam=tablename1+".id";
 	static String secondParam=tablename2+".vId";
+	static String condition2=tablename2+".state";
 	
 	static public int insertVideo(int tags,int userId, String location,String name) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
@@ -103,10 +104,10 @@ public class DBVideoAPI {
 	static public List<Live> searchVideoByName(String name) throws NumberFormatException, SQLException, ParseException{
 		Connection connection = DBPool.getInstance().getConnection();
 		List<Live> videolist = new ArrayList<Live>(); 
-		String condition=tablename1+".name";
+		String condition1=tablename1+".name";
 		try{
 			String doSearch = "select * from " +tablename1+ " inner join "+tablename2+
-					" where "+condition+" like '%" +name+ "%' and "+firstParam+"="+secondParam;
+					" where "+condition1+" like '%" +name+ "%' and "+firstParam+"="+secondParam+ " and "+condition2+"=1";
 			System.out.println(doSearch);
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
@@ -128,7 +129,7 @@ public class DBVideoAPI {
 		String condition=tablename1+".tags";
 		try{
 			String doSearch =  "select * from " +tablename1+ " inner join "+tablename2+
-					" where "+condition+"='"+tag+"' and "+firstParam+"="+secondParam;
+					" where "+condition+"='"+tag+"' and "+firstParam+"="+secondParam+ " and "+condition2+"=1";
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
@@ -147,8 +148,10 @@ public class DBVideoAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		String condition=tablename1+".name";
 		try{
-			String doSearch = "select * from " +tablename1+ " inner join "+tablename2+
-					" where "+condition+" like '%" +key+ "%' limit 0,1";
+			String doSearch = "select name from " +tablename1+ " inner join "+tablename2+
+					" where "+condition+" like '%" +key+ "%'" + " and "+condition2+"=1 limit 0,1";
+			System.out.println(doSearch);
+			System.out.println(doSearch);
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
@@ -164,7 +167,7 @@ public class DBVideoAPI {
 		List<Live> videolist = new ArrayList<Live>(); 
 		try{
 			String doSearch =  "select * from " +tablename1+ " inner join "+tablename2+
-					" where "+firstParam+"="+secondParam+" limit 0,5";
+					" where "+firstParam+"="+secondParam+" and "+condition2+"=1 limit 0,5";
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
@@ -182,7 +185,7 @@ public class DBVideoAPI {
 	static public Live getVideoById(int vid) throws NumberFormatException, SQLException, ParseException{
 		Connection connection = DBPool.getInstance().getConnection(); 
 		try{
-			String doSearch = "select * from " +tablename+ " where id="+vid+" limit 0,1";
+			String doSearch = "select * from " +tablename+ " where id="+vid+ " limit 0,1";
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
@@ -222,4 +225,28 @@ public class DBVideoAPI {
 			connection.close();
 		}
 	}
+	
+	static public Live recommendVideoByTag(int tag) throws NumberFormatException, SQLException, ParseException{
+		Connection connection = DBPool.getInstance().getConnection();
+		List<Live> videolist = new ArrayList<Live>(); 
+		String order=tablename1+".hotRate";
+		String condition=tablename1+".tags";
+		try{
+			String doSearch =  "select * from " +tablename1+ " inner join "+tablename2+
+					" where "+condition+"='"+tag+"' and "+firstParam+"="+secondParam+ " and "
+					+condition2+"=1 order by "+ order+" desc limit 0,1";
+			PreparedStatement prepareState = connection.prepareStatement(doSearch);
+			ResultSet resultSet = prepareState.executeQuery();
+			if(resultSet.next())
+			{	
+				return new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
+						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
+						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9),resultSet.getInt(10));
+			}
+			return new Live();
+		}finally{
+			connection.close();
+		}
+	}
+	
 }
