@@ -67,6 +67,11 @@ public class CastResource {
 	    	String hash = byteArrayToHexString(md.digest(encrypt.getBytes()));
 	    	hash = hash.substring(13, 23);
 	    	int res;
+	    	if(DBVideoAPI.checkLocation(hash)){
+	    		DBVideoAPI.updateTodayApply(live.getTag(), live.getUserId(), hash, live.getLivename());
+	    		return new Result("succcess",hash);
+	    	}
+	    		
 	    	if( (res=DBVideoAPI.insertVideo(live.getTag(), live.getUserId(), hash, live.getLivename()))>0)	    	
 	    		return new Result("succcess",hash);
 	    	if(res==-1) 
@@ -74,6 +79,7 @@ public class CastResource {
 	    	if(res==-2) 
 	    		return new Result("failed",new Error(0,"TAG_NOT_EXITS"));
 	    		return new Result("failed",new Error(0,"INSERT_VIDEO_FAILED"));
+	    		
 		}catch(Exception e){
 			return new Result("failure",new Error(0,e.toString()));
 		}

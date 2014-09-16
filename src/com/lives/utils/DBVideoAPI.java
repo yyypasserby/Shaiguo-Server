@@ -63,24 +63,20 @@ public class DBVideoAPI {
 		}
 	}
 	
-	static public int updateVideo(int tags,int userId,int isRecommend, String location,String name,int hotRate,String duration) throws SQLException{
+
+	
+	static public int updateTodayApply(int tags,int userId, String location,String livename) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			String doInsert = "update " +tablename+ 
-					" (tags, userId, isRecommend, location, name, hotRate,casttime) values (" +tags+
-					" , " +userId+
-					" , " +isRecommend+  //isRecommend
-					" ,'" +location+
-					"','" +name+
-					"', " +hotRate+  //hotRate
-					" ,'" +duration+
-					"')";
+			String doInsert = "update " +tablename+ " set tags=" +tags+ " , userId=" +userId+ 
+					" ,location='" +location+ "', name='" +livename+ "' where location='" +location+ "'";
 			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
 		}
 	}
+	
 	
 	static public int deleteVideo(int videoId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
@@ -188,6 +184,20 @@ public class DBVideoAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doQuery = "select 1 from "+tablename+" where id="+id;
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet = prepareState.executeQuery();
+			if(!resultSet.next())
+				return false;
+			return true;
+		}finally{
+			connection.close();
+		}
+	}
+	
+	static public boolean checkLocation(String location) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "select 1 from "+tablename+" where location='"+location+"'";
 			PreparedStatement prepareState = connection.prepareStatement(doQuery);
 			ResultSet resultSet = prepareState.executeQuery();
 			if(!resultSet.next())
