@@ -78,13 +78,21 @@ public class UserResource {
 	}
 	
 	@GET
-	@Path("/modifyTags")
+	@Path("/modify/tags")
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Result modifyTags(@QueryParam("userId") int userId, @QueryParam("tags") String tags) throws SQLException {
 		System.out.println("userId : " + userId + " tags : " + tags);
 		if(DBUserAPI.updateUserTags(userId, tags)>0)
-		return new Result("success");
+			return new Result("success");
 		return new Result("failed",new Error(0,"change tags failed"));
+	}
+	
+	@GET
+	@Path("/modify/castTagId")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Result modifyUserAttrs(@QueryParam("userId") int userId, @QueryParam("castTagId") int castTagId) {
+		return new Result("success"); 
 	}
 }

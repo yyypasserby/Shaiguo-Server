@@ -118,7 +118,7 @@ public class DBUserAPI {
 			throws SQLException {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			if("USERNAME_IS_OK" == checkUsername(username)) return "USERNAME_NOT_MATCHED";
+			if("USERNAME_IS_OK" == checkUsername(username)) return "USERNAME_NOT_EXIST";
 			String doCheck = "select id from " + tablename +" where username = '" + username+ "' and password = '"+password+ "' ";
 
 			PreparedStatement prepareState = connection.prepareStatement(doCheck);
