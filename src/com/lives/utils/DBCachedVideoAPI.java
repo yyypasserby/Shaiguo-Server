@@ -15,6 +15,7 @@ public class DBCachedVideoAPI {
 
 	static public int insertCachedVideo(int userId, String location,String duration,String name) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		if(DBUserAPI.checkId(userId))return -1;
 		try{
 			String doInsert = "insert " +tablename+ 
 					" (userId, location, duration,cachedname) values ('" +userId+

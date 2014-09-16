@@ -278,7 +278,7 @@ public class DBUserAPI {
 	static public boolean checkId(int id) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
-			String doQuery = "select 1 from User where id="+id;
+			String doQuery = "select 1 from "+tablename+" where id="+id;
 			PreparedStatement prepareState = connection.prepareStatement(doQuery);
 			ResultSet resultSet = prepareState.executeQuery();
 			if(!resultSet.next())

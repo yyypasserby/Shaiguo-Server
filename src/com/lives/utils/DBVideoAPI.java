@@ -15,18 +15,23 @@ import com.lives.model.Live;
 public class DBVideoAPI {
 	private static String tablename="Video";
 	
-	static public int insertVideo(int tags,int userId, String location,String name,String duration) throws SQLException{
+	static public int insertVideo(int tags,int userId, String location,String name) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		String thumbnail= DBTagAPI.getTagById(tags).getThumbnailBig();
+		if(!DBUserAPI.checkId(userId)) return -1;
+		if(!DBUserAPI.checkId(tags)) return -2;
 		try{
 			String doInsert = "insert " +tablename+ 
-					" (tags, userId, isRecommend, location, name, hotRate, duration) values (" +tags+
+					" (tags, userId, isRecommend, location, name, hotRate, casttime,thumbnail,attention) values (" +tags+
 					" , " +userId+
 					" , " +0+  //isRecommend
 					" ,'" +location+
 					"','" +name+
 					"', " +0+  //hotRate
-					" ,'" +duration+
-					"')";
+					" ,'" +"0000-01-01 00:00:00"+
+					"','" +thumbnail+
+					"', " +0+
+					" )";
 			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
@@ -34,18 +39,23 @@ public class DBVideoAPI {
 		}
 	}
 	
-	static public int insertVideo(int tags,int userId,int isRecommend, String location,String name,int hotRate,String duration) throws SQLException{
+	static public int insertVideo(int tags,int userId,int isRecommend, String location,String name,int hotRate,String duration,String thumb,int attention) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		String thumbnail= DBTagAPI.getTagById(tags).getThumbnailBig();
+		if(!DBUserAPI.checkId(userId)) return -1;
+		if(!DBUserAPI.checkId(tags)) return -2;
 		try{
 			String doInsert = "insert " +tablename+ 
-					" (tags, userId, isRecommend, location, name, hotRate, duration) values (" +tags+
+					" (tags, userId, isRecommend, location, name, hotRate, casttime,thumbnail,attention) values (" +tags+
 					" , " +userId+
 					" , " +isRecommend+  //isRecommend
 					" ,'" +location+
 					"','" +name+
 					"', " +hotRate+  //hotRate
 					" ,'" +duration+
-					"')";
+					"','" +thumbnail+
+					"', " +attention+
+					" )";
 			PreparedStatement prepareState = connection.prepareStatement(doInsert);
 			return prepareState.executeUpdate();
 		}finally{
@@ -57,7 +67,7 @@ public class DBVideoAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		try{
 			String doInsert = "update " +tablename+ 
-					" (tags, userId, isRecommend, location, name, hotRate, duration) values (" +tags+
+					" (tags, userId, isRecommend, location, name, hotRate,casttime) values (" +tags+
 					" , " +userId+
 					" , " +isRecommend+  //isRecommend
 					" ,'" +location+
@@ -96,7 +106,7 @@ public class DBVideoAPI {
 			{	
 				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
-						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9)));
+						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9),resultSet.getInt(10)));
 			}
 			return videolist;
 		}finally{
@@ -116,7 +126,7 @@ public class DBVideoAPI {
 			{	
 				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
-						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9)));
+						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9),resultSet.getInt(10)));
 			}
 			return videolist;
 		}finally{
@@ -150,7 +160,7 @@ public class DBVideoAPI {
 			{	
 				videolist.add(new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 						resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
-						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9)));
+						resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9),resultSet.getInt(10)));
 			}
 			return videolist;
 		}finally{
@@ -167,8 +177,22 @@ public class DBVideoAPI {
 			if(resultSet.next())
 			return (new Live(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),
 					resultSet.getInt(4),resultSet.getString(5),resultSet.getString(6),
-					resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9)));
+					resultSet.getInt(7),resultSet.getString(8),resultSet.getString(9),resultSet.getInt(10)));
 			return (new Live());
+		}finally{
+			connection.close();
+		}
+	}
+	
+	static public boolean checkVid(int id) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "select 1 from "+tablename+" where id="+id;
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet = prepareState.executeQuery();
+			if(!resultSet.next())
+				return false;
+			return true;
 		}finally{
 			connection.close();
 		}

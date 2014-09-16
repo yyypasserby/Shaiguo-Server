@@ -11,11 +11,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import com.lives.api.helper.Error;
 import com.lives.api.helper.Result;
 import com.lives.model.Live;
 import com.lives.utils.DBCastAPI;
@@ -49,22 +51,31 @@ public class CastResource {
 		return DBVideoAPI.getVideoById(vid);
 	}
 
-	@GET
+	@POST
 	@Path("/apply")
 	@Produces("application/json")
-	public Result applyForCast(@QueryParam("username") String username) {
-		String encrypt = username + "shaiguo" + Calendar.DATE;
-		System.out.println(encrypt);
-		MessageDigest md = null;
+	public Result applyForCast(Live live) throws SQLException {
+		try{
+			String encrypt = live.getUserId() + "shaiguo" + Calendar.DATE;	
+			MessageDigest md = null;
 	    try {
 	        md = MessageDigest.getInstance("SHA-1");
 	    }
 	    catch(NoSuchAlgorithmException e) {
 	        e.printStackTrace();
 	    } 
-	    String hash = byteArrayToHexString(md.digest(encrypt.getBytes()));
-	    hash = hash.substring(13, 23);
-	    System.out.println(hash);
-	    return new Result(hash);
+	    	String hash = byteArrayToHexString(md.digest(encrypt.getBytes()));
+	    	hash = hash.substring(13, 23);
+	    	int res;
+	    	if( (res=DBVideoAPI.insertVideo(live.getTag(), live.getUserId(), hash, live.getLivename()))>0)	    	
+	    		return new Result("succcess",hash);
+	    	if(res==-1) 
+	    		return new Result("failed",new Error(0,"USER_NOT_EXITS"));
+	    	if(res==-2) 
+	    		return new Result("failed",new Error(0,"TAG_NOT_EXITS"));
+	    		return new Result("failed",new Error(0,"INSERT_VIDEO_FAILED"));
+		}catch(Exception e){
+			return new Result("failure",new Error(0,e.toString()));
+		}
 	}
 }

@@ -14,6 +14,7 @@ public class DBMessageAPI {
 	
 	static public int insertAction(int userId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		if(!DBUserAPI.checkId(userId)) return -1;
 		try{
 			if(getActionByUserId(userId).size()>0) return -1; 
 			String doInsert = "insert into " +tablename+ " (userId,vid,type) values (" +userId+ ",0,0)";
@@ -26,6 +27,8 @@ public class DBMessageAPI {
 	
 	static public int insertAction(int userId,int vid,int type,String time) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		if(!DBUserAPI.checkId(userId)) return -1;
+		if(!DBVideoAPI.checkVid(vid)) return -2;
 		try{
 			String doInsert = "insert into " +tablename+ " (userId,vid,type,time) values (" +userId+ ","+vid+","+type+",'"+time+"')";
 			PreparedStatement prepareState = connection.prepareStatement(doInsert);

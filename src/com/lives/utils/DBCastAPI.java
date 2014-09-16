@@ -24,12 +24,24 @@ public class DBCastAPI {
 			String doQuery = "select vid from " +tablename1+ " inner join " +tablename2+
 					 " where " +firstParam+ "=" +secondParam+ " and " +condition+
 					"='" +username+ "'";
-			System.out.println(doQuery);
 			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			System.out.println(doQuery);
 			ResultSet resultSet= prepareState.executeQuery();
 			if(!resultSet.next())
 				return 0;
-			return resultSet.getInt(1);				
+			System.out.println(resultSet.getInt(1));
+			return resultSet.getInt(1);
+		}finally{
+			connection.close();
+		}
+	}
+	
+	static public int deleteCast() throws SQLException{
+		Connection connection=DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "delete from "+tablename2+" where state= 0";
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			return prepareState.executeUpdate();
 		}finally{
 			connection.close();
 		}

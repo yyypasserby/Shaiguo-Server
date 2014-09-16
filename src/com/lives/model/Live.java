@@ -17,7 +17,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Live {
 	private int liveId;
 	private String livename;
-	private String thumbnail;
 	private String timeToCast;
 	private int attention;
 	private int rating;
@@ -25,12 +24,13 @@ public class Live {
 	private int userId;
 	private int isRecommend;
 	private String location;
+	private String thumbnail;
 	
 	
 	
 
 	public Live(int liveId,int tag,int userId,int isRecommend, String location,
-			String livename,int rating,String timeToCast,String thumbnail){
+			String livename,int rating,String timeToCast,String thumbnail,int attention){
 		this.liveId = liveId;
 		this.tag = tag;
 		this.userId = userId;
@@ -39,6 +39,7 @@ public class Live {
 		this.livename = livename;
 		this.rating = rating;
 		this.timeToCast = timeToCast;
+		this.attention=attention;
 	}
 	
 	
