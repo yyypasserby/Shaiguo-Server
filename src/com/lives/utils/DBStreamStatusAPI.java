@@ -64,6 +64,7 @@ public class DBStreamStatusAPI
 			if(status==1)
 			{
 				sql = "INSERT INTO `Cast` (id,vid,state,userId,username)VALUES(null,"+vid+","+status+","+userId+",\""+username+"\");";
+				
 				prepareState = connection.prepareStatement(sql);
 				res=prepareState.executeUpdate();
 				if(res>0)

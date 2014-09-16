@@ -18,7 +18,7 @@ import com.lives.utils.DBStreamStatusAPI;
 public class FMSResource {
 	@GET
 	@Produces("application/json")
-	public String streamChange(@QueryParam("streamname") String name,@QueryParam("status") int status,@QueryParam("savename") String save) throws NumberFormatException, SQLException, ParseException 
+	public String streamChange(@QueryParam("streamname") String name,@QueryParam("streamstatus") int status,@QueryParam("savename") String save) throws NumberFormatException, SQLException, ParseException 
 	{
 		/*
 		 * status
