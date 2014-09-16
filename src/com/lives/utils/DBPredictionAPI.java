@@ -13,12 +13,13 @@ import com.lives.model.Prediction;
 		private static String tablename= "Prediction";
 	
 		
-		static public int insertPrediction(int actionId,String heading,String content
+		static public int insertPrediction(int userId,String heading,String content
 				,String thumbnail,String sendtime,String casttime) throws SQLException{
 			Connection connection = DBPool.getInstance().getConnection();
+			if(!DBUserAPI.checkId(userId)) return -1;
 			try{
-				String doInsert = "replace into " +tablename+ " (actionId,heading,content,thumbnail,sendtime)"
-						+ " values ('" +actionId+ 
+				String doInsert = "replace into " +tablename+ " (userId,heading,content,thumbnail,sendtime,casttime)"
+						+ " values ('" +userId+ 
 						  "','"        +heading+
 						  "','"        +content+
 						  "','"        +thumbnail+
@@ -45,12 +46,12 @@ import com.lives.model.Prediction;
 		}
 		
 		
-		static public int updatePrediction(int predictionId,int actionId,String heading,String content,
+		static public int updatePrediction(int predictionId,int userId,String heading,String content,
 				String thumbnail,String sendtime,String casttime) throws SQLException{
 			Connection connection = DBPool.getInstance().getConnection();
 			try{
 				String doCheck = "update " +tablename+ 
-						"set actionId=" +actionId+
+						"set userId=" +userId+
 						" , heading='" +heading+
 						"', content='" +content+
 						"', thumbnail='" +thumbnail+
@@ -81,10 +82,10 @@ import com.lives.model.Prediction;
 		}
 		
 
-		static public Prediction getPredictionByActionId(int actionId) throws SQLException, ParseException{
+		static public Prediction getPredictionByuserId(int userId) throws SQLException, ParseException{
 			Connection connection = DBPool.getInstance().getConnection();
 			try{
-				String doCheck = "select * from " +tablename+ " where actionId=" +actionId;
+				String doCheck = "select * from " +tablename+ " where userId=" +userId;
 				PreparedStatement prepareState = connection.prepareStatement(doCheck);
 				ResultSet resultSet = prepareState.executeQuery();
 				if(!resultSet.next())

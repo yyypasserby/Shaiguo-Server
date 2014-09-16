@@ -43,11 +43,6 @@ public class ActionResource
 	@Produces("application/json")
 	public List<Message> getUserFriendAction(@PathParam("userId") int userId) throws SQLException
 	{
-//		List<Integer> friends = DBRelationAPI.queryRelationFrom(userId);
-//		List<Integer> actions = new ArrayList<Integer>();
-//		for(int i=0;i<friends.size();i++)
-//			actions.addAll(DBUserActionAPI.getActionIdByUserId(friends.get(i)));
-//		List<Prediction>
 		List<Message> actions = DBFriendActionAPI.getFriendActionById(userId);
 		return actions;
 	}
@@ -57,12 +52,17 @@ public class ActionResource
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Result receiveAction(Message action) throws SQLException {
-
-		System.out.println(action.getUserId());
-		System.out.println(action.getType());
-		System.out.println(action.gettime());
-		if(DBMessageAPI.insertAction(action.getUserId(),action.getVid(),action.getType(),action.gettime())>0)
+		try{
+			int res;
+		if((res=DBMessageAPI.insertAction(action.getUserId(),action.getVid(),action.getType(),action.gettime()))>0)
 			return new Result("success");
-		return new Result("failed",new Error(0,"action insert failed"));		
+		if(res==-1)
+			return new Result("failed",new Error(0,"USER_NOT_EXITS"));
+		if(res==-2)
+			return new Result("failed",new Error(0,"VIDEO_NOT_EXITS"));
+			return new Result("failed",new Error(0,"INSERT_ACTION_FAILED"));
+		}catch(Exception e){
+			return new Result("failed",new Error(0,e.toString()));
+		}
 	}
 }

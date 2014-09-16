@@ -154,7 +154,7 @@ public class DBTagAPI {
 		}
 	}
 	
-	static public int checkTag(int tagId) throws SQLException{
+	static public boolean checkTag(int tagId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
 		List<Tag> taglist = new ArrayList<Tag>();
 		try{
@@ -162,8 +162,9 @@ public class DBTagAPI {
 			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
 			ResultSet resultSet = prepareState.executeQuery();
 			if(!resultSet.next())
-				return -1;
-			return 1;
+
+				return false;
+			return true;
 		}finally{
 			connection.close();
 		}

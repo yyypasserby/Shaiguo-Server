@@ -55,23 +55,35 @@ public class CastResource {
 	@Path("/apply")
 	@Produces("application/json")
 	public Result applyForCast(Live live) throws SQLException {
-		String encrypt = live.getUserId() + "shaiguo" + Calendar.DATE;
-		System.out.println(live.getUserId());
-		System.out.println(live.getLivename());
-		System.out.println(live.getTag());
-		
-		System.out.println(encrypt);
-		MessageDigest md = null;
+
+		try{
+			String encrypt = live.getUserId() + "shaiguo" + Calendar.DATE;	
+			MessageDigest md = null;
 	    try {
 	        md = MessageDigest.getInstance("SHA-1");
 	    }
 	    catch(NoSuchAlgorithmException e) {
 	        e.printStackTrace();
 	    } 
-	    String hash = byteArrayToHexString(md.digest(encrypt.getBytes()));
-	    hash = hash.substring(13, 23);
-	    if( DBVideoAPI.insertVideo(live.getTag(), live.getUserId(), hash, live.getLivename())>0)	    	
-	    return new Result("succcess",hash);
-	    return new Result("failed",new Error(0,"insert video error"));
+
+	    	String hash = byteArrayToHexString(md.digest(encrypt.getBytes()));
+	    	hash = hash.substring(13, 23);
+	    	int res;
+	    	if(DBVideoAPI.checkLocation(hash)){
+	    		DBVideoAPI.updateTodayApply(live.getTag(), live.getUserId(), hash, live.getLivename());
+	    		return new Result("succcess",hash);
+	    	}
+	    		
+	    	if( (res=DBVideoAPI.insertVideo(live.getTag(), live.getUserId(), hash, live.getLivename()))>0)	    	
+	    		return new Result("succcess",hash);
+	    	if(res==-1) 
+	    		return new Result("failed",new Error(0,"USER_NOT_EXITS"));
+	    	if(res==-2) 
+	    		return new Result("failed",new Error(0,"TAG_NOT_EXITS"));
+	    		return new Result("failed",new Error(0,"INSERT_VIDEO_FAILED"));
+	    		
+		}catch(Exception e){
+			return new Result("failure",new Error(0,e.toString()));
+		}
 	}
 }

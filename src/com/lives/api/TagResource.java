@@ -26,11 +26,6 @@ public class TagResource {
 	@GET
 	@Produces("application/json")
 	public List<Tag> getTags() throws SQLException {
-//		List<Tag> tags = new ArrayList<>();
-//		tags.add(new Tag(0, "晒果", "shaiguo.png", 100));
-//		tags.add(new Tag(1, "音乐", "music.png", 200));
-//		tags.add(new Tag(2, "体育", "sports.png", 300));
-//		tags.add(new Tag(3, "游戏", "games.png", 400));
 		return DBTagAPI.allTags();
     }
 }

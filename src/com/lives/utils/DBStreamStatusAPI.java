@@ -20,14 +20,13 @@ public class DBStreamStatusAPI
 		try
 		{
 			String reply="";
+
 			int res=-1;
 			int userstatus=0;
-			if(status==0)
-			{
+			if(status==0){
 				userstatus=0;
 			}
-			else if(status==1)
-			{
+			else if(status==1){
 				userstatus=2;
 			}
 			String sql = "UPDATE `"+Usertablename+"` INNER JOIN `"+Videotablename+"`  SET status = "+userstatus+" WHERE "+Videotablename+".userId=User.id AND "+Videotablename+".location=\""+name+"\";";
@@ -40,6 +39,7 @@ public class DBStreamStatusAPI
 			else
 			{
 				reply+= "Update User Status: "+userstatus+" Failed!";
+
 			}
 			
 			int vid=-1;

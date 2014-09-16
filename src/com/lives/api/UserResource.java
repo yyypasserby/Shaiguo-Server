@@ -55,7 +55,8 @@ public class UserResource {
 		String result;
 		String match_email = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
 		String match_name = "^[a-z0-9_-]{3,15}$";
-
+		
+		try{
 		Pattern p = Pattern.compile(match_name);
 		Matcher m = p.matcher(user.getUsername());
 		res = m.matches();
@@ -75,6 +76,10 @@ public class UserResource {
 
 		user.setUserId(Integer.parseInt(result));
 		return new Result("success", user);
+		}catch(Exception e){
+			return new Result("failure",new Error(0,e.toString()));
+		}
+		
 	}
 	
 	@GET
