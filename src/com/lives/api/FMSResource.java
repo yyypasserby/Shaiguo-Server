@@ -25,8 +25,15 @@ public class FMSResource {
 		 * 0------stop
 		 * 1------play
 		 */
-		//return "helllo";
-		String str=DBStreamStatusAPI.Change_User_Status(name,status,save);
+		String str="";
+		if(name==null||save==null)
+		{
+			str="No Value Receive!!!!";
+		}
+		else
+		{
+			str=DBStreamStatusAPI.Change_User_Status(name,status,save);
+		}
 		return str;
 	}
 }
