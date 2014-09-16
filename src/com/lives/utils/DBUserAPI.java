@@ -34,7 +34,7 @@ public class DBUserAPI {
 		if(tag == null) 
 			tag="";
 		try{
-		String doInsert = "insert into " + tablename + " (username,password,email,tags) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ tag+"')";
+		String doInsert = "insert into " + tablename + " (username,password,email,tags,thumbnail) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ tag+"','default.png')";
 		PreparedStatement prepareState = connection.prepareStatement(doInsert);
 		return prepareState.executeUpdate();
 		}

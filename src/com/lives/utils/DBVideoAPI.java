@@ -14,6 +14,11 @@ import com.lives.model.Live;
 
 public class DBVideoAPI {
 	private static String tablename="Video";
+
+	static String tablename1="Video";
+	static String tablename2="Cast";
+	static String firstParam=tablename1+".id";
+	static String secondParam=tablename2+".vId";
 	
 	static public int insertVideo(int tags,int userId, String location,String name) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
@@ -98,9 +103,11 @@ public class DBVideoAPI {
 	static public List<Live> searchVideoByName(String name) throws NumberFormatException, SQLException, ParseException{
 		Connection connection = DBPool.getInstance().getConnection();
 		List<Live> videolist = new ArrayList<Live>(); 
+		String condition=tablename1+".name";
 		try{
-			String doSearch = "select * from " +tablename+ 
-					" where name like '%" +name+ "%'";
+			String doSearch = "select * from " +tablename1+ " inner join "+tablename2+
+					" where "+condition+" like '%" +name+ "%' and "+firstParam+"="+secondParam;
+			System.out.println(doSearch);
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
@@ -118,9 +125,10 @@ public class DBVideoAPI {
 	static public List<Live> searchVideoByTag(int tag) throws NumberFormatException, SQLException, ParseException{
 		Connection connection = DBPool.getInstance().getConnection();
 		List<Live> videolist = new ArrayList<Live>(); 
+		String condition=tablename1+".tags";
 		try{
-			String doSearch = "select * from " +tablename+ 
-					" where tags = " +tag;
+			String doSearch =  "select * from " +tablename1+ " inner join "+tablename2+
+					" where "+condition+"='"+tag+"' and "+firstParam+"="+secondParam;
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
@@ -137,9 +145,10 @@ public class DBVideoAPI {
 	
 	static public String searchPreName(String key) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
+		String condition=tablename1+".name";
 		try{
-			String doSearch = "select name from " +tablename+ 
-					" where name like '%" +key+ "%' limit 0,1";
+			String doSearch = "select * from " +tablename1+ " inner join "+tablename2+
+					" where "+condition+" like '%" +key+ "%' limit 0,1";
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
@@ -154,7 +163,8 @@ public class DBVideoAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		List<Live> videolist = new ArrayList<Live>(); 
 		try{
-			String doSearch = "select * from " +tablename+ " order by hotRate desc limit 0,5";
+			String doSearch =  "select * from " +tablename1+ " inner join "+tablename2+
+					" where "+firstParam+"="+secondParam+" limit 0,5";
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())

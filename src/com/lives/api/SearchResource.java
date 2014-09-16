@@ -30,7 +30,7 @@ public class SearchResource {
 	@Path("/user")
 	@Produces("application/json")
 	public List<User> getUsersByName(@QueryParam("content") String username) throws SQLException {
-		if(username == "null" || username == null) return null;
+		if(username == "null" || username == null) return new ArrayList<User>();
 		System.out.println(username);
 		return DBUserAPI.searchUserByName(username);
 	}
