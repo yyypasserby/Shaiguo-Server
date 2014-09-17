@@ -11,14 +11,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+
 import com.lives.api.helper.*;
 import com.lives.api.helper.Error;
-import com.lives.api.helper.Result;
 import com.lives.model.Live;
 import com.lives.model.Message;
 import com.lives.utils.DBFriendActionAPI;
 import com.lives.utils.DBRelationAPI;
 import com.lives.utils.DBMessageAPI;
+import com.lives.utils.DBUserAPI;
 import com.lives.utils.DBVideoAPI;
 
 /**
@@ -57,8 +58,11 @@ public class ActionResource
 	public Result receiveAction(Message action) throws SQLException {
 		try{
 			int res;
-		if((res=DBMessageAPI.insertAction(action.getUserId(),action.getVid(),action.getType(),action.gettime()))>0)
+		
+		if((res=DBMessageAPI.insertAction(action.getUserId(),action.getVid(),action.getType(),action.gettime()))>0){
+			DBUserAPI.updateUserExtra(action.getUserId(), action.getVid(),action.getType());
 			return new Result("success");
+		}
 		if(res==-1)
 			return new Result("failed",new Error(0,"USER_NOT_EXITS"));
 		if(res==-2)
@@ -74,9 +78,13 @@ public class ActionResource
 	@Produces("application/json")
 	public Result recommendLive(List<Integer> tags) throws NumberFormatException, SQLException, ParseException{
 		List<Live> lives = new ArrayList<>();
-		for(int i=0;i<tags.size();i++){
+		try{
+		for(int i=0;i<tags.size();i++){		
 			lives.add(DBVideoAPI.recommendVideoByTag(tags.get(i)));
 		}			
+		}catch(Exception e){
+			return new Result("failed",new Error(0,"TAG_IS_EMPTY"));
+		}
 		return new Result("success",lives);
 	}
 }

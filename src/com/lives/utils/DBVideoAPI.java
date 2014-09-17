@@ -108,7 +108,6 @@ public class DBVideoAPI {
 		try{
 			String doSearch = "select * from " +tablename1+ " inner join "+tablename2+
 					" where "+condition1+" like '%" +name+ "%' and "+firstParam+"="+secondParam+ " and "+condition2+"=1";
-			System.out.println(doSearch);
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
@@ -150,8 +149,7 @@ public class DBVideoAPI {
 		try{
 			String doSearch = "select name from " +tablename1+ " inner join "+tablename2+
 					" where "+condition+" like '%" +key+ "%'" + " and "+condition2+"=1 limit 0,1";
-			System.out.println(doSearch);
-			System.out.println(doSearch);
+			System.out.println("this is pre :"+doSearch);
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			if(resultSet.next())
@@ -165,9 +163,10 @@ public class DBVideoAPI {
 	static public List<Live> sortVideo() throws NumberFormatException, SQLException, ParseException{
 		Connection connection = DBPool.getInstance().getConnection();
 		List<Live> videolist = new ArrayList<Live>(); 
+		String order = tablename1+".hotRate";
 		try{
 			String doSearch =  "select * from " +tablename1+ " inner join "+tablename2+
-					" where "+firstParam+"="+secondParam+" and "+condition2+"=1 limit 0,5";
+					" where "+firstParam+"="+secondParam+" and "+condition2+"=1 order by "+ order+" desc  limit 0,4";
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())

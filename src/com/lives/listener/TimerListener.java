@@ -20,7 +20,7 @@ public class TimerListener implements ServletContextListener{
 		// TODO Auto-generated method stub
 		timer = new Timer(true);
 		timer.schedule(new TagUpdateTimer(), 0, 24*60*60*1000);
-		timer.schedule(new CastUpdateTimer(), 0 , 24*60*60*1000);
+		timer.schedule(new CastUpdateTimer(), 0 , 2*60*60*1000);
 	}
 
 }

@@ -24,7 +24,7 @@ public class DBCastAPI {
 		try{
 			String doQuery = "select vid from " +tablename1+ " inner join " +tablename2+
 					 " where " +firstParam+ "=" +secondParam+ " and " +condition1+
-					"='" +username+ "' and " +condition2+"=1";
+					"='" +username+ "' and " +condition2+"=1  ORDER BY vid desc limit 0,1";
 			System.out.println(doQuery);
 			PreparedStatement prepareState = connection.prepareStatement(doQuery);
 			System.out.println(doQuery);
@@ -41,9 +41,20 @@ public class DBCastAPI {
 	static public int deleteCast() throws SQLException{
 		Connection connection=DBPool.getInstance().getConnection();
 		try{
-			String doQuery = "delete from "+tablename2+" where state= 0";
-			PreparedStatement prepareState = connection.prepareStatement(doQuery);
-			return prepareState.executeUpdate();
+			String doDelete = "delete from "+tablename2+" where state= 0";
+			PreparedStatement prepareState = connection.prepareStatement(doDelete);
+			prepareState.executeUpdate();
+			prepareState.close();
+			String doQuery="select max(id),userId from Cast group by userId having count(userId )>1";
+			prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet=prepareState.executeQuery();
+			while(resultSet.next())
+			{
+				doDelete = "delete from Cast where userId="+resultSet.getInt(2)+" and id!="+resultSet.getInt(1);
+				prepareState = connection.prepareStatement(doDelete);
+				prepareState.execute();
+			}
+			return 0;
 		}finally{
 			connection.close();
 		}

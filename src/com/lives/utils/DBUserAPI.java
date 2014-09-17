@@ -29,12 +29,11 @@ public class DBUserAPI {
 		return list2;
 	}
 	
-	static public int insertUser(String user_name,String pwd,String email,String tag) throws SQLException{
+	static public int insertUser(String user_name,String pwd,String email,String tag,int castTagId) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
-		if(tag == null) 
-			tag="";
 		try{
-		String doInsert = "insert into " + tablename + " (username,password,email,tags,thumbnail) values('"+ user_name + "','" + pwd +"','"+ email+"','"+ tag+"','default.png')";
+		String doInsert = "insert into " + tablename + " (username,password,email,tags,thumbnail,attention,castTagId,remainUps,hotRate,status) values('"
+						+ user_name + "','" + pwd +"','"+ email+"','"+ tag+"','default.png',"+0+","+castTagId+","+0+","+0+","+0+")";
 		PreparedStatement prepareState = connection.prepareStatement(doInsert);
 		return prepareState.executeUpdate();
 		}
@@ -42,6 +41,20 @@ public class DBUserAPI {
 			connection.close();
 		}
 	}
+	
+	static public int insertUser(String user_name,String pwd,String email,String tag) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+		String doInsert = "insert into " + tablename + " (username,password,email,tags,thumbnail,attention,remainUps,hotRate,status) values('"
+						+ user_name + "','" + pwd +"','"+ email+"','"+ tag+"','default.png',"+0+","+0+","+0+","+0+")";
+		PreparedStatement prepareState = connection.prepareStatement(doInsert);
+		return prepareState.executeUpdate();
+		}
+		finally{
+			connection.close();
+		}
+	}
+	
 	
 	static public int deleteUser(int user_id) throws SQLException{
 		Connection connection = DBPool.getInstance().getConnection();
@@ -247,7 +260,7 @@ public class DBUserAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		List<User> users = new ArrayList<User>();
 		try{
-			String doUpdate = "select * from " +tablename+ " order by hotrate desc limit 0,5";
+			String doUpdate = "select * from " +tablename+ " order by hotrate desc limit 0,4";
 			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
@@ -299,5 +312,61 @@ public class DBUserAPI {
 			connection.close();
 		}
 	}
+	
+	static public int updateUserExtra(int userId,int vid,int status) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "update " +tablename+ " set extravid='"+vid+"', sratus="+status+" where id="+userId; 
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			return prepareState.executeUpdate();
+		}finally{
+			connection.close();
+		}
+	}
+	
+	static public int updateUserHotRate(int userId) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "update " +tablename+ " set hotRate=hotRate+1 where id="+userId; 
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			return prepareState.executeUpdate();
+		}finally{
+			connection.close();
+		}
+	}
+	
+	static public int updateUserStatus(int userId,int status) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "update " +tablename+ " set status="+status+" where id="+userId; 
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			return prepareState.executeUpdate();
+		}finally{
+			connection.close();
+		}
+	}
+		
+	static public int updateUserAttention(int userId,int attention) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "update " +tablename+ " set attention="+attention+" where id="+userId; 
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			return prepareState.executeUpdate();
+		}finally{
+			connection.close();
+		}			
+	}
+	
+
+	static public int updateUserRemain(int userId,int remain) throws SQLException{
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "update " +tablename+ " set remainUps="+remain+" where id="+userId; 
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			return prepareState.executeUpdate();
+		}finally{
+			connection.close();
+		}			
+	}		
 	
 }

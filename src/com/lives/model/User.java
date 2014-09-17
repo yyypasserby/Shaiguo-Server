@@ -35,10 +35,9 @@ public class User {
 	//3 : user
 	
 	//status
-	//0 : online
-	//1 : offline
-	//2 : casting
-	//3 : watching
+	//0 : 
+	//1 : casting
+	//2 : watching
 	//extraVideoId : if is watching, then id is available
 	public User() {
 
@@ -84,11 +83,16 @@ public class User {
 		}catch(Exception e){
 			return "PASSWORD_IS_EMPTY";
 		}
+		if(tags==null)
+			tags="";
 		res=m.matches();
 		if(!res)
 			return "PASSWORD_NOT_VALID";
 		if ("USERNAME_IS_OK".compareTo(DBUserAPI.checkUsername(username)) == 0) {
-			DBUserAPI.insertUser(username, password, email, "");
+			if(castTagId==0)
+				DBUserAPI.insertUser(username, password, email, tags);
+			else
+				DBUserAPI.insertUser(username, password, email, tags, castTagId);
 			return DBUserAPI.getUserId(username);
 		}
 		return "USERNAME_IS_USED";

@@ -13,12 +13,12 @@ public class CastUpdateTimer extends TimerTask{
 		// TODO Auto-generated method stub
 		if(!isRunning){
 			isRunning =true;
-//			try {
-////				DBCastAPI.deleteCast();
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			try {
+				DBCastAPI.deleteCast();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			isRunning =false;
 		}
 	}

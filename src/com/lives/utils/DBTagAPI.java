@@ -129,7 +129,7 @@ public class DBTagAPI {
 		Connection connection = DBPool.getInstance().getConnection();
 		List<Tag> taglist = new ArrayList<Tag>();
 		try{
-			String doUpdate = "select * from " +tablename+ " order by tagAttention desc limit 0,5";
+			String doUpdate = "select * from " +tablename+ " order by tagAttention desc limit 0,4";
 			PreparedStatement prepareState = connection.prepareStatement(doUpdate);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
