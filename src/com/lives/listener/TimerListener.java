@@ -21,6 +21,8 @@ public class TimerListener implements ServletContextListener{
 		timer = new Timer(true);
 		timer.schedule(new TagUpdateTimer(), 0, 24*60*60*1000);
 		timer.schedule(new CastUpdateTimer(), 0 , 2*60*60*1000);
+		timer.schedule(new AttentionUpdateTimer(), 0 , 24*60*60*1000);
+		timer.schedule(new RemainUpdateTimer(), 0 , 24*60*60*1000);
 	}
 
 }

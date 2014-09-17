@@ -108,6 +108,7 @@ public class DBVideoAPI {
 		try{
 			String doSearch = "select * from " +tablename1+ " inner join "+tablename2+
 					" where "+condition1+" like '%" +name+ "%' and "+firstParam+"="+secondParam+ " and "+condition2+"=1";
+			System.out.println("doSearch");
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();
 			while(resultSet.next())
@@ -148,7 +149,8 @@ public class DBVideoAPI {
 		String condition=tablename1+".name";
 		try{
 			String doSearch = "select name from " +tablename1+ " inner join "+tablename2+
-					" where "+condition+" like '%" +key+ "%'" + " and "+condition2+"=1 limit 0,1";
+					" where "+condition+" like '%" +key+ "%'" + " and "+condition2+"=1 and "
+					+firstParam+"="+secondParam+ " limit 0,1";
 			System.out.println("this is pre :"+doSearch);
 			PreparedStatement prepareState = connection.prepareStatement(doSearch);
 			ResultSet resultSet = prepareState.executeQuery();

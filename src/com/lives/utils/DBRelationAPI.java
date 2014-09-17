@@ -79,4 +79,22 @@ public class DBRelationAPI {
 			connection.close();
 		}
 	}
+
+	static public int getRelationTo(int toId) throws  SQLException{
+		List<Integer> list = new ArrayList<Integer>();
+		int i=0;
+		Connection connection = DBPool.getInstance().getConnection();
+		try{
+			String doQuery = "select 1 from " +tablename+" where to_id= " +toId;
+			PreparedStatement prepareState = connection.prepareStatement(doQuery);
+			ResultSet resultSet = prepareState.executeQuery();
+			while(resultSet.next())
+				i++;
+			return i;
+		}finally{
+			connection.close();
+		}
+	}
+	
+	
 }

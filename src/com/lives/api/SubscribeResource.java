@@ -32,6 +32,7 @@ public class SubscribeResource {
 			return new Result("failed",new Error(0,"RELATION_EXITS"));
 		if(DBUserAPI.checkId(fromId)&&DBUserAPI.checkId(toId)){
 			DBRelationAPI.insertRelation(fromId, toId);
+			DBUserAPI.addUserAttention(toId);
 			return new Result("success");
 		}
 		return new Result("failed",new Error(0,"USER_NOT_EXITS"));

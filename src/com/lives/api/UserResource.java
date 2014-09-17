@@ -98,17 +98,35 @@ public class UserResource {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Result modifyTags(@QueryParam("userId") int userId, @QueryParam("tags") String tags) throws SQLException {
-		System.out.println("userId : " + userId + " tags : " + tags);
 		if(DBUserAPI.updateUserTags(userId, tags)>0)
 			return new Result("success");
-		return new Result("failed",new Error(0,"change tags failed"));
+		return new Result("failed",new Error(0,"CHANGE_TAGS_FAILED"));
 	}
 	
 	@GET
 	@Path("/modify/castTagId")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Result modifyUserAttrs(@QueryParam("userId") int userId, @QueryParam("castTagId") int castTagId) {
-		return new Result("success"); 
+	public Result modifyUserAttrs(@QueryParam("userId") int userId, @QueryParam("castTagId") int castTagId) throws SQLException {
+		if(DBUserAPI.updateUserCastTag(userId, castTagId)>0)
+			return new Result("success");
+		return new Result("failed",new Error(0,"CHANGE_CAST_TAG_FAILED"));
+	}
+	
+	@GET
+	@Path("/addOne")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Result addOneHot(@QueryParam("userId") int userId, @QueryParam("casterId") int casterId) throws SQLException {
+		int remain;
+		if((remain=DBUserAPI.getUserRemains(userId))<0) 
+			return new Result("failed",new Error(0,"USER_NOT_EXITS"));
+		if(remain==0) 						
+			return  new Result("failed",new Error(0,"REMAIN_NOT_ENOUGH"));
+		if(DBUserAPI.subUserRemains(userId)<=0) 
+			return  new Result("failed",new Error(0,"SUB_REMAIN_FAILED"));
+		if(DBUserAPI.addUserHotRate(casterId)<=0)
+			return new Result("failed",new Error(0,"ADD_REMAIN_FAILED"));
+		return new Result("success");
 	}
 }

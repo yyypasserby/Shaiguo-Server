@@ -58,7 +58,6 @@ public class ActionResource
 	public Result receiveAction(Message action) throws SQLException {
 		try{
 			int res;
-		
 		if((res=DBMessageAPI.insertAction(action.getUserId(),action.getVid(),action.getType(),action.gettime()))>0){
 			DBUserAPI.updateUserExtra(action.getUserId(), action.getVid(),action.getType());
 			return new Result("success");
