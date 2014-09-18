@@ -29,7 +29,7 @@ public class DBStreamStatusAPI
 			else if(status==1){
 				userstatus=1;
 			}
-			String sql = "UPDATE `"+Usertablename+"` INNER JOIN `"+Videotablename+"`  SET status = "+userstatus+", extravid=Cast.vid WHERE "+Videotablename+".userId=User.id AND "+Videotablename+".location=\""+name+"\";";
+			String sql = "UPDATE `"+Usertablename+"` INNER JOIN `"+Videotablename+"`  SET status = "+userstatus+", extravid=Video.id WHERE "+Videotablename+".userId=User.id AND "+Videotablename+".location=\""+name+"\";";
 			PreparedStatement prepareState = connection.prepareStatement(sql);
 			res=prepareState.executeUpdate();
 			prepareState.close();
